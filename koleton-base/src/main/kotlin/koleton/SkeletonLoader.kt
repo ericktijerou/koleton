@@ -2,9 +2,8 @@ package koleton
 
 import android.content.Context
 import androidx.annotation.MainThread
-import koleton.skeleton.TextViewSkeleton
+import koleton.skeleton.Skeleton
 import koleton.skeleton.ViewSkeleton
-import kotlin.annotation.Target
 
 interface SkeletonLoader {
 
@@ -33,10 +32,7 @@ interface SkeletonLoader {
      *
      * @param skeleton The skeleton to execute.
      */
-
-    fun execute(skeleton: ViewSkeleton)
-
-    fun execute(skeleton: TextViewSkeleton)
+    fun execute(skeleton: Skeleton)
 
     @MainThread
     fun shutdown()

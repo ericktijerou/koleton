@@ -58,3 +58,14 @@ inline fun TextView.loadSkeleton(
         skeletonLoader.execute(skeleton)
     }
 }
+
+/**
+ * This is the type-unsafe version of [View.loadSkeleton].
+ *
+ * TODO: Add example
+ *
+ * @param skeletonLoader The [SkeletonLoader] that will be used to create and launch the [ViewSkeleton].
+ * @param builder An optional lambda to configure the skeleton before it is launched.
+ */
+@JvmSynthetic
+inline fun View.hideSkeleton() {}
