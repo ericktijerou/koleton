@@ -15,10 +15,8 @@ import koleton.skeleton.Skeleton
 import koleton.skeleton.TextViewSkeleton
 import koleton.skeleton.ViewSkeleton
 import koleton.target.ViewTarget
-import koleton.util.RandomStringUtils
+import koleton.util.*
 import koleton.util.getColorCompat
-import koleton.util.getParentViewGroup
-import koleton.util.inflate
 
 @OptIn(ExperimentalKoletonApi::class)
 internal class ViewSkeletonLoader(
@@ -30,18 +28,14 @@ internal class ViewSkeletonLoader(
         private const val TAG = "MainSkeletonLoader"
     }
 
-    override fun execute(skeleton: ViewSkeleton) = with(skeleton) {
-        if (target is ViewTarget) {
-            val skeletonView = generateSimpleSkeleton(R.color.colorGray, 6f)
-            applyPlaceholderAttributes(this, target.view.getParentViewGroup(), skeletonView)
-        }
-    }
-
-    override fun execute(skeleton: TextViewSkeleton) = with(skeleton) {
-        if (target is ViewTarget) {
-            val textView = target.view as TextView
-            val skeletonView = generateTextViewSkeleton(textView.length(), R.color.colorGray, 6f)
-            applyPlaceholderAttributes(this, textView.getParentViewGroup(), skeletonView)
+    override fun execute(skeleton: Skeleton) {
+        val target = skeleton.target as? ViewTarget
+        target?.apply {
+            val skeletonView = when (skeleton) {
+                is ViewSkeleton -> generateSimpleSkeleton(R.color.colorGray, 6f)
+                is TextViewSkeleton -> generateTextViewSkeleton(view as TextView, R.color.colorGray, 6f)
+            }
+            onSuccess(applyShimmer(skeleton.isShimmerEnabled, skeletonView, view.getParentViewGroup()))
         }
     }
 
@@ -56,9 +50,9 @@ internal class ViewSkeletonLoader(
         return skeletonView
     }
 
-    private fun generateTextViewSkeleton(length: Int, color: Int, radius: Float): TextView {
+    private fun generateTextViewSkeleton(textView: TextView, color: Int, radius: Float): TextView {
         return TextView(context).apply {
-            val spannable: Spannable = SpannableString(RandomStringUtils.random(length))
+            val spannable: Spannable = SpannableString(RandomStringUtils.random(textView.length()))
             spannable.setSpan(
                 RoundedBackgroundColorSpan(
                     context.getColorCompat(color),
@@ -68,18 +62,18 @@ internal class ViewSkeletonLoader(
             setTextColor(context.getColorCompat(R.color.colorTransparent))
             text = spannable
         }
-
     }
 
-    private fun createShimmerContainerLayout(parentView: ViewGroup, skeletonView: View): View {
-        return createShimmerLayout(parentView).apply {
-            addView(skeletonView)
+    private fun applyShimmer(isShimmerEnabled: Boolean, skeletonView: View, parentView: ViewGroup? = null): View {
+        return if (isShimmerEnabled) {
+            generateShimmerLayout(parentView).apply { addView(skeletonView) }
+        } else {
+            skeletonView
         }
     }
 
-    private fun createShimmerLayout(parentView: ViewGroup): ShimmerFrameLayout {
-        val shimmerLayout =
-            context.inflate(R.layout.shimmer_layout, parentView) as ShimmerFrameLayout
+    private fun generateShimmerLayout(parentView: ViewGroup? = null): ShimmerFrameLayout {
+        val shimmerLayout = context.inflate(R.layout.shimmer_layout, parentView) as ShimmerFrameLayout
         return shimmerLayout.apply {
             addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
                 override fun onViewAttachedToWindow(v: View) {
@@ -91,14 +85,5 @@ internal class ViewSkeletonLoader(
                 }
             })
         }
-    }
-
-    private fun applyPlaceholderAttributes(skeleton: Skeleton, parentView: ViewGroup, skeletonView: View) {
-        val skeletonLayout = if (skeleton.isShimmerEnabled) {
-            createShimmerContainerLayout(parentView, skeletonView)
-        } else {
-            skeletonView
-        }
-        skeleton.target?.onSuccess(skeletonLayout)
     }
 }

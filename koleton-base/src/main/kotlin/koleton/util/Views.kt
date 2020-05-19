@@ -3,7 +3,6 @@ package koleton.util
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
-import android.view.ViewTreeObserver
 import androidx.constraintlayout.widget.ConstraintLayout
 
 internal fun View.getParentView(): ViewParent {
@@ -33,4 +32,3 @@ internal fun generateLayoutParams(layoutParams: ViewGroup.LayoutParams): ViewGro
 inline fun <T : View> T.afterMeasured(crossinline f: T.() -> Unit) {
     post { f() }
 }
-
