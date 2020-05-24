@@ -29,6 +29,6 @@ internal fun generateLayoutParams(layoutParams: ViewGroup.LayoutParams): ViewGro
     }
 }
 
-inline fun <T : View> T.afterMeasured(crossinline f: T.() -> Unit) {
-    post { f() }
+inline fun <T : View> T.afterMeasured(crossinline f: (it: T) -> Unit) {
+    post { f(this) }
 }
