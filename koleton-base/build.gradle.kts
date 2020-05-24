@@ -2,6 +2,7 @@ import Dependencies.androidAppCompat
 import Dependencies.androidConstraintLayout
 import Dependencies.androidKtx
 import Dependencies.junit
+import Dependencies.kotlinCoroutines
 import Dependencies.lifecycle
 import Dependencies.shimmer
 import koleton.compileSdk
@@ -43,6 +44,7 @@ dependencies {
 
     // Kotlin
     api(kotlin("stdlib", KotlinCompilerVersion.VERSION))
+    api(kotlinCoroutines)
 
     //Shimmer
     implementation(shimmer)

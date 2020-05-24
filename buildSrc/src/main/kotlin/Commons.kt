@@ -11,6 +11,8 @@ object Dependencies {
     const val shimmer = "com.facebook.shimmer:shimmer:${Versions.shimmerVersion}"
     const val lifecycle = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycleVersion}"
     const val compatibilityValidator = "org.jetbrains.kotlinx:binary-compatibility-validator:${Versions.validatorVersion}"
+    const val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutinesVersion}"
+
 }
 
 object Versions {
@@ -25,4 +27,6 @@ object Versions {
     internal const val shimmerVersion = "0.5.0"
     internal const val lifecycleVersion = "2.2.0"
     internal const val validatorVersion = "0.2.3"
+    internal const val coroutinesVersion = "1.3.7"
+
 }
