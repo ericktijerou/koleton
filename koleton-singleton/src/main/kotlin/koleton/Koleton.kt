@@ -40,7 +40,6 @@ object Koleton {
         return skeletonLoader(skeleton.context).execute(skeleton)
     }
 
-
     /**
      * Set the [SkeletonLoaderFactory] that will be used to create the default [SkeletonLoader].
      * Shutdown the current instance if there is one. The [factory] is guaranteed to be called at most once.
@@ -56,7 +55,6 @@ object Koleton {
         // Shutdown the skeleton loader after clearing the reference.
         val loader = skeletonLoader
         skeletonLoader = null
-        loader?.shutdown()
     }
 
     /** Create and set the new default [SkeletonLoader]. */

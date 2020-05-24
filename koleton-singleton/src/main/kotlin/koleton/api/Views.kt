@@ -13,7 +13,7 @@ import koleton.skeleton.TextViewSkeleton
 import koleton.skeleton.TextViewSkeletonBuilder
 import koleton.skeleton.ViewSkeleton
 import koleton.skeleton.ViewSkeletonBuilder
-import koleton.util.afterMeasured
+import koleton.util.KoletonUtils
 
 /**
  * This is the type-unsafe version of [View.loadSkeleton].
@@ -26,15 +26,13 @@ import koleton.util.afterMeasured
 @JvmSynthetic
 inline fun View.loadSkeleton(
     skeletonLoader: SkeletonLoader = Koleton.skeletonLoader(context),
-    crossinline builder: ViewSkeletonBuilder.() -> Unit = {}
+    builder: ViewSkeletonBuilder.() -> Unit = {}
 ) {
-    afterMeasured {
-        val skeleton = ViewSkeleton.Builder(context)
-            .target(this)
-            .apply(builder)
-            .build()
-        skeletonLoader.execute(skeleton)
-    }
+    val skeleton = ViewSkeleton.Builder(context)
+        .target(this)
+        .apply(builder)
+        .build()
+    skeletonLoader.execute(skeleton)
 }
 
 /**
@@ -48,15 +46,14 @@ inline fun View.loadSkeleton(
 @JvmSynthetic
 inline fun TextView.loadSkeleton(
     skeletonLoader: SkeletonLoader = Koleton.skeletonLoader(context),
-    crossinline builder: TextViewSkeletonBuilder.() -> Unit = {}
+    builder: TextViewSkeletonBuilder.() -> Unit = {}
 ) {
-    afterMeasured {
-        val skeleton = TextViewSkeleton.Builder(context)
-            .target(this)
-            .apply(builder)
-            .build()
-        skeletonLoader.execute(skeleton)
-    }
+    val skeleton = TextViewSkeleton.Builder(context)
+        .target(this)
+        .apply(builder)
+        .build()
+    skeletonLoader.execute(skeleton)
+
 }
 
 /**
@@ -68,4 +65,6 @@ inline fun TextView.loadSkeleton(
  * @param builder An optional lambda to configure the skeleton before it is launched.
  */
 @JvmSynthetic
-inline fun View.hideSkeleton() {}
+inline fun View.hideSkeleton() {
+    KoletonUtils.hide(this)
+}

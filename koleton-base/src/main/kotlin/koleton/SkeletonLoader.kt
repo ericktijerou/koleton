@@ -1,9 +1,9 @@
 package koleton
 
 import android.content.Context
-import androidx.annotation.MainThread
 import koleton.skeleton.Skeleton
 import koleton.skeleton.ViewSkeleton
+import koleton.target.Target
 
 interface SkeletonLoader {
 
@@ -34,8 +34,11 @@ interface SkeletonLoader {
      */
     fun execute(skeleton: Skeleton)
 
-    @MainThread
-    fun shutdown()
-
+    /**
+     * Launch an asynchronous operation that executes the [ViewSkeleton] and sets the result on its [Target].
+     *
+     * @param skeleton The skeleton to execute.
+     */
+    fun hide(target: Target?, skeletonId: Int)
 
 }
