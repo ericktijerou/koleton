@@ -4,10 +4,11 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.Lifecycle
 import koleton.SkeletonLoader
 import koleton.annotation.ExperimentalKoletonApi
+import koleton.skeleton.RecyclerViewSkeleton
 import koleton.skeleton.Skeleton
 import koleton.skeleton.ViewSkeleton
 import koleton.target.ViewTarget
-import koleton.util.skeletonManager
+import koleton.util.koletonManager
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Deferred
 
@@ -30,22 +31,27 @@ internal class DelegateService(
         mainDispatcher: CoroutineDispatcher,
         deferred: Deferred<*>
     ): SkeletonDelegate? {
-        val target = skeleton.target as? ViewTarget
-        target?.let {
-            if (skeleton is ViewSkeleton) {
-                val skeletonDelegate = ViewTargetSkeletonDelegate(
-                    imageLoader = imageLoader,
-                    skeleton = skeleton,
-                    target = targetDelegate,
-                    lifecycle = lifecycle,
-                    dispatcher = mainDispatcher,
-                    job = deferred
-                )
-                lifecycle.addObserver(skeletonDelegate)
-                target.view.skeletonManager.setCurrentSkeleton(skeletonDelegate)
-                return skeletonDelegate
+        val skeletonDelegate: SkeletonDelegate
+        when (skeleton) {
+            is ViewSkeleton, is RecyclerViewSkeleton -> when (val target = skeleton.target) {
+                is ViewTarget<*> -> {
+                    skeletonDelegate = ViewTargetSkeletonDelegate(
+                        imageLoader = imageLoader,
+                        skeleton = skeleton,
+                        target = targetDelegate,
+                        lifecycle = lifecycle,
+                        dispatcher = mainDispatcher,
+                        job = deferred
+                    )
+                    lifecycle.addObserver(skeletonDelegate)
+                    target.view.koletonManager.setCurrentSkeleton(skeletonDelegate)
+                }
+                else -> {
+                    skeletonDelegate = BaseRequestDelegate(lifecycle, mainDispatcher, deferred)
+                    lifecycle.addObserver(skeletonDelegate)
+                }
             }
         }
-        return null
+        return skeletonDelegate
     }
 }

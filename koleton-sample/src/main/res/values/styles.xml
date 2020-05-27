@@ -1,11 +1,23 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="fontFamily">@font/lato_fonts_family</item>
+        <item name="android:textColorPrimary">@color/colorTextPrimary</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.Koleton.Headline5</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.Koleton.Subtitle1</item>
+    </style>
+
+    <style name="TextAppearance.Koleton.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/colorTitle</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Koleton.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/colorTitle</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

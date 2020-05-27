@@ -1,9 +1,9 @@
 package koleton.memory
 
-import android.view.View
 import android.view.ViewTreeObserver
 import androidx.annotation.AnyThread
 import androidx.annotation.MainThread
+import koleton.custom.KoletonView
 import koleton.util.isMainThread
 import koleton.util.notNull
 import kotlinx.coroutines.CoroutineScope
@@ -13,14 +13,11 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 
-internal class ViewTargetSkeletonManager : View.OnAttachStateChangeListener,
-    ViewTreeObserver.OnGlobalLayoutListener {
+internal class ViewTargetSkeletonManager: ViewTreeObserver.OnGlobalLayoutListener {
 
     private var currentSkeleton: ViewTargetSkeletonDelegate? = null
 
-    @Volatile
-    var skeletonViewId: Int? = null
-        private set
+    private var currentKoletonView: KoletonView? = null
 
     @Volatile
     private var pendingClear: Job? = null
@@ -35,6 +32,11 @@ internal class ViewTargetSkeletonManager : View.OnAttachStateChangeListener,
 
     private var isRestart = false
     private var skipAttach = true
+
+    @MainThread
+    fun setCurrentKoletonView(koletonView: KoletonView?) {
+        currentKoletonView = koletonView
+    }
 
     @MainThread
     fun setCurrentSkeleton(skeleton: ViewTargetSkeletonDelegate?) {
@@ -56,35 +58,10 @@ internal class ViewTargetSkeletonManager : View.OnAttachStateChangeListener,
         currentSkeletonJob = null
         pendingClear?.cancel()
         pendingClear = CoroutineScope(Dispatchers.Main.immediate).launch {
-            currentSkeleton.notNull { skeleton -> skeletonViewId.notNull { skeleton.hideSkeleton(it) } }
+            currentSkeleton.notNull { currentKoletonView.notNull { view -> it.hideSkeleton(view) } }
             setCurrentSkeleton(null)
+            setCurrentKoletonView(null)
         }
-    }
-
-    @AnyThread
-    fun setSkeletonId(skeletonId: Int) {
-        this.skeletonViewId = skeletonId
-    }
-
-    @MainThread
-    override fun onViewAttachedToWindow(v: View) {
-        if (skipAttach) {
-            skipAttach = false
-            return
-        }
-
-        currentSkeleton?.let { skeleton ->
-            // As this is called from the main thread, isRestart will
-            // be cleared synchronously as part of skeleton.restart().
-            isRestart = true
-            skeleton.restart()
-        }
-    }
-
-    @MainThread
-    override fun onViewDetachedFromWindow(v: View) {
-        skipAttach = false
-        currentSkeleton?.dispose()
     }
 
     /** Set the current [job] attached to this view and assign it an ID. */

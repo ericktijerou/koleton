@@ -12,7 +12,7 @@ object Dependencies {
     const val lifecycle = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycleVersion}"
     const val compatibilityValidator = "org.jetbrains.kotlinx:binary-compatibility-validator:${Versions.validatorVersion}"
     const val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutinesVersion}"
-
+    const val androidRecyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerViewVersion}"
 }
 
 object Versions {
@@ -28,5 +28,5 @@ object Versions {
     internal const val lifecycleVersion = "2.2.0"
     internal const val validatorVersion = "0.2.3"
     internal const val coroutinesVersion = "1.3.7"
-
+    internal const val recyclerViewVersion = "1.1.0"
 }

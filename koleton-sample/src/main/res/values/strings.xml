@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">sample</string>
+    <string name="label_my_journeys">My journeys</string>
+    <string name="label_see_your_journey">See your journey details</string>
 </resources>

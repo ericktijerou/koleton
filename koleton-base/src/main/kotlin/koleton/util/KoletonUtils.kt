@@ -8,6 +8,6 @@ object KoletonUtils {
     @ExperimentalKoletonApi
     @JvmStatic
     fun hide(view: View) {
-        view.skeletonManager.hideSkeleton()
+        view.koletonManager.hideSkeleton()
     }
 }

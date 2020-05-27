@@ -7,6 +7,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import koleton.SkeletonLoader
+import koleton.custom.KoletonView
+import koleton.skeleton.Skeleton
 import koleton.skeleton.ViewSkeleton
 import koleton.target.ViewTarget
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,14 +21,11 @@ internal sealed class SkeletonDelegate : DefaultLifecycleObserver {
 
     @MainThread
     open fun onComplete() {}
-
-    @MainThread
-    abstract fun getViewTarget(): View?
 }
 
 internal class ViewTargetSkeletonDelegate(
     private val imageLoader: SkeletonLoader,
-    private val skeleton: ViewSkeleton,
+    private val skeleton: Skeleton,
     private val target: TargetDelegate,
     private val lifecycle: Lifecycle,
     private val dispatcher: CoroutineDispatcher,
@@ -34,8 +33,8 @@ internal class ViewTargetSkeletonDelegate(
 ): SkeletonDelegate() {
 
     @MainThread
-    fun hideSkeleton(skeletonId: Int) {
-        imageLoader.hide(skeleton.target, skeletonId)
+    fun hideSkeleton(koletonView: KoletonView) {
+        imageLoader.hide(skeleton.target, koletonView)
     }
 
     @MainThread
@@ -46,16 +45,16 @@ internal class ViewTargetSkeletonDelegate(
     override fun dispose() {
         job.cancel()
         target.clear()
-
-        if (skeleton.target is LifecycleObserver) {
-            lifecycle.removeObserver(skeleton.target)
+        val skeletonTarget = skeleton.target
+        if (skeletonTarget is ViewTarget<*> && skeletonTarget is LifecycleObserver) {
+            lifecycle.removeObserver(skeletonTarget)
         }
         lifecycle.removeObserver(this)
     }
 
-
-    override fun getViewTarget(): View? {
-        val target = skeleton.target as? ViewTarget
+    @MainThread
+    fun getViewTarget(): View? {
+        val target = skeleton.target as? ViewTarget<*>
         return target?.view
     }
 
@@ -63,6 +62,24 @@ internal class ViewTargetSkeletonDelegate(
         if (dispatcher is LifecycleObserver) {
             lifecycle.removeObserver(dispatcher)
         }
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) = dispose()
+}
+
+internal class BaseRequestDelegate(
+    private val lifecycle: Lifecycle,
+    private val dispatcher: CoroutineDispatcher,
+    private val job: Job
+) : SkeletonDelegate() {
+
+    override fun dispose() = job.cancel()
+
+    override fun onComplete() {
+        if (dispatcher is LifecycleObserver) {
+            lifecycle.removeObserver(dispatcher)
+        }
+        lifecycle.removeObserver(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) = dispose()
