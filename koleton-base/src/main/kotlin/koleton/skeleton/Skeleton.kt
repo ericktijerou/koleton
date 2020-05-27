@@ -5,12 +5,13 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.MainThread
+import androidx.lifecycle.Lifecycle
 import koleton.target.Target
 
 /**
  * The base class for a view skeleton.
  *
- * There are two types of view skeletons: [ViewSkeleton]s and [TextViewSkeleton]s.
+ * There are two types of view skeletons: [ViewSkeleton]s.
  */
 sealed class Skeleton {
 
@@ -23,6 +24,7 @@ sealed class Skeleton {
     abstract val shimmerDuration: Int
     abstract val shimmerDirection: Int
     abstract val shimmerTilt: Int
+    abstract val lifecycle: Lifecycle?
 
     /**
      * A set of callbacks for a [Skeleton].
@@ -58,6 +60,7 @@ sealed class Skeleton {
 class ViewSkeleton internal constructor(
     override val context: Context,
     override val target: Target?,
+    override val lifecycle: Lifecycle?,
     @ColorRes override val colorResId: Int,
     @DimenRes override val borderRadiusId: Int,
     override val isShimmerEnabled: Boolean,
@@ -66,7 +69,8 @@ class ViewSkeleton internal constructor(
     override val shimmerDirection: Int,
     override val shimmerTilt: Int,
     internal val backgroundResId: Int,
-    internal val backgroundDrawable: Drawable?
+    internal val backgroundDrawable: Drawable?,
+    internal val isLineSkeletonEnabled: Boolean
 ) : Skeleton() {
 
     companion object {
@@ -88,38 +92,4 @@ class ViewSkeleton internal constructor(
     /** Create a new [ViewSkeletonBuilder] instance using this as a base. */
     @JvmOverloads
     fun newBuilder(context: Context = this.context) = ViewSkeletonBuilder(this, context)
-}
-
-class TextViewSkeleton internal constructor(
-    override val context: Context,
-    override val target: Target?,
-    @ColorRes override val colorResId: Int,
-    @DimenRes override val borderRadiusId: Int,
-    override val isShimmerEnabled: Boolean,
-    @ColorRes override val shimmerColorResId: Int,
-    override val shimmerDuration: Int,
-    override val shimmerDirection: Int,
-    override val shimmerTilt: Int,
-    internal val isLineSkeletonEnabled: Boolean
-) : Skeleton() {
-
-    companion object {
-        /** Alias for [TextViewSkeletonBuilder]. */
-        @JvmStatic
-        @JvmName("builder")
-        inline fun Builder(context: Context) = TextViewSkeletonBuilder(context)
-
-        /** Alias for [TextViewSkeletonBuilder]. */
-        @JvmStatic
-        @JvmOverloads
-        @JvmName("builder")
-        inline fun Builder(
-            skeleton: TextViewSkeleton,
-            context: Context = skeleton.context
-        ) = TextViewSkeletonBuilder(skeleton, context)
-    }
-
-    /** Create a new [TextViewSkeletonBuilder] instance using this as a base. */
-    @JvmOverloads
-    fun newBuilder(context: Context = this.context) = TextViewSkeletonBuilder(this, context)
 }

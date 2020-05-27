@@ -13,13 +13,12 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import koleton.annotation.ExperimentalKoletonApi
 import koleton.base.R
 import koleton.memory.DelegateService
+import koleton.memory.SkeletonService
 import koleton.skeleton.Skeleton
-import koleton.skeleton.TextViewSkeleton
-import koleton.skeleton.ViewSkeleton
 import koleton.target.Target
 import koleton.target.ViewTarget
 import koleton.util.*
-import koleton.util.getColorCompat
+import kotlinx.coroutines.*
 
 @OptIn(ExperimentalKoletonApi::class)
 internal class ViewSkeletonLoader(
@@ -31,18 +30,37 @@ internal class ViewSkeletonLoader(
         private const val TAG = "MainSkeletonLoader"
     }
 
+    private val loaderScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->  }
+
     private val delegateService = DelegateService(this)
 
     override fun execute(skeleton: Skeleton) {
-        delegateService.createSkeletonDelegate(skeleton)
-        val targetDelegate = delegateService.createTargetDelegate(skeleton)
+        val job = loaderScope.launch(exceptionHandler) { executeInternal(skeleton) }
         val target = skeleton.target as? ViewTarget
-        target?.apply {
-            view.afterMeasured {
-                val skeletonView = generateSkeletonView(skeleton, it)
-                targetDelegate.success(skeletonView)
+        target?.view?.skeletonManager?.setCurrentSkeletonJob(job)
+    }
+
+    private suspend fun executeInternal(skeleton: Skeleton) = withContext(Dispatchers.Main.immediate) {
+        val (lifecycle, mainDispatcher) = SkeletonService().lifecycleInfo(skeleton)
+        val targetDelegate = delegateService.createTargetDelegate(skeleton)
+        val deferred = async(mainDispatcher, CoroutineStart.LAZY) {
+            val target = skeleton.target as? ViewTarget
+            target?.apply {
+                lifecycle.addObserver(target)
+                if (view.measuredWidth > 0 && view.measuredHeight > 0) {
+                    val skeletonView = generateSkeletonView(skeleton, view)
+                    targetDelegate.success(skeletonView)
+                }
             }
         }
+        val skeletonDelegate = delegateService.createSkeletonDelegate(skeleton, targetDelegate, lifecycle, mainDispatcher, deferred)
+        deferred.invokeOnCompletion { throwable ->
+            loaderScope.launch(Dispatchers.Main.immediate) {
+                skeletonDelegate?.onComplete()
+            }
+        }
+        deferred.await()
     }
 
     override fun hide(target: Target?, skeletonId: Int) {
@@ -54,9 +72,9 @@ internal class ViewSkeletonLoader(
     }
 
     private fun generateSkeletonView(skeleton: Skeleton, view: View): View {
-        val skeletonView = when (skeleton) {
-            is ViewSkeleton -> generateSimpleSkeleton(R.color.colorGray, 6f)
-            is TextViewSkeleton -> generateTextViewSkeleton(view as TextView, R.color.colorGray, 6f)
+        val skeletonView = when (view) {
+            is TextView -> generateTextViewSkeleton(view, R.color.colorGray, 6f)
+            else -> generateSimpleSkeleton(R.color.colorGray, 6f)
         }
         return skeletonView.validateShimmer(skeleton.isShimmerEnabled, view.getParentViewGroup()) {
             val generatedId = ViewCompat.generateViewId()

@@ -9,8 +9,6 @@ import android.widget.TextView
 import koleton.Koleton
 import koleton.SkeletonLoader
 import koleton.annotation.ExperimentalKoletonApi
-import koleton.skeleton.TextViewSkeleton
-import koleton.skeleton.TextViewSkeletonBuilder
 import koleton.skeleton.ViewSkeleton
 import koleton.skeleton.ViewSkeletonBuilder
 import koleton.util.KoletonUtils
@@ -35,35 +33,6 @@ inline fun View.loadSkeleton(
     skeletonLoader.execute(skeleton)
 }
 
-/**
- * This is the type-unsafe version of [TextView.loadSkeleton].
- *
- * TODO: Add example
- *
- * @param skeletonLoader The [SkeletonLoader] that will be used to create and launch the [TextViewSkeleton].
- * @param builder An optional lambda to configure the skeleton before it is launched.
- */
-@JvmSynthetic
-inline fun TextView.loadSkeleton(
-    skeletonLoader: SkeletonLoader = Koleton.skeletonLoader(context),
-    builder: TextViewSkeletonBuilder.() -> Unit = {}
-) {
-    val skeleton = TextViewSkeleton.Builder(context)
-        .target(this)
-        .apply(builder)
-        .build()
-    skeletonLoader.execute(skeleton)
-
-}
-
-/**
- * This is the type-unsafe version of [View.loadSkeleton].
- *
- * TODO: Add example
- *
- * @param skeletonLoader The [SkeletonLoader] that will be used to create and launch the [ViewSkeleton].
- * @param builder An optional lambda to configure the skeleton before it is launched.
- */
 @JvmSynthetic
 inline fun View.hideSkeleton() {
     KoletonUtils.hide(this)

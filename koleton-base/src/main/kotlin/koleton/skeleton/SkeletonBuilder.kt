@@ -7,11 +7,13 @@ import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import koleton.annotation.BuilderMarker
 import koleton.target.Target
 import koleton.target.ViewTarget
 
-/** Base class for [ViewSkeletonBuilder] and [TextViewSkeletonBuilder]. */
+/** Base class for [ViewSkeletonBuilder] */
 @BuilderMarker
 sealed class SkeletonBuilder<T : SkeletonBuilder<T>> {
 
@@ -53,11 +55,16 @@ class ViewSkeletonBuilder : SkeletonBuilder<ViewSkeletonBuilder> {
     private var target: Target?
     @DrawableRes private var backgroundResId: Int
     private var backgroundDrawable: Drawable?
+    private var isLineSkeletonEnabled: Boolean
+    private var lifecycle: Lifecycle?
+
 
     constructor(context: Context) : super(context) {
         target = null
         backgroundResId = 0
         backgroundDrawable = null
+        isLineSkeletonEnabled = true
+        lifecycle = null
     }
 
     @JvmOverloads
@@ -68,6 +75,8 @@ class ViewSkeletonBuilder : SkeletonBuilder<ViewSkeletonBuilder> {
         target = skeleton.target
         backgroundResId = skeleton.backgroundResId
         backgroundDrawable = skeleton.backgroundDrawable
+        isLineSkeletonEnabled = skeleton.isLineSkeletonEnabled
+        lifecycle = skeleton.lifecycle
     }
 
     /**
@@ -94,6 +103,10 @@ class ViewSkeletonBuilder : SkeletonBuilder<ViewSkeletonBuilder> {
         this.target = target
     }
 
+    fun lifecycle(lifecycle: Lifecycle?) = apply {
+        this.lifecycle = lifecycle
+    }
+
     /**
      * Create a new [ViewSkeleton] instance.
      */
@@ -101,6 +114,7 @@ class ViewSkeletonBuilder : SkeletonBuilder<ViewSkeletonBuilder> {
         return ViewSkeleton(
             context,
             target,
+            lifecycle,
             colorResId,
             borderRadius,
             isShimmerEnabled,
@@ -109,69 +123,7 @@ class ViewSkeletonBuilder : SkeletonBuilder<ViewSkeletonBuilder> {
             shimmerDirection,
             shimmerTilt,
             backgroundResId,
-            backgroundDrawable
-        )
-    }
-}
-
-/** Builder for a [TextViewSkeleton]. */
-class TextViewSkeletonBuilder : SkeletonBuilder<TextViewSkeletonBuilder> {
-
-    private var target: Target?
-    private var isLineSkeletonEnabled: Boolean
-
-    constructor(context: Context) : super(context) {
-        target = null
-        isLineSkeletonEnabled = true
-    }
-
-    @JvmOverloads
-    constructor(
-        skeleton: TextViewSkeleton,
-        context: Context = skeleton.context
-    ) : super(skeleton, context) {
-        target = skeleton.target
-        isLineSkeletonEnabled = skeleton.isLineSkeletonEnabled
-    }
-
-    /**
-     * Convenience function to set [textView] as the [Target].
-     */
-    fun target(textView: TextView) = apply {
-        target(ViewTarget(textView))
-    }
-
-    /**
-     * Convenience function to create and set the [Target].
-     */
-    inline fun target(
-        crossinline onStart: () -> Unit = {},
-        crossinline onError: () -> Unit = {},
-        crossinline onSuccess: (skeleton: View) -> Unit = {}
-    ) = target(object : Target {
-        override fun onStart() = onStart()
-        override fun onError() = onError()
-        override fun onSuccess(skeleton: View) = onSuccess(skeleton)
-    })
-
-    fun target(target: Target?) = apply {
-        this.target = target
-    }
-
-    /**
-     * Create a new [TextViewSkeleton] instance.
-     */
-    fun build(): TextViewSkeleton {
-        return TextViewSkeleton(
-            context,
-            target,
-            colorResId,
-            borderRadius,
-            isShimmerEnabled,
-            shimmerColorResId,
-            shimmerDuration,
-            shimmerDirection,
-            shimmerTilt,
+            backgroundDrawable,
             isLineSkeletonEnabled
         )
     }
