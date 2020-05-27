@@ -3,6 +3,7 @@ package koleton.util
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
+import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 
 internal fun View.getParentView(): ViewParent {
@@ -26,5 +27,12 @@ internal fun generateLayoutParams(layoutParams: ViewGroup.LayoutParams): ViewGro
     return when (layoutParams) {
         is ConstraintLayout.LayoutParams -> ConstraintLayout.LayoutParams(layoutParams)
         else -> ViewGroup.LayoutParams(layoutParams)
+    }
+}
+
+internal fun ViewGroup.cloneLayout(): ViewGroup {
+    return when (this) {
+        is ConstraintLayout -> ConstraintLayout(context)
+        else -> FrameLayout(context)
     }
 }

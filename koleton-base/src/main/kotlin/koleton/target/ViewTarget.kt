@@ -1,11 +1,9 @@
 package koleton.target
 
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import koleton.util.getParentView
-import koleton.util.lparams
+import koleton.util.getParentViewGroup
 
 open class ViewTarget(
     val view: View
@@ -18,8 +16,7 @@ open class ViewTarget(
     override fun onError() = Unit
 
     protected open fun setSkeletonView(skeleton: View) {
-        val parentView = view.getParentView() as ViewGroup
-        parentView.addView(skeleton.lparams(view))
+        view.getParentViewGroup().addView(skeleton)
     }
 
     override fun onStart(owner: LifecycleOwner) {}
