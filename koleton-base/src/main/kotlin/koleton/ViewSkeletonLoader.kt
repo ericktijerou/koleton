@@ -108,23 +108,13 @@ internal class ViewSkeletonLoader(
 
     private fun generateTextViewSkeleton(textView: TextView, color: Int, radius: Float): TextView {
         return TextView(context).apply {
-            val spannable: Spannable = SpannableString(RandomStringUtils.random(textView.length()))
-            spannable.setSpan(
-                RoundedBackgroundColorSpan(
-                    context.getColorCompat(color),
-                    radius
-                ), 0, spannable.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+            val colorInt = context.getColorCompat(color)
             setTextColor(context.getColorCompat(R.color.colorTransparent))
-            text = spannable
+            text = spannable { background(colorInt, radius, textView.text) }
         }
     }
 
-    private inline fun <T : View> T.validateShimmer(
-        isShimmerEnabled: Boolean,
-        parentView: ViewGroup? = null,
-        block: (it: View) -> Unit
-    ): View {
+    private inline fun <T : View> T.validateShimmer(isShimmerEnabled: Boolean, parentView: ViewGroup? = null, block: (it: View) -> Unit): View {
         val newView = if (isShimmerEnabled) {
             generateShimmerLayout(parentView).also { it.addView(this) }
         } else {
@@ -135,8 +125,7 @@ internal class ViewSkeletonLoader(
     }
 
     private fun generateShimmerLayout(parentView: ViewGroup? = null): ShimmerFrameLayout {
-        val shimmerLayout =
-            context.inflate(R.layout.shimmer_layout, parentView) as ShimmerFrameLayout
+        val shimmerLayout = context.inflate(R.layout.shimmer_layout, parentView) as ShimmerFrameLayout
         return shimmerLayout.apply {
             addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
                 override fun onViewAttachedToWindow(v: View) {
