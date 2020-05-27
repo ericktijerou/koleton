@@ -31,7 +31,7 @@ internal class ViewSkeletonLoader(
     }
 
     private val loaderScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->  }
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable -> }
 
     private val delegateService = DelegateService(this)
 
@@ -41,27 +41,26 @@ internal class ViewSkeletonLoader(
         target?.view?.skeletonManager?.setCurrentSkeletonJob(job)
     }
 
-    private suspend fun executeInternal(skeleton: Skeleton) = withContext(Dispatchers.Main.immediate) {
-        val (lifecycle, mainDispatcher) = SkeletonService().lifecycleInfo(skeleton)
-        val targetDelegate = delegateService.createTargetDelegate(skeleton)
-        val deferred = async(mainDispatcher, CoroutineStart.LAZY) {
-            val target = skeleton.target as? ViewTarget
-            target?.apply {
-                lifecycle.addObserver(target)
-                if (view.measuredWidth > 0 && view.measuredHeight > 0) {
-                    val skeletonView = generateSkeletonView(skeleton, view)
-                    targetDelegate.success(skeletonView)
+    private suspend fun executeInternal(skeleton: Skeleton) =
+        withContext(Dispatchers.Main.immediate) {
+            val (lifecycle, mainDispatcher) = SkeletonService().lifecycleInfo(skeleton)
+            val targetDelegate = delegateService.createTargetDelegate(skeleton)
+            val deferred = async(mainDispatcher, CoroutineStart.LAZY) {
+                val target = skeleton.target as? ViewTarget
+                target?.apply {
+                    lifecycle.addObserver(target)
+                    if (view.measuredWidth > 0 && view.measuredHeight > 0) {
+                        val skeletonView = generateSkeletonView(skeleton, view)
+                        targetDelegate.success(skeletonView)
+                    }
                 }
             }
-        }
-        val skeletonDelegate = delegateService.createSkeletonDelegate(skeleton, targetDelegate, lifecycle, mainDispatcher, deferred)
-        deferred.invokeOnCompletion { throwable ->
-            loaderScope.launch(Dispatchers.Main.immediate) {
-                skeletonDelegate?.onComplete()
+            val skeletonDelegate = delegateService.createSkeletonDelegate(skeleton, targetDelegate, lifecycle, mainDispatcher, deferred)
+            deferred.invokeOnCompletion { throwable ->
+                loaderScope.launch(Dispatchers.Main.immediate) { skeletonDelegate?.onComplete() }
             }
+            deferred.await()
         }
-        deferred.await()
-    }
 
     override fun hide(target: Target?, skeletonId: Int) {
         (target as? ViewTarget)?.apply {
@@ -72,15 +71,32 @@ internal class ViewSkeletonLoader(
     }
 
     private fun generateSkeletonView(skeleton: Skeleton, view: View): View {
-        val skeletonView = when (view) {
-            is TextView -> generateTextViewSkeleton(view, R.color.colorGray, 6f)
-            else -> generateSimpleSkeleton(R.color.colorGray, 6f)
-        }
+        val skeletonView = generateSkeletonByType(skeleton, view)
         return skeletonView.validateShimmer(skeleton.isShimmerEnabled, view.getParentViewGroup()) {
             val generatedId = ViewCompat.generateViewId()
             view.skeletonManager.setSkeletonId(generatedId)
             it.id = generatedId
+            it.lparams(view)
         }
+    }
+
+    private fun generateSkeletonByType(skeleton: Skeleton, view: View): View {
+        val skeletonView = when (view) {
+            is ViewGroup -> generateViewGroupSkeleton(skeleton, view)
+            is TextView -> generateTextViewSkeleton(view, R.color.colorGray, 6f)
+            else -> generateSimpleSkeleton(R.color.colorGray, 6f)
+        }
+        return skeletonView.apply { id = view.id }
+    }
+
+    private fun generateViewGroupSkeleton(skeleton: Skeleton, viewGroup: ViewGroup): View {
+        val skeletonViewGroup = viewGroup.cloneLayout()
+        for (indexOfChild in 0 until viewGroup.childCount) {
+            val childView = viewGroup.getChildAt(indexOfChild)
+            val skeletonView = generateSkeletonByType(skeleton, childView)
+            skeletonViewGroup.addView(skeletonView.lparams(childView))
+        }
+        return skeletonViewGroup
     }
 
     private fun generateSimpleSkeleton(color: Int, radius: Float): View {
@@ -104,7 +120,11 @@ internal class ViewSkeletonLoader(
         }
     }
 
-    private inline fun <T : View> T.validateShimmer(isShimmerEnabled: Boolean, parentView: ViewGroup? = null, block: (it: View) -> Unit): View {
+    private inline fun <T : View> T.validateShimmer(
+        isShimmerEnabled: Boolean,
+        parentView: ViewGroup? = null,
+        block: (it: View) -> Unit
+    ): View {
         val newView = if (isShimmerEnabled) {
             generateShimmerLayout(parentView).also { it.addView(this) }
         } else {
