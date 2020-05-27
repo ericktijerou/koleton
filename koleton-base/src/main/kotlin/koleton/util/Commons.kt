@@ -11,6 +11,7 @@ internal val View.skeletonManager: ViewTargetSkeletonManager
         if (manager == null) {
             manager = ViewTargetSkeletonManager().apply {
                 addOnAttachStateChangeListener(this)
+                viewTreeObserver.addOnGlobalLayoutListener(this)
                 setTag(R.id.koleton_manager, this)
             }
         }
