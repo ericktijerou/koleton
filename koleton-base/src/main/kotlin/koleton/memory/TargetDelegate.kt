@@ -2,9 +2,9 @@
 
 package koleton.memory
 
-import android.view.View
 import androidx.annotation.MainThread
 import koleton.annotation.ExperimentalKoletonApi
+import koleton.custom.KoletonView
 import koleton.skeleton.Skeleton
 import koleton.target.Target
 
@@ -14,7 +14,7 @@ internal sealed class TargetDelegate {
     open fun start() {}
 
     @MainThread
-    open fun success(skeletonView: View) {}
+    open fun success(skeleton: KoletonView) {}
 
     @MainThread
     open fun error() {}
@@ -32,8 +32,8 @@ internal class ViewTargetDelegate(
         target?.onStart()
     }
 
-    override fun success(skeletonView: View) {
-        target?.onSuccess(skeletonView)
+    override fun success(skeleton: KoletonView) {
+        target?.onSuccess(skeleton)
     }
 
     override fun error() {

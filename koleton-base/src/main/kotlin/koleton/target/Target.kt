@@ -1,7 +1,7 @@
 package koleton.target
 
-import android.view.View
 import androidx.annotation.MainThread
+import koleton.custom.KoletonView
 
 /**
  * A listener that accepts the result of a view skeleton.
@@ -18,7 +18,7 @@ interface Target {
      * Called if the skeleton completes successfully.
      */
     @MainThread
-    fun onSuccess(skeleton: View) {}
+    fun onSuccess(skeleton: KoletonView) {}
 
     /**
      * Called if an error occurs while executing the skeleton.

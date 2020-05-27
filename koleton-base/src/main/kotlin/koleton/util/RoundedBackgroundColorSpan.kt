@@ -1,11 +1,9 @@
 package com.ericktijerou.mockplaceholder
 
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
-import android.graphics.RectF
+import android.graphics.*
 import android.text.style.LineBackgroundSpan
 import androidx.annotation.ColorInt
+import koleton.util.NUMBER_ZERO
 import kotlin.math.roundToInt
 
 
@@ -37,7 +35,14 @@ class RoundedBackgroundColorSpan(
         paint.color = color
         val verticalPadding = (bottom - top) / LINE_SPACING_DIVISOR
         val width = paint.measureText(text, start, end).roundToInt()
-        rect.set(left, top + verticalPadding, left + width, bottom - verticalPadding)
+        val rightWrapping = left + width
+        rect.set(
+            left,
+            top + verticalPadding,
+            if (rightWrapping > right * 0.8) right else rightWrapping,
+            bottom - verticalPadding
+        )
+        paint.isAntiAlias = cornerRadius > NUMBER_ZERO
         canvas.drawRoundRect(RectF(rect), cornerRadius, cornerRadius, paint)
         paint.color = paintColor
     }

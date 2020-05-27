@@ -1,6 +1,7 @@
 import koleton.compileSdk
 import koleton.minSdk
 import koleton.targetSdk
+import Dependencies.androidRecyclerView
 
 plugins {
     id("com.android.library")
@@ -25,4 +26,5 @@ android {
 
 dependencies {
     api(project(":koleton-base"))
+    implementation(androidRecyclerView)
 }

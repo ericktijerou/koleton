@@ -1,6 +1,7 @@
 package koleton
 
 import android.content.Context
+import koleton.custom.KoletonView
 import koleton.skeleton.Skeleton
 import koleton.skeleton.ViewSkeleton
 import koleton.target.Target
@@ -39,6 +40,6 @@ interface SkeletonLoader {
      *
      * @param skeleton The skeleton to execute.
      */
-    fun hide(target: Target?, skeletonId: Int)
+    fun hide(target: Target?, koletonView: KoletonView)
 
 }
