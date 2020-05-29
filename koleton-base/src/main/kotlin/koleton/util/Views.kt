@@ -6,6 +6,18 @@ import android.view.ViewParent
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 
+fun View.visible() {
+    visibility = View.VISIBLE
+}
+
+fun View.invisible() {
+    visibility = View.INVISIBLE
+}
+
+fun View.gone() {
+    visibility = View.GONE
+}
+
 internal fun View.getParentView(): ViewParent {
     return checkNotNull(parent) { "The view has not attach to any view" }
 }
@@ -35,4 +47,8 @@ internal fun ViewGroup.cloneLayout(): ViewGroup {
         is ConstraintLayout -> ConstraintLayout(context)
         else -> FrameLayout(context)
     }
+}
+
+internal fun ViewGroup.childViewList(): List<View> {
+    return (0 until childCount).map { child -> getChildAt(child) }
 }

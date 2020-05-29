@@ -16,7 +16,7 @@ open class ViewTarget(
     override fun onError() = Unit
 
     protected open fun setSkeletonView(skeleton: View) {
-        view.getParentViewGroup().addView(skeleton)
+        //view.getParentViewGroup().addView(skeleton)
     }
 
     override fun onStart(owner: LifecycleOwner) {}

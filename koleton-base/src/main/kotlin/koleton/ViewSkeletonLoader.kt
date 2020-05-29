@@ -1,17 +1,13 @@
 package koleton
 
 import android.content.Context
-import android.graphics.drawable.PaintDrawable
-import android.text.Spannable
-import android.text.SpannableString
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.view.ViewCompat
-import com.ericktijerou.mockplaceholder.RoundedBackgroundColorSpan
 import com.facebook.shimmer.ShimmerFrameLayout
 import koleton.annotation.ExperimentalKoletonApi
 import koleton.base.R
+import koleton.layout.KoletonLayout
 import koleton.memory.DelegateService
 import koleton.memory.SkeletonService
 import koleton.skeleton.Skeleton
@@ -31,7 +27,9 @@ internal class ViewSkeletonLoader(
     }
 
     private val loaderScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable -> }
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        Log.e("Error", throwable.message.orEmpty())
+    }
 
     private val delegateService = DelegateService(this)
 
@@ -71,47 +69,15 @@ internal class ViewSkeletonLoader(
     }
 
     private fun generateSkeletonView(skeleton: Skeleton, view: View): View {
-        val skeletonView = generateSkeletonByType(skeleton, view)
-        return skeletonView.validateShimmer(skeleton.isShimmerEnabled, view.getParentViewGroup()) {
-            val generatedId = ViewCompat.generateViewId()
-            view.skeletonManager.setSkeletonId(generatedId)
-            it.id = generatedId
-            it.lparams(view)
-        }
-    }
-
-    private fun generateSkeletonByType(skeleton: Skeleton, view: View): View {
-        val skeletonView = when (view) {
-            is ViewGroup -> generateViewGroupSkeleton(skeleton, view)
-            is TextView -> generateTextViewSkeleton(view, R.color.colorGray, 6f)
-            else -> generateSimpleSkeleton(R.color.colorGray, 6f)
-        }
-        return skeletonView.apply { id = view.id }
-    }
-
-    private fun generateViewGroupSkeleton(skeleton: Skeleton, viewGroup: ViewGroup): View {
-        val skeletonViewGroup = viewGroup.cloneLayout()
-        for (indexOfChild in 0 until viewGroup.childCount) {
-            val childView = viewGroup.getChildAt(indexOfChild)
-            val skeletonView = generateSkeletonByType(skeleton, childView)
-            skeletonViewGroup.addView(skeletonView.lparams(childView))
-        }
-        return skeletonViewGroup
-    }
-
-    private fun generateSimpleSkeleton(color: Int, radius: Float): View {
-        val skeletonView = View(context)
-        skeletonView.background =
-            PaintDrawable(context.getColorCompat(color)).apply { setCornerRadius(radius) }
-        return skeletonView
-    }
-
-    private fun generateTextViewSkeleton(textView: TextView, color: Int, radius: Float): TextView {
-        return TextView(context).apply {
-            val colorInt = context.getColorCompat(color)
-            setTextColor(context.getColorCompat(R.color.colorTransparent))
-            text = spannable { background(colorInt, radius, textView.text) }
-        }
+        val parent = view.getParentViewGroup()
+        val koletonLayout = KoletonLayout(view)
+        parent.removeView(view)
+        koletonLayout.id = view.id
+        koletonLayout.lparams(view)
+        koletonLayout.addView(view)
+        parent.addView(koletonLayout)
+        koletonLayout.showSkeleton()
+        return view
     }
 
     private inline fun <T : View> T.validateShimmer(isShimmerEnabled: Boolean, parentView: ViewGroup? = null, block: (it: View) -> Unit): View {

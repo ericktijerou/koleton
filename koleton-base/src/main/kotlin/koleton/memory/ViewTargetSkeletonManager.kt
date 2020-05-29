@@ -77,7 +77,7 @@ internal class ViewTargetSkeletonManager : View.OnAttachStateChangeListener,
             // As this is called from the main thread, isRestart will
             // be cleared synchronously as part of skeleton.restart().
             isRestart = true
-            skeleton.restart()
+            //skeleton.restart()
         }
     }
 
