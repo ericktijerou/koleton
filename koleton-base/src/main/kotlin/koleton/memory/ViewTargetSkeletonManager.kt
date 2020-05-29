@@ -1,7 +1,5 @@
 package koleton.memory
 
-import android.view.View
-import android.view.ViewTreeObserver
 import androidx.annotation.AnyThread
 import androidx.annotation.MainThread
 import koleton.util.isMainThread
@@ -13,14 +11,9 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 
-internal class ViewTargetSkeletonManager : View.OnAttachStateChangeListener,
-    ViewTreeObserver.OnGlobalLayoutListener {
+internal class ViewTargetSkeletonManager {
 
     private var currentSkeleton: ViewTargetSkeletonDelegate? = null
-
-    @Volatile
-    var skeletonViewId: Int? = null
-        private set
 
     @Volatile
     private var pendingClear: Job? = null
@@ -56,35 +49,9 @@ internal class ViewTargetSkeletonManager : View.OnAttachStateChangeListener,
         currentSkeletonJob = null
         pendingClear?.cancel()
         pendingClear = CoroutineScope(Dispatchers.Main.immediate).launch {
-            currentSkeleton.notNull { skeleton -> skeletonViewId.notNull { skeleton.hideSkeleton(it) } }
+            currentSkeleton.notNull { it.hideSkeleton() }
             setCurrentSkeleton(null)
         }
-    }
-
-    @AnyThread
-    fun setSkeletonId(skeletonId: Int) {
-        this.skeletonViewId = skeletonId
-    }
-
-    @MainThread
-    override fun onViewAttachedToWindow(v: View) {
-        if (skipAttach) {
-            skipAttach = false
-            return
-        }
-
-        currentSkeleton?.let { skeleton ->
-            // As this is called from the main thread, isRestart will
-            // be cleared synchronously as part of skeleton.restart().
-            isRestart = true
-            //skeleton.restart()
-        }
-    }
-
-    @MainThread
-    override fun onViewDetachedFromWindow(v: View) {
-        skipAttach = false
-        currentSkeleton?.dispose()
     }
 
     /** Set the current [job] attached to this view and assign it an ID. */
@@ -103,17 +70,5 @@ internal class ViewTargetSkeletonManager : View.OnAttachStateChangeListener,
             return skeletonId
         }
         return UUID.randomUUID()
-    }
-
-    override fun onGlobalLayout() {
-        currentSkeleton.notNull { skeleton ->
-            skeleton.getViewTarget().notNull {
-                if (it.measuredWidth > 0 && it.measuredHeight > 0) {
-                    it.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    isRestart = true
-                    skeleton.restart()
-                }
-            }
-        }
     }
 }

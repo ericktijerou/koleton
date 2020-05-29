@@ -34,8 +34,8 @@ internal class ViewTargetSkeletonDelegate(
 ): SkeletonDelegate() {
 
     @MainThread
-    fun hideSkeleton(skeletonId: Int) {
-        imageLoader.hide(skeleton.target, skeletonId)
+    fun hideSkeleton() {
+        imageLoader.hide(skeleton.target)
     }
 
     @MainThread

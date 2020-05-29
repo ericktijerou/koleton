@@ -39,6 +39,6 @@ interface SkeletonLoader {
      *
      * @param skeleton The skeleton to execute.
      */
-    fun hide(target: Target?, skeletonId: Int)
+    fun hide(target: Target?)
 
 }

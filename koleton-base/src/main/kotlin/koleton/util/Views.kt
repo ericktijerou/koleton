@@ -27,10 +27,7 @@ internal fun View.getParentViewGroup(): ViewGroup {
 }
 
 internal fun <T : View> T.lparams(view: View): T {
-    val layoutParams = generateLayoutParams(view.layoutParams).apply {
-        width = view.width
-        height = view.height
-    }
+    val layoutParams = generateLayoutParams(view.layoutParams)
     this@lparams.layoutParams = layoutParams
     return this
 }

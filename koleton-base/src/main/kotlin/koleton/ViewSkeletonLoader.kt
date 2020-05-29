@@ -47,10 +47,8 @@ internal class ViewSkeletonLoader(
                 val target = skeleton.target as? ViewTarget
                 target?.apply {
                     lifecycle.addObserver(target)
-                    if (view.measuredWidth > 0 && view.measuredHeight > 0) {
-                        val skeletonView = generateSkeletonView(skeleton, view)
-                        targetDelegate.success(skeletonView)
-                    }
+                    val skeletonView = generateSkeletonView(skeleton, view)
+                    targetDelegate.success(skeletonView)
                 }
             }
             val skeletonDelegate = delegateService.createSkeletonDelegate(skeleton, targetDelegate, lifecycle, mainDispatcher, deferred)
@@ -60,20 +58,24 @@ internal class ViewSkeletonLoader(
             deferred.await()
         }
 
-    override fun hide(target: Target?, skeletonId: Int) {
+    override fun hide(target: Target?) {
         (target as? ViewTarget)?.apply {
-            val parentView = view.getParentViewGroup()
-            val skeletonView = parentView.findViewById<View>(skeletonId)
-            parentView.removeView(skeletonView)
+            val koletonLayout = view.getParentViewGroup() as KoletonLayout
+            view.lparams(koletonLayout)
+            val originalParent = koletonLayout.getParentViewGroup()
+            koletonLayout.removeView(view)
+            originalParent.removeView(koletonLayout)
+            originalParent.addView(view)
+            view.visible()
         }
     }
 
     private fun generateSkeletonView(skeleton: Skeleton, view: View): View {
         val parent = view.getParentViewGroup()
         val koletonLayout = KoletonLayout(view)
-        parent.removeView(view)
+        koletonLayout.layoutParams = view.layoutParams
         koletonLayout.id = view.id
-        koletonLayout.lparams(view)
+        parent.removeView(view)
         koletonLayout.addView(view)
         parent.addView(koletonLayout)
         koletonLayout.showSkeleton()
