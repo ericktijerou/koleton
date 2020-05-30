@@ -1,6 +1,7 @@
 import Dependencies.androidAppCompat
 import Dependencies.androidConstraintLayout
 import Dependencies.androidKtx
+import Dependencies.androidRecyclerView
 import Dependencies.junit
 import Dependencies.kotlinCoroutines
 import Dependencies.lifecycle
@@ -41,6 +42,7 @@ dependencies {
     implementation(androidKtx)
     implementation(androidConstraintLayout)
     implementation(lifecycle)
+    implementation(androidRecyclerView)
 
     // Kotlin
     api(kotlin("stdlib", KotlinCompilerVersion.VERSION))

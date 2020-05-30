@@ -1,4 +1,4 @@
-package koleton.layout
+package koleton.mask
 
 internal interface KoletonMaskable {
     fun invalidate() = Unit

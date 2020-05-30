@@ -1,4 +1,4 @@
-package koleton.layout
+package koleton.mask
 
 import android.graphics.*
 import android.view.View
@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import koleton.util.childViewList
 
-internal class KoletonMask(view: View, @ColorInt maskColor: Int) : KoletonMaskable {
+internal class KoletonMask(view: View, @ColorInt maskColor: Int) :
+    KoletonMaskable {
 
     private val bitmap: Bitmap by lazy { Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ALPHA_8) }
     private val canvas: Canvas by lazy { Canvas(bitmap) }

@@ -1,4 +1,4 @@
-package koleton.layout
+package koleton.custom
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,12 +6,13 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import koleton.base.R
+import koleton.mask.KoletonMask
 import koleton.util.getColorCompat
 import koleton.util.invisible
 import koleton.util.childViewList
 import koleton.util.visible
 
-internal class KoletonLayout @JvmOverloads constructor(
+internal class KoletonFrameLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
@@ -85,7 +86,10 @@ internal class KoletonLayout @JvmOverloads constructor(
         if (isRendered) {
             koletonMask?.stop()
             if (width > 0 && height > 0) {
-                koletonMask = KoletonMask(this, context.getColorCompat(R.color.colorGray))
+                koletonMask = KoletonMask(
+                    this,
+                    context.getColorCompat(R.color.colorGray)
+                )
                     .also { mask -> mask.mask(this, 8f) }
             }
         }
