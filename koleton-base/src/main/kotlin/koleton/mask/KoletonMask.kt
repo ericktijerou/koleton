@@ -8,7 +8,7 @@ import android.text.TextPaint
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.ColorRes
+import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import koleton.base.R
 import koleton.util.*
@@ -16,11 +16,10 @@ import kotlin.math.absoluteValue
 
 internal class KoletonMask(
     val view: View,
-    @ColorRes maskColor: Int,
+    @ColorInt private val color: Int,
     private val cornerRadius: Float
 ) {
 
-    private val color: Int by lazy { view.context.getColorCompat(maskColor) }
     private val paint: Paint by lazy { Paint().apply { color = this@KoletonMask.color } }
     private val bitmap: Bitmap by lazy { Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ALPHA_8) }
     private val canvas: Canvas by lazy { Canvas(bitmap) }

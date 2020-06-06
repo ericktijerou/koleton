@@ -5,8 +5,6 @@ import android.util.Log
 import androidx.lifecycle.LifecycleObserver
 import koleton.annotation.ExperimentalKoletonApi
 import koleton.custom.*
-import koleton.custom.KoletonFrameLayout
-import koleton.custom.KoletonRecyclerView
 import koleton.memory.DelegateService
 import koleton.memory.SkeletonService
 import koleton.skeleton.RecyclerViewSkeleton
@@ -16,10 +14,7 @@ import koleton.target.RecyclerViewTarget
 import koleton.target.SimpleViewTarget
 import koleton.target.Target
 import koleton.target.ViewTarget
-import koleton.util.generateKoletonFrameLayout
-import koleton.util.generateKoletonRecyclerView
-import koleton.util.koletonManager
-import koleton.util.px
+import koleton.util.*
 import kotlinx.coroutines.*
 
 @OptIn(ExperimentalKoletonApi::class)
@@ -90,7 +85,7 @@ internal class MainSkeletonLoader(
         return@with if (target is RecyclerViewTarget) {
             val attributes = RecyclerViewAttributes(
                 view = target.view,
-                colorResId = colorResId ?: defaults.colorResId,
+                color = context.getColorCompat(colorResId ?: defaults.colorResId),
                 cornerRadius = cornerRadius ?: defaults.cornerRadius.px,
                 isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled,
                 itemLayout = itemLayoutResId,
@@ -105,7 +100,7 @@ internal class MainSkeletonLoader(
     private fun generateSimpleView(skeleton: ViewSkeleton) = with(skeleton) {
         return@with if (target is SimpleViewTarget) {
             val attributes = SimpleViewAttributes(
-                colorResId = colorResId ?: defaults.colorResId,
+                color = context.getColorCompat(colorResId ?: defaults.colorResId),
                 cornerRadius = cornerRadius ?: defaults.cornerRadius.px,
                 isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled
             )
