@@ -72,7 +72,7 @@ internal class KoletonFrameLayout @JvmOverloads constructor(
         if (isMeasured) {
             if (attributes !is SimpleViewAttributes) hideShimmer()
             attributes?.let { attrs ->
-                koletonMask = KoletonMask(this, attrs.colorResId, attrs.cornerRadius.toFloat())
+                koletonMask = KoletonMask(this, attrs.color, attrs.cornerRadius.toFloat())
             }
         }
     }
