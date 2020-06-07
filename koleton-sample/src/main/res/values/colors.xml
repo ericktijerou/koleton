@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimary">#5E42D3</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="colorTextPrimary">#556082</color>
     <color name="colorTitle">#262545</color>
     <color name="colorIconBackground">#F5F5F9</color>
     <color name="colorIcon">#727D98</color>
-    <color name="colorSkeleton">#DADCE7</color>
+    <color name="colorSkeleton">#CCCFDE</color>
+    <color name="colorJourneyOutline">#CFD3DD</color>
+    <color name="colorRipple">#e5e5ef</color>
 </resources>

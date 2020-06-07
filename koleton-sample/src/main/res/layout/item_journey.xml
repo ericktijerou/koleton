@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
-    android:background="@drawable/bg_border_around">
+    android:background="@drawable/bg_journey_item">
 
     <TextView
         android:id="@+id/tvDate"
@@ -17,17 +17,18 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ivCar"
+        app:layout_constraintEnd_toStartOf="@id/ivCarType"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Tuesday, 21 April, 01:36 PM"/>
+        android:text="@string/label_date"/>
 
     <ImageView
-        android:id="@+id/ivCar"
+        android:id="@+id/ivCarType"
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_car"
+        app:srcCompat="@drawable/ic_car_coupe"
+        android:scaleX="-1"
         android:tint="@color/colorIcon"
         android:padding="4dp"
         android:background="@drawable/bg_gray"
@@ -40,10 +41,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:lines="2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ivCar"
+        app:layout_constraintEnd_toStartOf="@id/ivCarType"
         app:layout_constraintTop_toBottomOf="@id/tvDate"
-        android:text="1600 Amphitheatre Parkway"/>
+        android:text="@string/label_address"/>
 
     <TextView
         android:id="@+id/tvPrice"
@@ -52,16 +54,22 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp"
-        android:text="S/.8.56"
+        android:text="@string/label_price"
         app:layout_constraintTop_toBottomOf="@id/tvAddress"/>
 
     <TextView
         android:id="@+id/tvDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/colorPrimary"
+        app:drawableTint="@color/colorPrimary"
+        android:text="@string/label_see_details"
         android:layout_marginTop="16dp"
-        android:text="Foo1"
-        app:layout_constraintTop_toBottomOf="@id/tvAddress"/>
+        android:drawableEnd="@drawable/ic_arrow"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tvPrice"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
