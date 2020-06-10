@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        app:constraintSetStart="@id/expanded"
+        app:constraintSetEnd="@id/collapsed"
+        app:duration="500">
+
+        <OnSwipe
+            app:dragDirection="dragUp"
+            app:touchAnchorId="@id/rvUsers"
+            app:touchAnchorSide="top" />
+
+        <KeyFrameSet>
+            <KeyAttribute
+                android:alpha="0"
+                app:framePosition="30"
+                app:motionTarget="@id/tvSubtitle" />
+            <KeyAttribute
+                android:alpha="0"
+                app:framePosition="20"
+                app:motionTarget="@id/toolbarDivider" />
+        </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/expanded">
+        <Constraint android:id="@id/rvUsers" />
+        <Constraint android:id="@id/tvTitle" />
+        <Constraint android:id="@id/tvSubtitle">
+            <PropertySet android:alpha="1"/>
+        </Constraint>
+        <Constraint android:id="@id/toolbarDivider">
+            <PropertySet android:alpha="0"/>
+        </Constraint>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/collapsed">
+        <Constraint android:id="@id/rvUsers">
+            <Layout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </Constraint>
+        <Constraint android:id="@id/tvTitle">
+            <Layout
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_constraintTop_toTopOf="@id/ivCar"
+                app:layout_constraintStart_toEndOf="@id/ivCar"/>
+            <Transform
+                android:scaleX=".70"
+                android:scaleY=".70"
+                android:translationX="-20dp"/>
+        </Constraint>
+        <Constraint android:id="@+id/tvSubtitle">
+            <PropertySet android:alpha="0"/>
+        </Constraint>
+        <Constraint android:id="@+id/toolbarDivider">
+            <PropertySet android:alpha="1"/>
+        </Constraint>
+    </ConstraintSet>
+</MotionScene>

@@ -6,8 +6,10 @@
     <color name="colorTextPrimary">#556082</color>
     <color name="colorTitle">#262545</color>
     <color name="colorIconBackground">#F5F5F9</color>
+    <color name="colorVisaBackground">#EFF6FE</color>
     <color name="colorIcon">#727D98</color>
     <color name="colorSkeleton">#CCCFDE</color>
-    <color name="colorJourneyOutline">#CFD3DD</color>
-    <color name="colorRipple">#e5e5ef</color>
+    <color name="colorJourneyOutline">#B9BECC</color>
+    <color name="colorRipple">#E5E5Ef</color>
+    <color name="colorShadow">#0C000000</color>
 </resources>

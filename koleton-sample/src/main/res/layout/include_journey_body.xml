@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clBody"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clHeader"
+        tools:visibility="visible">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivPicture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.CircleImageView"
+            app:srcCompat="@drawable/driver_one"
+            tools:background="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/tvDriverName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            app:layout_constraintBottom_toBottomOf="@id/ivPicture"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toTopOf="@id/ivPicture"
+            tools:text="Foo" />
+
+        <ImageView
+            android:id="@+id/ivCarType"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_gray"
+            android:padding="6dp"
+            android:scaleType="centerCrop"
+            android:scaleX="-1"
+            android:tint="@color/colorIcon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivPicture"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.CircleImageView"
+            app:srcCompat="@drawable/ic_car_coupe"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvCarName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/colorTextPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/ivCarType"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toTopOf="@id/ivCarType"
+            tools:text="DeLorean DMC-12" />
+
+        <ImageView
+            android:id="@+id/ivReceipt"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_gray"
+            android:padding="12dp"
+            android:scaleType="centerCrop"
+            android:scaleX="-1"
+            android:tint="@color/colorIcon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivCarType"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.CircleImageView"
+            app:srcCompat="@drawable/ic_receipt"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvBasePriceLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/label_base_price"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/colorTextPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/ivReceipt"
+            app:layout_constraintEnd_toStartOf="@id/tvBasePriceValue"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toTopOf="@id/ivReceipt" />
+
+        <TextView
+            android:id="@+id/tvBasePriceValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_info"
+            android:drawablePadding="8dp"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/colorTextPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/ivReceipt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivReceipt"
+            tools:text="$20.30" />
+
+        <TextView
+            android:id="@+id/tvServiceLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/label_service_detail"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/colorTextPrimary"
+            app:layout_constraintEnd_toStartOf="@id/tvServicePriceValue"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/tvBasePriceLabel" />
+
+        <TextView
+            android:id="@+id/tvServicePriceValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/colorTextPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvBasePriceValue"
+            app:layout_constraintTop_toTopOf="@id/tvServiceLabel"
+            tools:text="$20.30" />
+
+        <TextView
+            android:id="@+id/tvTotalLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/label_total_price"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            app:layout_constraintEnd_toStartOf="@id/tvServicePriceValue"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/tvServiceLabel" />
+
+        <TextView
+            android:id="@+id/tvTotalValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/colorTextPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvBasePriceValue"
+            app:layout_constraintTop_toTopOf="@id/tvTotalLabel"
+            tools:text="$20.30" />
+
+        <ImageView
+            android:id="@+id/ivCard"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_gray"
+            android:padding="12dp"
+            android:scaleType="centerCrop"
+            android:scaleX="-1"
+            android:tint="@color/colorIcon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTotalLabel"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.CircleImageView"
+            app:srcCompat="@drawable/ic_credit_card"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvPaymentLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_payment_method"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/colorTextPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/ivCard"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toTopOf="@id/ivCard" />
+
+        <ImageView
+            android:id="@+id/ivVisa"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_visa"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/ivCard"
+            app:layout_constraintEnd_toStartOf="@id/tvPaymentValue"
+            app:layout_constraintTop_toTopOf="@id/ivCard"
+            app:srcCompat="@drawable/ic_visa"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvPaymentValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/colorTextPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/ivCard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivCard"
+            tools:text="∙∙∙∙ 7869" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="56dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

@@ -1,14 +1,18 @@
-package koleton.sample
+package koleton.sample.list
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import koleton.sample.R
+import koleton.sample.model.Journey
 import koleton.util.visible
 import kotlinx.android.synthetic.main.item_journey.view.*
 
-class JourneyListAdapter(private val journeyList: List<Journey>, private val clickListener: (Journey) -> Unit) :
+class JourneyListAdapter(private val clickListener: (Journey) -> Unit) :
     RecyclerView.Adapter<JourneyListAdapter.MyViewHolder>() {
+
+    private val journeyList = arrayListOf<Journey>()
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): MyViewHolder {
@@ -23,6 +27,12 @@ class JourneyListAdapter(private val journeyList: List<Journey>, private val cli
 
     override fun getItemCount() = journeyList.size
 
+    fun swap(list: List<Journey>) {
+        journeyList.clear()
+        journeyList.addAll(list)
+        notifyDataSetChanged()
+    }
+
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val tvDate = itemView.tvDate
@@ -32,11 +42,12 @@ class JourneyListAdapter(private val journeyList: List<Journey>, private val cli
         private val tvDetails = itemView.tvDetails
 
         fun bind(journey: Journey, clickListener: (Journey) -> Unit) = with(journey) {
-            tvDate?.text = date
-            tvAddress?.text = address
-            tvPrice?.text = price
-            ivCarType?.setImageResource(icon)
-            tvDetails.visible()
+            val dateTime = "$date, $pickUpTime"
+            tvDate?.text = dateTime
+            tvAddress?.text = dropOffPoint
+            tvPrice?.text = total
+            ivCarType?.setImageResource(carIcon)
+            tvDetails?.visible()
             itemView.setOnClickListener { clickListener(journey) }
         }
     }

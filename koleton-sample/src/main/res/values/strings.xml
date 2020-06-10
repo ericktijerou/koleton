@@ -3,7 +3,16 @@
     <string name="label_my_journeys">My journeys</string>
     <string name="label_see_your_journey">See your journey details</string>
     <string name="label_see_details">See details</string>
-    <string name="label_price">$22.24</string>
-    <string name="label_address">1600 Amphitheatre Parkway Mountain View, CA 94043</string>
-    <string name="label_date">Tuesday, 21 April, 01:36 PM</string>
+    <string name="label_price_example">$22.24</string>
+    <string name="label_address_example">1600 Amphitheatre Parkway Mountain View, CA 94043</string>
+    <string name="label_datetime_example">Tuesday, 21 April, 01:36 PM</string>
+    <string name="label_date_example">Tuesday, 21 April</string>
+    <string name="label_base_price">Base price</string>
+    <string name="label_service_detail">Service, safety and sustainability fee</string>
+    <string name="label_total_price">Total price</string>
+    <string name="label_payment_method">Payment method</string>
+    <string name="label_pick_up_point">Pick up point</string>
+    <string name="label_time_example">23.99 PM</string>
+    <string name="label_drop_off_point">Drop off point</string>
+    <string name="label_report_a_problem">Report a problem</string>
 </resources>

@@ -5,12 +5,15 @@ import Dependencies.androidKtx
 import Dependencies.junit
 import Dependencies.kotlinStdLib
 import Dependencies.materialDesign
+import Dependencies.navigationFragment
+import Dependencies.navigationUi
 
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -74,7 +77,8 @@ dependencies {
     implementation(androidCore)
     implementation(androidKtx)
     implementation(androidConstraintLayout)
-
+    implementation(navigationFragment)
+    implementation(navigationUi)
 
     // Google Material Design
     implementation(materialDesign)

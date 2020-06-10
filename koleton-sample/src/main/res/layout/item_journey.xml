@@ -4,72 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
-    android:background="@drawable/bg_journey_item">
+    android:background="@drawable/bg_journey_item"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/tvDate"
-        android:textAppearance="?attr/textAppearanceCaption"
-        android:textColor="@color/colorTextPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/label_datetime_example"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="@color/colorTextPrimary"
         app:layout_constraintEnd_toStartOf="@id/ivCarType"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/label_date"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ivCarType"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_car_coupe"
+        android:background="@drawable/bg_gray"
+        android:padding="4dp"
         android:scaleX="-1"
         android:tint="@color/colorIcon"
-        android:padding="4dp"
-        android:background="@drawable/bg_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_car_coupe"
         tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/tvAddress"
-        android:textAppearance="?attr/textAppearanceSubtitle1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:lines="2"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/label_address_example"
+        android:textAppearance="?attr/textAppearanceSubtitle1"
         app:layout_constraintEnd_toStartOf="@id/ivCarType"
-        app:layout_constraintTop_toBottomOf="@id/tvDate"
-        android:text="@string/label_address"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDate" />
 
     <TextView
         android:id="@+id/tvPrice"
-        android:textAppearance="?attr/textAppearanceBody2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp"
-        android:text="@string/label_price"
-        app:layout_constraintTop_toBottomOf="@id/tvAddress"/>
+        android:text="@string/label_price_example"
+        android:textAppearance="?attr/textAppearanceBody2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAddress" />
 
     <TextView
         android:id="@+id/tvDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?attr/textAppearanceBody2"
-        android:textColor="@color/colorPrimary"
-        app:drawableTint="@color/colorPrimary"
-        android:text="@string/label_see_details"
         android:layout_marginTop="16dp"
         android:drawableEnd="@drawable/ic_arrow"
+        android:text="@string/label_see_details"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/colorPrimary"
         android:visibility="gone"
-        tools:visibility="visible"
+        app:drawableTint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@id/tvPrice"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/tvPrice"/>
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
