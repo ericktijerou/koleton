@@ -13,6 +13,7 @@ buildscript {
     dependencies {
         classpath(Dependencies.androidGradlePlugin)
         classpath(Dependencies.compatibilityValidator)
+        classpath(Dependencies.safeArgsPlugin)
         classpath(kotlin("gradle-plugin", version = "1.3.72"))
     }
 }

@@ -13,6 +13,9 @@ object Dependencies {
     const val compatibilityValidator = "org.jetbrains.kotlinx:binary-compatibility-validator:${Versions.validatorVersion}"
     const val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutinesVersion}"
     const val androidRecyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerViewVersion}"
+    const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navigationVersion}"
+    const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigationVersion}"
+    const val safeArgsPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigationVersion}"
 }
 
 object Versions {
@@ -22,11 +25,12 @@ object Versions {
     internal const val androidGradlePlugin = "3.6.3"
     internal const val junit = "4.12"
     internal const val kotlinStdLib = "1.3.72"
-    internal const val materialDesign = "1.0.0"
+    internal const val materialDesign = "1.3.0-alpha01"
     internal const val androidKtxVersion = "0.1"
     internal const val shimmerVersion = "0.5.0"
     internal const val lifecycleVersion = "2.2.0"
     internal const val validatorVersion = "0.2.3"
     internal const val coroutinesVersion = "1.3.7"
     internal const val recyclerViewVersion = "1.1.0"
+    internal const val navigationVersion = "2.3.0-beta01"
 }
