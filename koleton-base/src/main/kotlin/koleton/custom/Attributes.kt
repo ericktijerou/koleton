@@ -4,11 +4,13 @@ import androidx.annotation.ColorInt
 import androidx.annotation.LayoutRes
 import androidx.annotation.Px
 import androidx.recyclerview.widget.RecyclerView
+import com.facebook.shimmer.Shimmer
 
 sealed class Attributes {
     abstract val color: Int
     abstract val cornerRadius: Int
     abstract val isShimmerEnabled: Boolean
+    abstract val shimmer: Shimmer
 }
 
 data class RecyclerViewAttributes(
@@ -16,6 +18,7 @@ data class RecyclerViewAttributes(
     @ColorInt override val color: Int,
     @Px override val cornerRadius: Int,
     override val isShimmerEnabled: Boolean,
+    override val shimmer: Shimmer,
     @LayoutRes val itemLayout: Int,
     val itemCount: Int
 ): Attributes()
@@ -23,5 +26,6 @@ data class RecyclerViewAttributes(
 data class SimpleViewAttributes(
     @ColorInt override val color: Int,
     @Px override val cornerRadius: Int,
-    override val isShimmerEnabled: Boolean
+    override val isShimmerEnabled: Boolean,
+    override val shimmer: Shimmer
 ): Attributes()

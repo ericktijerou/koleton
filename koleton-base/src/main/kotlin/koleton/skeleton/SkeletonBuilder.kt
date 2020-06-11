@@ -7,6 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.Px
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
+import com.facebook.shimmer.Shimmer
 import koleton.annotation.BuilderMarker
 import koleton.custom.KoletonView
 import koleton.target.RecyclerViewTarget
@@ -23,12 +24,14 @@ sealed class SkeletonBuilder<T : SkeletonBuilder<T>> {
     @JvmField @Px protected var cornerRadius: Int?
     @JvmField @ColorRes protected var colorResId: Int?
     @JvmField protected var isShimmerEnabled: Boolean?
+    protected var shimmer: Shimmer?
 
     constructor(context: Context) {
         this.context = context
         this.colorResId = null
         this.cornerRadius = null
         this.isShimmerEnabled = null
+        this.shimmer = null
     }
 
     constructor(skeleton: Skeleton, context: Context) {
@@ -36,6 +39,7 @@ sealed class SkeletonBuilder<T : SkeletonBuilder<T>> {
         this.colorResId = skeleton.colorResId
         this.cornerRadius = skeleton.cornerRadius
         this.isShimmerEnabled = skeleton.isShimmerEnabled
+        this.shimmer = skeleton.shimmer
     }
 
     /**
@@ -57,6 +61,13 @@ sealed class SkeletonBuilder<T : SkeletonBuilder<T>> {
      */
     fun shimmer(enable: Boolean): T = self {
         this.isShimmerEnabled = enable
+    }
+
+    /**
+     * Set the skeleton shimmer.
+     */
+    fun shimmer(shimmer: Shimmer): T = self {
+        this.shimmer = shimmer
     }
 }
 
@@ -119,7 +130,8 @@ class ViewSkeletonBuilder : SkeletonBuilder<ViewSkeletonBuilder> {
             lifecycle,
             colorResId,
             cornerRadius,
-            isShimmerEnabled
+            isShimmerEnabled,
+            shimmer
         )
     }
 }
@@ -195,7 +207,8 @@ class RecyclerViewSkeletonBuilder : SkeletonBuilder<ViewSkeletonBuilder> {
             cornerRadius,
             isShimmerEnabled,
             itemLayoutResId,
-            itemCount
+            itemCount,
+            shimmer
         )
     }
 }

@@ -1,9 +1,12 @@
 package koleton.skeleton
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import androidx.annotation.*
+import androidx.annotation.ColorRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.MainThread
+import androidx.annotation.Px
 import androidx.lifecycle.Lifecycle
+import com.facebook.shimmer.Shimmer
 import koleton.target.Target
 
 /**
@@ -19,6 +22,7 @@ sealed class Skeleton {
     abstract val cornerRadius: Int?
     abstract val isShimmerEnabled: Boolean?
     abstract val lifecycle: Lifecycle?
+    abstract val shimmer: Shimmer?
 
     /**
      * A set of callbacks for a [Skeleton].
@@ -57,7 +61,8 @@ class ViewSkeleton internal constructor(
     override val lifecycle: Lifecycle?,
     @ColorRes override val colorResId: Int?,
     @Px override val cornerRadius: Int?,
-    override val isShimmerEnabled: Boolean?
+    override val isShimmerEnabled: Boolean?,
+    override val shimmer: Shimmer?
 ) : Skeleton() {
 
     companion object {
@@ -89,7 +94,8 @@ class RecyclerViewSkeleton internal constructor(
     @Px override val cornerRadius: Int?,
     override val isShimmerEnabled: Boolean?,
     @LayoutRes internal val itemLayoutResId: Int,
-    internal val itemCount: Int?
+    internal val itemCount: Int?,
+    override val shimmer: Shimmer?
 ) : Skeleton() {
 
     companion object {

@@ -33,6 +33,7 @@ internal class KoletonRecyclerView @JvmOverloads constructor(
 
     private fun applyAttributes(attributes: RecyclerViewAttributes) = with(attributes) {
         adapter = view.adapter
+        if (!attributes.isShimmerEnabled) hideShimmer() else setShimmer(shimmer)
         skeletonAdapter = KoletonAdapter(itemLayout, itemCount, attributes)
         if (isSkeletonShown) {
             showSkeleton()

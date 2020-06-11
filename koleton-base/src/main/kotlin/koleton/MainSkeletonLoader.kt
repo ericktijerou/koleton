@@ -3,6 +3,7 @@ package koleton
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LifecycleObserver
+import com.facebook.shimmer.ShimmerFrameLayout
 import koleton.annotation.ExperimentalKoletonApi
 import koleton.custom.*
 import koleton.memory.DelegateService
@@ -72,6 +73,12 @@ internal class MainSkeletonLoader(
 
     override fun hide(target: Target?, koletonView: KoletonView) {
         koletonView.hideSkeleton()
+        val skeletonView = koletonView as ShimmerFrameLayout
+        val originalParent = skeletonView.getParentViewGroup()
+        val originalView = (target as ViewTarget<*>).view
+        skeletonView.removeView(originalView)
+        originalParent.removeView(skeletonView)
+        originalParent.addView(originalView)
     }
 
     private fun generateKoletonView(skeleton: Skeleton): KoletonView {
@@ -87,6 +94,7 @@ internal class MainSkeletonLoader(
                 view = target.view,
                 color = context.getColorCompat(colorResId ?: defaults.colorResId),
                 cornerRadius = cornerRadius ?: defaults.cornerRadius.px,
+                shimmer = shimmer ?: defaults.shimmer,
                 isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled,
                 itemLayout = itemLayoutResId,
                 itemCount = itemCount ?: defaults.itemCount
@@ -102,7 +110,8 @@ internal class MainSkeletonLoader(
             val attributes = SimpleViewAttributes(
                 color = context.getColorCompat(colorResId ?: defaults.colorResId),
                 cornerRadius = cornerRadius ?: defaults.cornerRadius.px,
-                isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled
+                isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled,
+                shimmer = shimmer ?: defaults.shimmer
             )
             target.view.generateKoletonFrameLayout(attributes)
         } else {
