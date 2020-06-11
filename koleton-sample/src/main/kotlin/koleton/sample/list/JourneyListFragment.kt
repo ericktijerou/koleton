@@ -54,6 +54,10 @@ class JourneyListFragment: Fragment() {
     private fun getJourneyList() {
         Handler().postDelayed({
             onSuccess(DataSource.generateDataSet())
-        }, 1800)
+        }, DELAY)
+    }
+
+    companion object {
+        const val DELAY: Long = 3000
     }
 }

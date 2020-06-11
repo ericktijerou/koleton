@@ -7,6 +7,7 @@ import Dependencies.kotlinStdLib
 import Dependencies.materialDesign
 import Dependencies.navigationFragment
 import Dependencies.navigationUi
+import Dependencies.shimmer
 
 plugins {
     id("com.android.application")
@@ -85,6 +86,9 @@ dependencies {
 
     // Kotlin
     implementation(kotlinStdLib)
+
+    //Shimmer
+    implementation(shimmer)
 
     // Tests
     testImplementation(junit)

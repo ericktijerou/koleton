@@ -21,7 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.RoundedCornerImageView"
-            app:srcCompat="@drawable/map_one" />
+            tools:srcCompat="@drawable/map_one" />
 
         <ImageView
             android:id="@+id/ivStartDot"

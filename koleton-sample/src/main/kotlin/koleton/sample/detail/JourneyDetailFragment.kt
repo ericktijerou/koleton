@@ -1,5 +1,6 @@
 package koleton.sample.detail
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.navigation.fragment.navArgs
+import com.facebook.shimmer.Shimmer
 import koleton.api.hideSkeleton
 import koleton.api.loadSkeleton
 import koleton.sample.R
@@ -37,13 +39,30 @@ class JourneyDetailFragment : AppCompatDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ivBack?.setOnClickListener { dismiss() }
-        clHeader?.loadSkeleton { color(R.color.colorSkeleton) }
+        clHeader?.loadSkeleton {
+            color(R.color.colorSkeleton)
+            shimmer(getCustomShimmer())
+        }
         tvToolbar?.text = args.journey.date
         handler.postDelayed({
             showInformation(args.journey)
             clBody?.visible()
             clHeader?.hideSkeleton()
-        }, 1800)
+        }, DELAY)
+    }
+
+    private fun getCustomShimmer(): Shimmer {
+        return Shimmer.AlphaHighlightBuilder()
+            .setDirection(Shimmer.Direction.TOP_TO_BOTTOM)
+            .setDuration(500)
+            .setTilt(0f)
+            .setBaseAlpha(0.4f)
+            .setRepeatMode(ValueAnimator.INFINITE)
+            .setRepeatDelay(1200)
+            .setHighlightAlpha(0.1f)
+            .setHeightRatio(1f)
+            .setDropoff(1f)
+            .build()
     }
 
     private fun showInformation(journey: Journey) = with(journey) {
@@ -65,5 +84,9 @@ class JourneyDetailFragment : AppCompatDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         handler.removeCallbacksAndMessages(null)
+    }
+
+    companion object {
+        const val DELAY: Long = 3000
     }
 }
