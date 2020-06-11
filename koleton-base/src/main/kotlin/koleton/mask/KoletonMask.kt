@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
-import koleton.base.R
 import koleton.util.*
 import kotlin.math.absoluteValue
 
@@ -60,10 +59,7 @@ internal class KoletonMask(
             view.getDrawingRect(it)
             root.offsetDescendantRectToMyCoords(view, it)
         }
-        val textPaint = view.paint.apply {
-            isAntiAlias = cornerRadius > NUMBER_ZERO
-            color = view.context.getColorCompat(R.color.colorTransparent)
-        }
+        val textPaint = view.paint.apply { isAntiAlias = cornerRadius > NUMBER_ZERO }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             maskStaticLayout(view, rect, textPaint)
         } else {
@@ -79,7 +75,7 @@ internal class KoletonMask(
     ) {
         val spannable = spannable { background(color, cornerRadius, view.text) }
         val staticLayout = StaticLayout.Builder
-            .obtain(spannable, 0, spannable.length, textPaint, view.width)
+            .obtain(spannable, 0, spannable.length, textPaint.apply { color = Color.TRANSPARENT }, view.width)
             .setBreakStrategy(Layout.BREAK_STRATEGY_SIMPLE)
             .setIncludePad(view.includeFontPadding)
             .setMaxLines(view.lineCount)
@@ -95,6 +91,7 @@ internal class KoletonMask(
         rect: Rect,
         textPaint: TextPaint
     ) {
+        if (view.lineCount.isZero()) return
         val measuredWidth = floatArrayOf(0F)
         var startIndex = 0
         var count: Int
