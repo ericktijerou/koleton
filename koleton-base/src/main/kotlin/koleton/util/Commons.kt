@@ -2,7 +2,6 @@ package koleton.util
 
 import android.content.res.Resources
 import android.os.Looper
-import android.view.View
 
 internal fun isMainThread() = Looper.myLooper() == Looper.getMainLooper()
 
@@ -14,10 +13,6 @@ fun Int.isZero() = this == 0
 
 fun <T : Any> T?.notNull(f: (it: T) -> Unit) {
     if (this != null) f(this)
-}
-
-fun View.isVisible(): Boolean {
-    return this.visibility == View.VISIBLE
 }
 
 @Suppress("UNCHECKED_CAST")

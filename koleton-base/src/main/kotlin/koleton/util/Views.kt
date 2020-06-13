@@ -4,19 +4,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
 import android.widget.FrameLayout
-import androidx.annotation.ColorRes
-import androidx.annotation.Px
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import koleton.DefaultSkeletonOptions
 import koleton.base.R
-import koleton.custom.*
+import koleton.custom.Attributes
 import koleton.custom.KoletonFrameLayout
 import koleton.custom.KoletonRecyclerView
+import koleton.custom.RecyclerViewAttributes
 import koleton.memory.ViewTargetSkeletonManager
-import koleton.skeleton.ViewSkeleton
-import koleton.target.SimpleViewTarget
-import koleton.target.ViewTarget
 
 fun View.visible() {
     visibility = View.VISIBLE
@@ -24,6 +18,10 @@ fun View.visible() {
 
 fun View.invisible() {
     visibility = View.INVISIBLE
+}
+
+fun View.isVisible(): Boolean {
+    return this.visibility == View.VISIBLE
 }
 
 fun View.gone() {
