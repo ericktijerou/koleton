@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import koleton.sample.R
 import koleton.sample.model.Journey
-import koleton.util.visible
+import koleton.sample.utils.visible
 import kotlinx.android.synthetic.main.item_journey.view.*
 
 class JourneyListAdapter(private val clickListener: (Journey) -> Unit) :

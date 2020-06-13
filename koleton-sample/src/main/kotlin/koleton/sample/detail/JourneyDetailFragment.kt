@@ -13,7 +13,7 @@ import koleton.api.hideSkeleton
 import koleton.api.loadSkeleton
 import koleton.sample.R
 import koleton.sample.model.Journey
-import koleton.util.visible
+import koleton.sample.utils.visible
 import kotlinx.android.synthetic.main.fragment_journey_detail.*
 import kotlinx.android.synthetic.main.include_journey_body.*
 import kotlinx.android.synthetic.main.include_journey_header.*
@@ -39,16 +39,22 @@ class JourneyDetailFragment : AppCompatDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ivBack?.setOnClickListener { dismiss() }
+        tvToolbar?.text = args.journey.date
         clHeader?.loadSkeleton {
             color(R.color.colorSkeleton)
             shimmer(getCustomShimmer())
         }
-        tvToolbar?.text = args.journey.date
-        handler.postDelayed({
-            showInformation(args.journey)
-            clBody?.visible()
-            clHeader?.hideSkeleton()
-        }, DELAY)
+        getJourneyDetail()
+    }
+
+    private fun getJourneyDetail() {
+        handler.postDelayed({ onSuccess() }, DELAY)
+    }
+
+    private fun onSuccess() {
+        clBody?.visible()
+        clHeader?.hideSkeleton()
+        showInformation(args.journey)
     }
 
     private fun getCustomShimmer(): Shimmer {
