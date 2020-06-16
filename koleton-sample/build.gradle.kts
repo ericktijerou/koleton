@@ -1,23 +1,39 @@
-import Dependencies.androidAppCompat
-import Dependencies.androidConstraintLayout
-import Dependencies.androidCore
-import Dependencies.androidKtx
-import Dependencies.junit
-import Dependencies.kotlinStdLib
-import Dependencies.materialDesign
-import Dependencies.navigationFragment
-import Dependencies.navigationUi
-import Dependencies.shimmer
+import com.android.build.gradle.BaseExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("android.extensions")
-    kotlin("kapt")
+    id(Android.appPlugin)
+    id(Kotlin.androidPlugin)
+    id(Kotlin.androidExtensionsPlugin)
     id("androidx.navigation.safeargs.kotlin")
 }
 
-android {
+dependencies {
+    //Libraries
+    implementation(project(":koleton-singleton"))
+
+    //Android
+    implementation(Dependencies.androidAppCompat)
+    implementation(Dependencies.androidCore)
+    implementation(Dependencies.androidKtx)
+    implementation(Dependencies.androidConstraintLayout)
+    implementation(Dependencies.navigationFragment)
+    implementation(Dependencies.navigationUi)
+
+    // Google Material Design
+    implementation(Dependencies.materialDesign)
+
+    // Kotlin
+    implementation(Kotlin.stdlib)
+
+    //Shimmer
+    implementation(Dependencies.shimmer)
+
+    // Tests
+    testImplementation(Dependencies.junit)
+}
+
+configure<BaseExtension> {
     compileSdkVersion(29)
 
     defaultConfig {
@@ -32,30 +48,16 @@ android {
         }
     }
 
-    buildTypes {
-        getByName("debug") {
-            isMinifyEnabled = false
-            isShrinkResources = false
-            isTestCoverageEnabled = true
-        }
-
-        getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            isDebuggable = false
-            isZipAlignEnabled = true
-            proguardFile(getDefaultProguardFile("proguard-android.txt"))
-            proguardFile(file("proguard-rules.pro"))
-        }
-    }
-
     compileOptions {
-        targetCompatibility = JavaVersion.VERSION_1_8
         sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-progressive", "-Xopt-in=kotlin.RequiresOptIn")
+            jvmTarget = JavaVersion.VERSION_1_8.toString()
+        }
     }
 
     sourceSets {
@@ -63,33 +65,16 @@ android {
         getByName("test").java.srcDirs("src/test/kotlin")
         getByName("androidTest").java.srcDirs("src/androidTest/kotlin")
     }
-}
 
-kapt {
-    useBuildCache = true
-}
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        }
+    }
 
-dependencies {
-    //Libraries
-    implementation(project(":koleton-singleton"))
-
-    //Android
-    implementation(androidAppCompat)
-    implementation(androidCore)
-    implementation(androidKtx)
-    implementation(androidConstraintLayout)
-    implementation(navigationFragment)
-    implementation(navigationUi)
-
-    // Google Material Design
-    implementation(materialDesign)
-
-    // Kotlin
-    implementation(kotlinStdLib)
-
-    //Shimmer
-    implementation(shimmer)
-
-    // Tests
-    testImplementation(junit)
+    packagingOptions {
+        exclude("META-INF/LICENSE.txt")
+        exclude("META-INF/NOTICE.txt")
+    }
 }

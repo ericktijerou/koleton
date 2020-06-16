@@ -34,3 +34,40 @@ object Versions {
     internal const val recyclerViewVersion = "1.1.0"
     internal const val navigationVersion = "2.3.0-beta01"
 }
+
+object Kotlin {
+    const val version = "1.3.72"
+    const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
+    const val plugin = "kotlin"
+    const val androidPlugin = "kotlin-android"
+    const val androidExtensionsPlugin = "kotlin-android-extensions"
+}
+
+object Android {
+    const val appPlugin = "com.android.application"
+    const val libPlugin = "com.android.library"
+}
+
+object Release {
+    object MavenPublish {
+        const val plugin = "maven-publish"
+    }
+
+    object Bintray {
+        const val version = "1.8.5"
+        const val plugin = "com.jfrog.bintray"
+    }
+}
+
+object Developer {
+    const val id = "ericktijerou"
+    const val name = "Erick Tijero"
+}
+
+object Koleton {
+    const val name = "koleton"
+    const val description = "The easiest library to show skeleton screens in an Android app."
+    const val licenseName = "Apache-2.0"
+    const val licenseUrl = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+    const val mainModule = "koleton-singleton"
+}

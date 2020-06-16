@@ -1,56 +1,16 @@
-import Dependencies.androidAppCompat
-import Dependencies.androidConstraintLayout
-import Dependencies.androidKtx
-import Dependencies.androidRecyclerView
-import Dependencies.junit
-import Dependencies.kotlinCoroutines
-import Dependencies.lifecycle
-import Dependencies.shimmer
-import koleton.compileSdk
-import koleton.minSdk
-import koleton.targetSdk
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
-plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-}
-
-android {
-    compileSdkVersion(project.compileSdk)
-
-    defaultConfig {
-        minSdkVersion(project.minSdk)
-        targetSdkVersion(project.targetSdk)
-    }
-
-    sourceSets {
-        getByName("main").java.srcDirs("src/main/kotlin")
-        getByName("test").java.srcDirs("src/test/kotlin")
-        getByName("androidTest").java.srcDirs("src/androidTest/kotlin")
-    }
-
-    libraryVariants.all {
-        generateBuildConfigProvider?.configure { enabled = false }
-    }
-}
-
 dependencies {
     //Android
-    implementation(androidAppCompat)
-    implementation(androidKtx)
-    implementation(androidConstraintLayout)
-    implementation(lifecycle)
-    implementation(androidRecyclerView)
+    implementation(Dependencies.androidAppCompat)
+    implementation(Dependencies.androidKtx)
+    implementation(Dependencies.androidConstraintLayout)
+    implementation(Dependencies.lifecycle)
+    implementation(Dependencies.androidRecyclerView)
 
-    // Kotlin
-    api(kotlin("stdlib", KotlinCompilerVersion.VERSION))
-    api(kotlinCoroutines)
+    api(Dependencies.kotlinCoroutines)
 
     //Shimmer
-    implementation(shimmer)
+    implementation(Dependencies.shimmer)
 
     // Tests
-    testImplementation(junit)
+    testImplementation(Dependencies.junit)
 }
