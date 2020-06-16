@@ -117,11 +117,13 @@ subprojects {
                 isFailOnError = false
                 source = sourceSets["main"].java.sourceFiles
                 classpath += files(bootClasspath.joinToString(File.pathSeparator))
-                classpath += configurations.compile
+                classpath.plus(configurations["compile"])
             }
         }
 
         if (!isSample) {
+            version = project.publishVersion
+            group = project.groupId
             val artifactName = if (project.name == Koleton.mainModule) Koleton.name else project.name
 
             apply {
@@ -140,11 +142,10 @@ subprojects {
                 implementation(Kotlin.stdlib)
             }
 
-            version = project.publishVersion
-            group = project.groupId
             bintray {
                 user = findProperty("bintrayUser") as? String
                 key = findProperty("bintrayKey") as? String
+                publish = !project.publishVersion.endsWith("SNAPSHOT")
                 setPublications(artifactName)
                 with(pkg) {
                     repo = Koleton.name
@@ -165,7 +166,7 @@ subprojects {
 
             fun org.gradle.api.publish.maven.MavenPom.addDependencies() = withXml {
                 asNode().appendNode("dependencies").let { depNode ->
-                    configurations.implementation.allDependencies.forEach {
+                    configurations.implementation.get().allDependencies.forEach {
                         depNode.appendNode("dependency").apply {
                             appendNode("groupId", it.group)
                             appendNode("artifactId", it.name)
