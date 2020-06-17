@@ -148,7 +148,7 @@ subprojects {
                 publish = !project.publishVersion.endsWith("SNAPSHOT")
                 setPublications(artifactName)
                 with(pkg) {
-                    repo = Koleton.name
+                    repo = Koleton.repository
                     name = artifactName
                     desc = Koleton.description
                     githubRepo = project.vcsUrl

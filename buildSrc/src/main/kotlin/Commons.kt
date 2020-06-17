@@ -66,6 +66,7 @@ object Developer {
 
 object Koleton {
     const val name = "koleton"
+    const val repository = "maven"
     const val description = "The easiest library to show skeleton screens in an Android app."
     const val licenseName = "Apache-2.0"
     const val licenseUrl = "https://www.apache.org/licenses/LICENSE-2.0.txt"
