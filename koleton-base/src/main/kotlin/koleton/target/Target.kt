@@ -21,7 +21,7 @@ interface Target {
     fun onSuccess(skeleton: KoletonView) {}
 
     /**
-     * Called if an error occurs while executing the skeleton.
+     * Called if an error occurs while loading the skeleton.
      */
     @MainThread
     fun onError() {}

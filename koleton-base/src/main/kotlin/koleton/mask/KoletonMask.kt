@@ -16,7 +16,8 @@ import kotlin.math.absoluteValue
 internal class KoletonMask(
     val view: View,
     @ColorInt private val color: Int,
-    private val cornerRadius: Float
+    private val cornerRadius: Float,
+    private val lineSpacing: Int
 ) {
 
     private val paint: Paint by lazy { Paint().apply { color = this@KoletonMask.color } }
@@ -73,7 +74,7 @@ internal class KoletonMask(
         rect: Rect,
         textPaint: TextPaint
     ) {
-        val spannable = spannable { background(color, cornerRadius, view.text) }
+        val spannable = spannable { background(color, cornerRadius, lineSpacing, view.text) }
         val staticLayout = StaticLayout.Builder
             .obtain(spannable, 0, spannable.length, textPaint.apply { color = Color.TRANSPARENT }, view.width)
             .setBreakStrategy(Layout.BREAK_STRATEGY_SIMPLE)
@@ -108,8 +109,8 @@ internal class KoletonMask(
             val topOffset = view.height * lineIndex / view.lineCount
             val bottomOffset =
                 view.height * (lineIndex - (view.lineCount - NUMBER_ONE)).absoluteValue / view.lineCount
-            val top = rect.top.toFloat() + (topOffset + 6)
-            val bottom = rect.bottom.toFloat() - (bottomOffset + 6)
+            val top = rect.top.toFloat() + (topOffset + lineSpacing)
+            val bottom = rect.bottom.toFloat() - (bottomOffset + lineSpacing)
             val right = rect.left.toFloat() + measuredWidth[0]
             val rectF = RectF(
                 rect.left.toFloat(),

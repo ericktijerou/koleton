@@ -5,7 +5,9 @@ import koleton.annotation.ExperimentalKoletonApi
 
 object KoletonUtils {
 
-    @ExperimentalKoletonApi
+    /**
+     * Hide and cancel any skeleton attached to [view]}.
+     */
     @JvmStatic
     fun hide(view: View) {
         view.koletonManager.hideSkeleton()

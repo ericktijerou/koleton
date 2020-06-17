@@ -19,10 +19,15 @@ import koleton.util.KoletonUtils
 /**
  * This is the type-unsafe version of [View.loadSkeleton].
  *
- * TODO: Add example
+ * Example:
+ * ```
+ * view.loadSkeleton {
+ *      color(R.color.colorExample)
+ * }
+ * ```
  *
- * @param skeletonLoader The [SkeletonLoader] that will be used to create and launch the [ViewSkeleton].
- * @param builder An optional lambda to configure the skeleton before it is launched.
+ * @param skeletonLoader The [SkeletonLoader] that will be used to create the [ViewSkeleton].
+ * @param builder An optional lambda to configure the skeleton before it is loaded.
  */
 @JvmSynthetic
 inline fun View.loadSkeleton(
@@ -33,16 +38,23 @@ inline fun View.loadSkeleton(
         .target(this)
         .apply(builder)
         .build()
-    skeletonLoader.execute(skeleton)
+    skeletonLoader.load(skeleton)
 }
 
 /**
- * This is the type-unsafe version of [View.loadSkeleton].
+ * Load the skeleton referenced by [itemLayout] and set it on this [RecyclerView].
  *
- * TODO: Add example
+ * This is the type-unsafe version of [RecyclerView.loadSkeleton].
  *
- * @param skeletonLoader The [SkeletonLoader] that will be used to create and launch the [RecyclerViewSkeleton].
- * @param builder An optional lambda to configure the skeleton before it is launched.
+ * Example:
+ * ```
+ * recyclerView.loadSkeleton(R.layout.item_example) {
+ *      color(R.color.colorExample)
+ * }
+ * ```
+ * @param itemLayout Layout resource of the itemView that will be used to create the skeleton view.
+ * @param skeletonLoader The [SkeletonLoader] that will be used to create the [RecyclerViewSkeleton].
+ * @param builder An optional lambda to configure the skeleton before it is loaded.
  */
 @JvmSynthetic
 inline fun RecyclerView.loadSkeleton(
@@ -54,9 +66,12 @@ inline fun RecyclerView.loadSkeleton(
         .target(this)
         .apply(builder)
         .build()
-    skeletonLoader.execute(skeleton)
+    skeletonLoader.load(skeleton)
 }
 
+/**
+ * Hide all skeletons associated with this [View].
+ */
 fun View.hideSkeleton() {
     KoletonUtils.hide(this)
 }

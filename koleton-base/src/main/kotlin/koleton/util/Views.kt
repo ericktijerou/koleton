@@ -1,8 +1,10 @@
 package koleton.util
 
+import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import koleton.base.R
@@ -73,6 +75,15 @@ fun <T: View> T.lparams(source: ViewGroup.LayoutParams): T {
     }
     this@lparams.layoutParams = layoutParams
     return this
+}
+
+fun View.removeOnGlobalLayoutListener(listener: ViewTreeObserver.OnGlobalLayoutListener) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+        @Suppress("DEPRECATION")
+        this.viewTreeObserver.removeGlobalOnLayoutListener(listener)
+    } else {
+        this.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+    }
 }
 
 internal val View.koletonManager: ViewTargetSkeletonManager

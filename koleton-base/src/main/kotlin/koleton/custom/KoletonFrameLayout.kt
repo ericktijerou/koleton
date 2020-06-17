@@ -76,7 +76,7 @@ internal class KoletonFrameLayout @JvmOverloads constructor(
                 } else {
                     setShimmer(attrs.shimmer)
                 }
-                koletonMask = KoletonMask(this, attrs.color, attrs.cornerRadius.toFloat())
+                koletonMask = KoletonMask(this, attrs.color, attrs.cornerRadius.toFloat(), attrs.lineSpacing)
             }
         }
     }

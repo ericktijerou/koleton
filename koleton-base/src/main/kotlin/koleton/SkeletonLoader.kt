@@ -1,9 +1,13 @@
+@file:Suppress("FunctionName", "NOTHING_TO_INLINE", "unused")
+@file:OptIn(ExperimentalKoletonApi::class)
+
 package koleton
 
 import android.content.Context
+import android.view.View
+import koleton.annotation.ExperimentalKoletonApi
 import koleton.custom.KoletonView
 import koleton.skeleton.Skeleton
-import koleton.skeleton.ViewSkeleton
 import koleton.target.Target
 
 interface SkeletonLoader {
@@ -18,9 +22,7 @@ interface SkeletonLoader {
         /** Create a new [SkeletonLoader] without configuration. */
         @JvmStatic
         @JvmName("create")
-        inline operator fun invoke(context: Context) = SkeletonLoaderBuilder(
-            context
-        ).build()
+        inline operator fun invoke(context: Context) = SkeletonLoaderBuilder(context).build()
     }
 
     /**
@@ -29,17 +31,18 @@ interface SkeletonLoader {
     val defaults: DefaultSkeletonOptions
 
     /**
-     * Launch an asynchronous operation that executes the [ViewSkeleton] and sets the result on its [Target].
+     * Launch an asynchronous operation that loads the [Skeleton] and sets the result on its [Target].
      *
-     * @param skeleton The skeleton to execute.
+     * @param skeleton The skeleton to load.
      */
-    fun execute(skeleton: Skeleton)
+    fun load(skeleton: Skeleton)
 
     /**
-     * Launch an asynchronous operation that executes the [ViewSkeleton] and sets the result on its [Target].
+     * Hide and cancel any skeleton attached to [view]}.
      *
-     * @param skeleton The skeleton to execute.
+     * @param view The original view
+     * @param koletonView The skeleton view loaded
      */
-    fun hide(target: Target?, koletonView: KoletonView)
+    fun hide(view: View, koletonView: KoletonView)
 
 }

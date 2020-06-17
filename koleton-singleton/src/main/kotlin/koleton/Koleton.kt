@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "NOTHING_TO_INLINE", "unused")
+@file:Suppress("NOTHING_TO_INLINE", "unused")
 
 package koleton
 
@@ -33,11 +33,11 @@ object Koleton {
     /**
      * Convenience function to get the default [SkeletonLoader] and execute the [skeleton].
      *
-     * @see SkeletonLoader.execute
+     * @see SkeletonLoader.load
      */
     @JvmStatic
     inline fun execute(skeleton: ViewSkeleton) {
-        return skeletonLoader(skeleton.context).execute(skeleton)
+        return skeletonLoader(skeleton.context).load(skeleton)
     }
 
     /**
@@ -53,7 +53,6 @@ object Koleton {
         skeletonLoaderFactory = factory
 
         // Shutdown the skeleton loader after clearing the reference.
-        val loader = skeletonLoader
         skeletonLoader = null
     }
 

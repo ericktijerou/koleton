@@ -2,6 +2,7 @@ package koleton
 
 import android.content.Context
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.LifecycleObserver
 import com.facebook.shimmer.ShimmerFrameLayout
 import koleton.annotation.ExperimentalKoletonApi
@@ -30,18 +31,18 @@ internal class MainSkeletonLoader(
 
     private val loaderScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        Log.e("Error", throwable.message.orEmpty())
+        Log.e(TAG, throwable.message.orEmpty())
     }
 
     private val delegateService = DelegateService(this)
 
-    override fun execute(skeleton: Skeleton) {
-        val job = loaderScope.launch(exceptionHandler) { executeInternal(skeleton) }
+    override fun load(skeleton: Skeleton) {
+        val job = loaderScope.launch(exceptionHandler) { loadInternal(skeleton) }
         val target = skeleton.target as? ViewTarget<*>
         target?.view?.koletonManager?.setCurrentSkeletonJob(job)
     }
 
-    private suspend fun executeInternal(skeleton: Skeleton) =
+    private suspend fun loadInternal(skeleton: Skeleton) =
         withContext(Dispatchers.Main.immediate) {
             val (lifecycle, mainDispatcher) = SkeletonService().lifecycleInfo(skeleton)
             val targetDelegate = delegateService.createTargetDelegate(skeleton)
@@ -71,14 +72,13 @@ internal class MainSkeletonLoader(
             deferred.await()
         }
 
-    override fun hide(target: Target?, koletonView: KoletonView) {
+    override fun hide(view: View, koletonView: KoletonView) {
         koletonView.hideSkeleton()
         val skeletonView = koletonView as ShimmerFrameLayout
         val originalParent = skeletonView.getParentViewGroup()
-        val originalView = (target as ViewTarget<*>).view
-        skeletonView.removeView(originalView)
+        skeletonView.removeView(view)
         originalParent.removeView(skeletonView)
-        originalParent.addView(originalView)
+        originalParent.addView(view)
     }
 
     private fun generateKoletonView(skeleton: Skeleton): KoletonView {
@@ -94,8 +94,9 @@ internal class MainSkeletonLoader(
                 view = target.view,
                 color = context.getColorCompat(colorResId ?: defaults.colorResId),
                 cornerRadius = cornerRadius ?: defaults.cornerRadius.px,
-                shimmer = shimmer ?: defaults.shimmer,
                 isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled,
+                shimmer = shimmer ?: defaults.shimmer,
+                lineSpacing = defaults.lineSpacing,
                 itemLayout = itemLayoutResId,
                 itemCount = itemCount ?: defaults.itemCount
             )
@@ -111,7 +112,8 @@ internal class MainSkeletonLoader(
                 color = context.getColorCompat(colorResId ?: defaults.colorResId),
                 cornerRadius = cornerRadius ?: defaults.cornerRadius.px,
                 isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled,
-                shimmer = shimmer ?: defaults.shimmer
+                shimmer = shimmer ?: defaults.shimmer,
+                lineSpacing = defaults.lineSpacing
             )
             target.view.generateKoletonFrameLayout(attributes)
         } else {

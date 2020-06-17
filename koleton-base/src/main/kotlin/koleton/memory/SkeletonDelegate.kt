@@ -9,8 +9,8 @@ import androidx.lifecycle.LifecycleOwner
 import koleton.SkeletonLoader
 import koleton.custom.KoletonView
 import koleton.skeleton.Skeleton
-import koleton.skeleton.ViewSkeleton
 import koleton.target.ViewTarget
+import koleton.util.notNull
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 
@@ -34,12 +34,12 @@ internal class ViewTargetSkeletonDelegate(
 
     @MainThread
     fun hideSkeleton(koletonView: KoletonView) {
-        imageLoader.hide(skeleton.target, koletonView)
+        getViewTarget().notNull { imageLoader.hide(it, koletonView) }
     }
 
     @MainThread
     fun restart() {
-        imageLoader.execute(skeleton)
+        imageLoader.load(skeleton)
     }
 
     override fun dispose() {

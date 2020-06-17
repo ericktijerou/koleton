@@ -6,6 +6,7 @@ import androidx.annotation.MainThread
 import koleton.custom.KoletonView
 import koleton.util.isMainThread
 import koleton.util.notNull
+import koleton.util.removeOnGlobalLayoutListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -86,7 +87,7 @@ internal class ViewTargetSkeletonManager: ViewTreeObserver.OnGlobalLayoutListene
         currentSkeleton.notNull { skeleton ->
             skeleton.getViewTarget().notNull {
                 if (it.measuredWidth > 0 && it.measuredHeight > 0) {
-                    it.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    it.removeOnGlobalLayoutListener(this)
                     isRestart = true
                     skeleton.restart()
                 }

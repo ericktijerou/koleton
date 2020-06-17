@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName", "NOTHING_TO_INLINE", "unused")
+
 package koleton.skeleton
 
 import android.content.Context
@@ -10,9 +12,9 @@ import com.facebook.shimmer.Shimmer
 import koleton.target.Target
 
 /**
- * The base class for a view skeleton.
+ * The base class for a skeleton view.
  *
- * There are two types of view skeletons: [ViewSkeleton]s.
+ * There are two types of skeleton views: [ViewSkeleton]s and [RecyclerViewSkeleton]s.
  */
 sealed class Skeleton {
 
@@ -69,13 +71,13 @@ class ViewSkeleton internal constructor(
         /** Alias for [ViewSkeletonBuilder]. */
         @JvmStatic
         @JvmName("builder")
-        fun Builder(context: Context) = ViewSkeletonBuilder(context)
+        inline fun Builder(context: Context) = ViewSkeletonBuilder(context)
 
         /** Alias for [ViewSkeletonBuilder]. */
         @JvmStatic
         @JvmOverloads
         @JvmName("builder")
-        fun Builder(
+        inline fun Builder(
             skeleton: ViewSkeleton,
             context: Context = skeleton.context
         ) = ViewSkeletonBuilder(skeleton, context)
@@ -99,22 +101,22 @@ class RecyclerViewSkeleton internal constructor(
 ) : Skeleton() {
 
     companion object {
-        /** Alias for [ViewSkeletonBuilder]. */
+        /** Alias for [RecyclerViewSkeletonBuilder]. */
         @JvmStatic
         @JvmName("builder")
-        fun Builder(context: Context, @LayoutRes itemLayout: Int) = RecyclerViewSkeletonBuilder(context, itemLayout)
+        inline fun Builder(context: Context, @LayoutRes itemLayout: Int) = RecyclerViewSkeletonBuilder(context, itemLayout)
 
-        /** Alias for [ViewSkeletonBuilder]. */
+        /** Alias for [RecyclerViewSkeletonBuilder]. */
         @JvmStatic
         @JvmOverloads
         @JvmName("builder")
-        fun Builder(
+        inline fun Builder(
             skeleton: RecyclerViewSkeleton,
             context: Context = skeleton.context
         ) = RecyclerViewSkeletonBuilder(skeleton, context)
     }
 
-    /** Create a new [ViewSkeletonBuilder] instance using this as a base. */
+    /** Create a new [RecyclerViewSkeletonBuilder] instance using this as a base. */
     @JvmOverloads
     fun newBuilder(context: Context = this.context) = RecyclerViewSkeletonBuilder(this, context)
 }
