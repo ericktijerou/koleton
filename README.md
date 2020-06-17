@@ -2,6 +2,8 @@
 
 > The easiest library to show skeleton screens in an Android app.
 
+
+[![bintray](https://api.bintray.com/packages/ericktijerou/maven/koleton/images/download.svg)](https://bintray.com/ericktijerou/maven/koleton/_latestVersion)
 ![Minimum SDK Version](https://img.shields.io/badge/minSdkVersion-14-brightgreen.svg)
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.3.72-blue.svg)](https://kotlinlang.org)
 
@@ -12,6 +14,11 @@ Koleton is an acronym for: **Ko**tlin ske**leton**.
 Made with ❤ by [ericktijerou](https://ericktijerou.com/).
 
 ![img](image/journey_list.gif)
+
+## Installation
+```groovy
+  implementation 'com.ericktijerou.koleton:koleton:0.1.0'
+```
 
 ## License
 
