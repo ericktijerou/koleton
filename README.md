@@ -16,8 +16,40 @@ Made with ❤ by [ericktijerou](https://ericktijerou.com/).
 ![img](image/journey_list.gif)
 
 ## Installation
-```groovy
-  implementation 'com.ericktijerou.koleton:koleton:0.1.0'
+You can [download](https://bintray.com/ericktijerou/maven/koleton/_latestVersion) and install `Koleton` with `Maven` and `Gradle`:
+
+```gradle
+// In your module's `build.gradle.kts`
+dependencies {
+    implementation("com.ericktijerou.koleton:koleton:0.1.0")
+}
+```
+
+## Quick Start
+To load the skeleton of a `View`, use the `loadSkeleton` extension function:
+
+```kotlin
+// Any View
+constraintLayout.loadSkeleton()
+
+// RecyclerView
+recyclerView.loadSkeleton(R.layout.item_example)
+```
+
+Skeletons can be configured with an optional trailing lambda:
+
+```kotlin
+constraintLayout.loadSkeleton {
+    color(R.color.colorSkeleton)
+    cornerRadius(radiusInPixel)
+    shimmer(false)
+}
+```
+
+To hide the skeleton, use the `hideSkeleton` extension function:
+
+```kotlin
+view.hideSkeleton()
 ```
 
 ## License
