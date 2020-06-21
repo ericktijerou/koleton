@@ -4,7 +4,7 @@
     <string name="label_see_your_journey">See your journey details</string>
     <string name="label_see_details">See details</string>
     <string name="label_price_example">$22.24</string>
-    <string name="label_address_example">1600 Amphitheatre Parkway Mountain View, CA 94043</string>
+    <string name="label_address_example">1600 Seaport Boulevard Redwood City, CA 94063</string>
     <string name="label_datetime_example">Tuesday, 21 April, 01:36 PM</string>
     <string name="label_date_example">Tuesday, 21 April</string>
     <string name="label_base_price">Base price</string>
