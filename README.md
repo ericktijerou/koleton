@@ -11,9 +11,10 @@ An Android library that provides an easy way to show skeleton of any view.
 
 Koleton is an acronym for: **Ko**tlin ske**leton**.
 
-Made with ❤ by [ericktijerou](https://ericktijerou.com/).
+Made with ❤ by [ericktijerou](https://ericktijerou.com).
 
 ![img](image/journey_list.gif)
+![img](image/journey_detail.gif)
 
 ## Installation
 You can [download](https://bintray.com/ericktijerou/maven/koleton/_latestVersion) and install `Koleton` with `Maven` and `Gradle`:
@@ -58,6 +59,32 @@ To hide the skeleton, use the `hideSkeleton` extension function:
 ```kotlin
 view.hideSkeleton()
 ```
+
+#### Shimmer effect
+Koleton works with Facebook’s [shimmer](https://github.com/facebook/shimmer-android) library. If you want to create a custom shimmer effect, you need to include in your dependencies:
+
+```gradle
+// In your module's `build.gradle.kts`
+dependencies {
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+}
+```
+
+And set the custom shimmer in the lambda expression:
+
+```kotlin
+constraintLayout.loadSkeleton {
+    val customShimmer = Shimmer.AlphaHighlightBuilder()
+        .setDirection(Shimmer.Direction.TOP_TO_BOTTOM)
+        ...
+        .build()
+    shimmer(customShimmer)
+}
+```
+
+![img](image/custom_shimmer.gif)
+
+You can find more information about Facebook's shimmer effect on the [shimmer-android](http://facebook.github.io/shimmer-android) page.
 
 ## License
 
