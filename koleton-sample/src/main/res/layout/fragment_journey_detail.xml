@@ -8,9 +8,11 @@
 
     <ImageView
         android:id="@+id/ivBack"
-        android:layout_width="56dp"
-        android:layout_height="0dp"
-        android:padding="16dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="4dp"
+        android:layout_marginStart="12dp"
+        android:background="?selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="@id/tvToolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvToolbar"

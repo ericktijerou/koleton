@@ -2,7 +2,6 @@ package koleton.sample.list
 
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import koleton.api.hideSkeleton
 import koleton.api.loadSkeleton
-import koleton.sample.model.Journey
 import koleton.sample.R
-import koleton.sample.utils.*
+import koleton.sample.model.Journey
+import koleton.sample.utils.DataSource
+import koleton.sample.utils.gone
+import koleton.sample.utils.navigateToJourneyDetail
+import koleton.sample.utils.visible
 import kotlinx.android.synthetic.main.fragment_journey_list.*
 
 class JourneyListFragment: Fragment() {
