@@ -65,7 +65,7 @@ class JourneyDetailFragment : AppCompatDialogFragment() {
             .setBaseAlpha(0.4f)
             .setRepeatMode(ValueAnimator.INFINITE)
             .setRepeatDelay(1000)
-            .setHighlightAlpha(0.2f)
+            .setHighlightAlpha(0.15f)
             .setHeightRatio(1f)
             .setDropoff(1f)
             .build()
