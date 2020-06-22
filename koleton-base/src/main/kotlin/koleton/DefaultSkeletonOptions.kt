@@ -13,6 +13,14 @@ data class DefaultSkeletonOptions(
     val cornerRadius: Int = 8,
     val isShimmerEnabled: Boolean = true,
     val itemCount: Int = 3,
-    val shimmer: Shimmer = Shimmer.AlphaHighlightBuilder().build(),
     val lineSpacing: Int = 8
-)
+) {
+    val shimmer: Shimmer = Shimmer.AlphaHighlightBuilder()
+        .setDuration(1000)
+        .setBaseAlpha(0.4f)
+        .setHighlightAlpha(0.8f)
+        .setWidthRatio(1f)
+        .setHeightRatio(1f)
+        .setDropoff(1f)
+        .build()
+}
