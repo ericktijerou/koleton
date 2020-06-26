@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import koleton.Koleton
 import koleton.SkeletonLoader
 import koleton.annotation.ExperimentalKoletonApi
+import koleton.custom.KoletonView
 import koleton.skeleton.RecyclerViewSkeleton
 import koleton.skeleton.RecyclerViewSkeletonBuilder
 import koleton.skeleton.ViewSkeleton
@@ -41,6 +42,34 @@ inline fun View.loadSkeleton(
     skeletonLoader.load(skeleton)
 }
 
+
+/**
+ * This is the type-unsafe version of [View.generateSkeleton].
+ *
+ * Example:
+ * ```
+ * val koletonView = view.generateSkeleton {
+ *      color(R.color.colorSkeleton)
+ * }
+ * koletonView.showSkeleton()
+ * ```
+ *
+ * @param skeletonLoader The [SkeletonLoader] that will be used to create the [ViewSkeleton].
+ * @param builder An optional lambda to configure the skeleton.
+ * @return the [KoletonView] that contains the skeleton
+ */
+@JvmSynthetic
+inline fun View.generateSkeleton(
+    skeletonLoader: SkeletonLoader = Koleton.skeletonLoader(context),
+    builder: ViewSkeletonBuilder.() -> Unit = {}
+): KoletonView {
+    val skeleton = ViewSkeleton.Builder(context)
+        .target(this)
+        .apply(builder)
+        .build()
+    return skeletonLoader.generate(skeleton)
+}
+
 /**
  * Load the skeleton referenced by [itemLayout] and set it on this [RecyclerView].
  *
@@ -67,6 +96,13 @@ inline fun RecyclerView.loadSkeleton(
         .apply(builder)
         .build()
     skeletonLoader.load(skeleton)
+}
+
+/**
+ * @return True if the skeleton associated with this [View] is shown.
+ */
+fun View.isSkeletonShown(): Boolean {
+    return KoletonUtils.isSkeletonShown(this)
 }
 
 /**
