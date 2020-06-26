@@ -13,6 +13,7 @@ import koleton.api.hideSkeleton
 import koleton.api.loadSkeleton
 import koleton.sample.R
 import koleton.sample.model.Journey
+import koleton.sample.utils.DEFAULT_DELAY
 import koleton.sample.utils.visible
 import kotlinx.android.synthetic.main.fragment_journey_detail.*
 import kotlinx.android.synthetic.main.include_journey_body.*
@@ -48,7 +49,7 @@ class JourneyDetailFragment : AppCompatDialogFragment() {
     }
 
     private fun getJourneyDetail() {
-        handler.postDelayed({ onSuccess() }, DELAY)
+        handler.postDelayed({ onSuccess() }, DEFAULT_DELAY)
     }
 
     private fun onSuccess() {
@@ -90,9 +91,5 @@ class JourneyDetailFragment : AppCompatDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         handler.removeCallbacksAndMessages(null)
-    }
-
-    companion object {
-        const val DELAY: Long = 3000
     }
 }

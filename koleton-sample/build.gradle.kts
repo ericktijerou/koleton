@@ -19,6 +19,9 @@ dependencies {
     implementation(Dependencies.androidConstraintLayout)
     implementation(Dependencies.navigationFragment)
     implementation(Dependencies.navigationUi)
+    implementation(Dependencies.paging)
+    implementation(Dependencies.lifecycle)
+    implementation(Dependencies.liveDataKtx)
 
     // Google Material Design
     implementation(Dependencies.materialDesign)

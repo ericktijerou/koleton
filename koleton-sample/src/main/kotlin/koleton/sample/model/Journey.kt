@@ -5,6 +5,7 @@ import android.os.Parcelable
 import androidx.annotation.DrawableRes
 
 data class Journey(
+    val id: String,
     val date: String,
     val pickUpPoint: String,
     val dropOffPoint: String,
@@ -32,6 +33,7 @@ data class Journey(
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
+        parcel.readString().toString(),
         parcel.readInt(),
         parcel.readInt(),
         parcel.readInt()
@@ -39,6 +41,7 @@ data class Journey(
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
         parcel.writeString(date)
         parcel.writeString(pickUpPoint)
         parcel.writeString(dropOffPoint)
