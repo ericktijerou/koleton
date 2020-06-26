@@ -9,8 +9,8 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import koleton.base.R
 import koleton.custom.Attributes
-import koleton.custom.KoletonFrameLayout
-import koleton.custom.KoletonRecyclerView
+import koleton.custom.SimpleKoletonView
+import koleton.custom.RecyclerKoletonView
 import koleton.custom.RecyclerViewAttributes
 import koleton.memory.ViewTargetSkeletonManager
 
@@ -42,9 +42,9 @@ internal fun ViewGroup.children(): List<View> {
     return (0 until childCount).map { child -> getChildAt(child) }
 }
 
-internal fun View.generateKoletonFrameLayout(attributes: Attributes): KoletonFrameLayout {
+internal fun View.generateSimpleKoletonView(attributes: Attributes): SimpleKoletonView {
     val parent = parent as? ViewGroup
-    return KoletonFrameLayout(context).also {
+    return SimpleKoletonView(context).also {
         it.id = id
         it.layoutParams = layoutParams
         parent?.removeView(this)
@@ -54,9 +54,9 @@ internal fun View.generateKoletonFrameLayout(attributes: Attributes): KoletonFra
     }
 }
 
-internal fun RecyclerView.generateKoletonRecyclerView(attributes: RecyclerViewAttributes): KoletonRecyclerView {
+internal fun RecyclerView.generateRecyclerKoletonView(attributes: RecyclerViewAttributes): RecyclerKoletonView {
     val parent = parent as? ViewGroup
-    return KoletonRecyclerView(context).also {
+    return RecyclerKoletonView(context).also {
         it.id = id
         it.layoutParams = layoutParams
         parent?.removeView(this)

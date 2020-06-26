@@ -14,7 +14,6 @@ import koleton.skeleton.Skeleton
 import koleton.skeleton.ViewSkeleton
 import koleton.target.RecyclerViewTarget
 import koleton.target.SimpleViewTarget
-import koleton.target.Target
 import koleton.target.ViewTarget
 import koleton.util.*
 import kotlinx.coroutines.*
@@ -40,6 +39,10 @@ internal class MainSkeletonLoader(
         val job = loaderScope.launch(exceptionHandler) { loadInternal(skeleton) }
         val target = skeleton.target as? ViewTarget<*>
         target?.view?.koletonManager?.setCurrentSkeletonJob(job)
+    }
+
+    override fun generate(skeleton: Skeleton): KoletonView {
+        return generateKoletonView(skeleton)
     }
 
     private suspend fun loadInternal(skeleton: Skeleton) =
@@ -100,9 +103,9 @@ internal class MainSkeletonLoader(
                 itemLayout = itemLayoutResId,
                 itemCount = itemCount ?: defaults.itemCount
             )
-            target.view.generateKoletonRecyclerView(attributes)
+            target.view.generateRecyclerKoletonView(attributes)
         } else {
-            KoletonRecyclerView(context)
+            RecyclerKoletonView(context)
         }
     }
 
@@ -115,9 +118,9 @@ internal class MainSkeletonLoader(
                 shimmer = shimmer ?: defaults.shimmer,
                 lineSpacing = defaults.lineSpacing
             )
-            target.view.generateKoletonFrameLayout(attributes)
+            target.view.generateSimpleKoletonView(attributes)
         } else {
-            KoletonFrameLayout(context)
+            SimpleKoletonView(context)
         }
     }
 }

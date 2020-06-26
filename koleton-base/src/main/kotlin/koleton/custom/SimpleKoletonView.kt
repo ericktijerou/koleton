@@ -5,16 +5,15 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import com.facebook.shimmer.ShimmerFrameLayout
 import koleton.mask.KoletonMask
 import koleton.util.*
 
-internal class KoletonFrameLayout @JvmOverloads constructor(
+internal class SimpleKoletonView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : ShimmerFrameLayout(context, attrs, defStyleAttr), KoletonView {
+) : KoletonView(context, attrs, defStyleAttr) {
 
     private var koletonMask: KoletonMask? = null
-    private var isSkeletonShown: Boolean = false
+    override var isSkeletonShown: Boolean = false
     private var isMeasured: Boolean = false
     private val viewList = arrayListOf<View>()
 
@@ -68,7 +67,7 @@ internal class KoletonFrameLayout @JvmOverloads constructor(
         canvas?.let { koletonMask?.draw(it) }
     }
 
-    private fun applyAttributes() {
+    override fun applyAttributes() {
         if (isMeasured) {
             attributes?.let { attrs ->
                 if (attrs !is SimpleViewAttributes || !attrs.isShimmerEnabled) {

@@ -1,7 +1,6 @@
 package koleton.target
 
 import android.view.View
-import android.widget.ImageView
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import koleton.custom.KoletonView

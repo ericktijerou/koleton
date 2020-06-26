@@ -5,8 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import koleton.util.generateKoletonFrameLayout
-import koleton.util.lparams
+import koleton.util.generateSimpleKoletonView
 
 internal class KoletonAdapter(
     @LayoutRes private val layoutResId: Int,
@@ -16,7 +15,7 @@ internal class KoletonAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KoletonViewHolder {
         val originView = LayoutInflater.from(parent.context).inflate(layoutResId, parent, false)
-        val skeleton = originView.generateKoletonFrameLayout(attributes)
+        val skeleton = originView.generateSimpleKoletonView(attributes)
         return KoletonViewHolder(skeleton.also { it.showSkeleton() })
     }
 

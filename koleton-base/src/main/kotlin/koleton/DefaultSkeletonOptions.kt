@@ -17,8 +17,8 @@ data class DefaultSkeletonOptions(
 ) {
     val shimmer: Shimmer = Shimmer.AlphaHighlightBuilder()
         .setDuration(1000)
-        .setBaseAlpha(0.4f)
-        .setHighlightAlpha(0.8f)
+        .setBaseAlpha(0.5f)
+        .setHighlightAlpha(0.9f)
         .setWidthRatio(1f)
         .setHeightRatio(1f)
         .setDropoff(1f)

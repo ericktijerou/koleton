@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 
-internal class ViewTargetSkeletonManager: ViewTreeObserver.OnGlobalLayoutListener {
+internal class ViewTargetSkeletonManager : ViewTreeObserver.OnGlobalLayoutListener {
 
     private var currentSkeleton: ViewTargetSkeletonDelegate? = null
 
@@ -39,6 +39,7 @@ internal class ViewTargetSkeletonManager: ViewTreeObserver.OnGlobalLayoutListene
         currentKoletonView = koletonView
     }
 
+    /** Attach [skeleton] to this view and dispose the old skeleton. */
     @MainThread
     fun setCurrentSkeleton(skeleton: ViewTargetSkeletonDelegate?) {
         if (isRestart) {
@@ -53,6 +54,7 @@ internal class ViewTargetSkeletonManager: ViewTreeObserver.OnGlobalLayoutListene
         skipAttach = true
     }
 
+    /** Hide and cancel any skeleton attached to this view. */
     @MainThread
     fun hideSkeleton() {
         currentSkeletonId = null
@@ -65,6 +67,12 @@ internal class ViewTargetSkeletonManager: ViewTreeObserver.OnGlobalLayoutListene
         }
     }
 
+    /** Returns the visibility of the skeleton. */
+    @MainThread
+    fun isSkeletonShown(): Boolean {
+        return currentKoletonView?.isSkeletonShown ?: false
+    }
+
     /** Set the current [job] attached to this view and assign it an ID. */
     @AnyThread
     fun setCurrentSkeletonJob(job: Job): UUID {
@@ -74,6 +82,7 @@ internal class ViewTargetSkeletonManager: ViewTreeObserver.OnGlobalLayoutListene
         return skeletonId
     }
 
+    /** Return an ID to use for the next skeleton attached to this manager. */
     @AnyThread
     private fun newSkeletonId(): UUID {
         val skeletonId = currentSkeletonId

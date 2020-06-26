@@ -37,6 +37,8 @@ interface SkeletonLoader {
      */
     fun load(skeleton: Skeleton)
 
+    fun generate(skeleton: Skeleton): KoletonView
+
     /**
      * Hide and cancel any skeleton attached to [view]}.
      *
