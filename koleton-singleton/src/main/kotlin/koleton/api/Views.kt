@@ -12,9 +12,7 @@ import koleton.SkeletonLoader
 import koleton.annotation.ExperimentalKoletonApi
 import koleton.custom.KoletonView
 import koleton.skeleton.RecyclerViewSkeleton
-import koleton.skeleton.RecyclerViewSkeletonBuilder
 import koleton.skeleton.ViewSkeleton
-import koleton.skeleton.ViewSkeletonBuilder
 import koleton.util.KoletonUtils
 
 /**
@@ -33,7 +31,7 @@ import koleton.util.KoletonUtils
 @JvmSynthetic
 inline fun View.loadSkeleton(
     skeletonLoader: SkeletonLoader = Koleton.skeletonLoader(context),
-    builder: ViewSkeletonBuilder.() -> Unit = {}
+    builder: ViewSkeleton.Builder.() -> Unit = {}
 ) {
     val skeleton = ViewSkeleton.Builder(context)
         .target(this)
@@ -61,7 +59,7 @@ inline fun View.loadSkeleton(
 @JvmSynthetic
 inline fun View.generateSkeleton(
     skeletonLoader: SkeletonLoader = Koleton.skeletonLoader(context),
-    builder: ViewSkeletonBuilder.() -> Unit = {}
+    builder: ViewSkeleton.Builder.() -> Unit = {}
 ): KoletonView {
     val skeleton = ViewSkeleton.Builder(context)
         .target(this)
@@ -89,7 +87,7 @@ inline fun View.generateSkeleton(
 inline fun RecyclerView.loadSkeleton(
     @LayoutRes itemLayout: Int,
     skeletonLoader: SkeletonLoader = Koleton.skeletonLoader(context),
-    builder: RecyclerViewSkeletonBuilder.() -> Unit = {}
+    builder: RecyclerViewSkeleton.Builder.() -> Unit = {}
 ) {
     val skeleton = RecyclerViewSkeleton.Builder(context, itemLayout)
         .target(this)
