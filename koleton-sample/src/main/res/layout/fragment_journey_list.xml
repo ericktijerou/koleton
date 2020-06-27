@@ -46,7 +46,7 @@
         android:layout_height="4dp"
         android:background="@drawable/bg_elevation"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@id/rvUsers"
+        app:layout_constraintTop_toTopOf="@id/rvUsers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
