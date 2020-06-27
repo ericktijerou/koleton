@@ -14,6 +14,7 @@ Koleton is an acronym for: **Ko**tlin ske**leton**.
 Made with ❤ by [ericktijerou](https://ericktijerou.com).
 
 ![img](image/journey_list.gif)
+![img](image/paging.gif)
 ![img](image/journey_detail.gif)
 
 ## Installation
