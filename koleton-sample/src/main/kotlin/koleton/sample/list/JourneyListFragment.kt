@@ -75,7 +75,7 @@ class JourneyListFragment : Fragment() {
 
     private fun onLoadInitial() {
         ivRefresh?.gone()
-        rvUsers?.loadSkeleton(R.layout.item_journey) { color(R.color.colorSkeleton) }
+        rvUsers?.loadSkeleton(R.layout.item_journey)
     }
 
     private fun onLoaded() {

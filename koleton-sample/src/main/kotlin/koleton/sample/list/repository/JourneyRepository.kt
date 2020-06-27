@@ -4,8 +4,10 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.switchMap
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import koleton.sample.utils.Listing
 import koleton.sample.model.Journey
+import koleton.sample.utils.DEFAULT_PAGE_SIZE
+import koleton.sample.utils.Helper
+import koleton.sample.utils.Listing
 import java.util.concurrent.Executor
 
 class JourneyRepository(
@@ -15,6 +17,7 @@ class JourneyRepository(
     fun getJourneyList(delay: Long): Listing<Journey> {
         val sourceFactory = JourneyDataSourceFactory(retryExecutor, delay)
         val config = PagedList.Config.Builder()
+            .setPageSize(DEFAULT_PAGE_SIZE)
             .setEnablePlaceholders(false)
             .build()
         val livePagedList = LivePagedListBuilder(sourceFactory, config)

@@ -42,7 +42,6 @@ class JourneyDetailFragment : AppCompatDialogFragment() {
         ivBack?.setOnClickListener { dismiss() }
         tvToolbar?.text = args.journey.date
         clHeader?.loadSkeleton {
-            color(R.color.colorSkeleton)
             shimmer(getCustomShimmer())
         }
         getJourneyDetail()

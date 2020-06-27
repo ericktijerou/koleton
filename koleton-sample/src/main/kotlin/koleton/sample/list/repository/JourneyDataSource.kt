@@ -2,9 +2,9 @@ package koleton.sample.list.repository
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import koleton.sample.utils.State
 import koleton.sample.model.Journey
 import koleton.sample.utils.Helper
+import koleton.sample.utils.State
 import kotlinx.coroutines.*
 import java.util.concurrent.Executor
 

@@ -2,7 +2,6 @@ package koleton.sample.list.repository
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import koleton.sample.list.repository.JourneyDataSource
 import koleton.sample.model.Journey
 import java.util.concurrent.Executor
 

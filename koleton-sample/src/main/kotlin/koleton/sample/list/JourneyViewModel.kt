@@ -1,9 +1,10 @@
 package koleton.sample.list
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations.map
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import koleton.sample.list.repository.JourneyRepository
-import java.util.concurrent.Executors
 
 class JourneyViewModel(
     private val repository: JourneyRepository

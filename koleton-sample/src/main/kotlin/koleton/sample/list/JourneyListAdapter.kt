@@ -1,6 +1,5 @@
 package koleton.sample.list
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,9 +33,7 @@ class JourneyListAdapter(private val clickListener: (Journey) -> Unit) :
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_journey, parent, false)
         return when (viewType) {
             TYPE_VIEW -> JourneyViewHolder(view)
-            TYPE_SKELETON -> SkeletonViewHolder(view.generateSkeleton {
-                color(R.color.colorSkeleton)
-            })
+            TYPE_SKELETON -> SkeletonViewHolder(view.generateSkeleton())
             else -> throw IllegalArgumentException("unknown view type $viewType")
         }
     }
