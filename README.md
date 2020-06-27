@@ -48,10 +48,18 @@ recyclerView.loadSkeleton(R.layout.item_example)
 Skeletons can be configured with an optional trailing lambda:
 
 ```kotlin
+// Any View
 constraintLayout.loadSkeleton {
     color(R.color.colorSkeleton)
     cornerRadius(radiusInPixel)
     shimmer(false)
+    lineSpacing(spacingInPixel)
+}
+
+// RecyclerView
+recyclerView.loadSkeleton(R.layout.item_example) {
+    itemCount(3)
+    ...
 }
 ```
 
@@ -61,7 +69,65 @@ To hide the skeleton, use the `hideSkeleton` extension function:
 view.hideSkeleton()
 ```
 
-#### Shimmer effect
+### SkeletonLoader
+Koleton will lazily create a `SkeletonLoader` with the default values.
+If you want to set the default values, you can set a default `SkeletonLoader` instance by either:
+
+```kotlin
+// In your Application
+class MyApplication : Application(), SkeletonLoaderFactory {
+
+    override fun newSkeletonLoader(): SkeletonLoader {
+        return SkeletonLoader.Builder(this)
+            ...
+            .color(R.color.colorSkeleton)
+            .cornerRadius(radiusInPixel)
+            .build()
+    }
+}
+```
+
+Or calling `Koleton.setSkeletonLoader`
+```kotlin
+val skeletonLoader = SkeletonLoader.Builder(context)
+    ...
+    .color(R.color.colorSkeleton)
+    .cornerRadius(radiusInPixel)
+    .build()
+Koleton.setSkeletonLoader(skeletonLoader)
+```
+
+The default `SkeletonLoader` can be retrieved like so:
+```kotlin
+val skeletonLoader = Koleton.skeletonLoader(context)
+```
+
+### Paging
+Koleton works well with `Paging` library with the help of `KoletonView`.
+
+If you want to show a skeleton when you scroll to the bottom of your list, use the `generateSkeleton` extension function:
+
+```kotlin
+// In your PagedListAdapter
+override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    val view = LayoutInflater.from(parent.context).inflate(R.layout.item_sample, parent, false)
+    return when (viewType) {
+        ...
+        TYPE_SKELETON -> SkeletonViewHolder(view.generateSkeleton())
+        ...
+    }
+}
+
+...
+
+class SkeletonViewHolder(val koletonView: KoletonView) : RecyclerView.ViewHolder(koletonView) {
+    fun showSkeleton() {
+        koletonView.showSkeleton()
+    }
+}
+```
+
+### Shimmer effect
 Koleton works with Facebook’s [shimmer](https://github.com/facebook/shimmer-android) library. If you want to create a custom shimmer effect, you need to include in your dependencies:
 
 ```gradle
