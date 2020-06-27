@@ -9,24 +9,24 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import koleton.base.R
 import koleton.custom.Attributes
-import koleton.custom.SimpleKoletonView
 import koleton.custom.RecyclerKoletonView
 import koleton.custom.RecyclerViewAttributes
+import koleton.custom.SimpleKoletonView
 import koleton.memory.ViewTargetSkeletonManager
 
-fun View.visible() {
+internal fun View.visible() {
     visibility = View.VISIBLE
 }
 
-fun View.invisible() {
+internal fun View.invisible() {
     visibility = View.INVISIBLE
 }
 
-fun View.isVisible(): Boolean {
+internal fun View.isVisible(): Boolean {
     return this.visibility == View.VISIBLE
 }
 
-fun View.gone() {
+internal fun View.gone() {
     visibility = View.GONE
 }
 
@@ -66,7 +66,7 @@ internal fun RecyclerView.generateRecyclerKoletonView(attributes: RecyclerViewAt
     }
 }
 
-fun <T: View> T.lparams(source: ViewGroup.LayoutParams): T {
+internal fun <T: View> T.lparams(source: ViewGroup.LayoutParams): T {
     val layoutParams = FrameLayout.LayoutParams(source).apply {
         if (width.isZero() || height.isZero()) {
             width = this@lparams.width
@@ -77,7 +77,7 @@ fun <T: View> T.lparams(source: ViewGroup.LayoutParams): T {
     return this
 }
 
-fun View.removeOnGlobalLayoutListener(listener: ViewTreeObserver.OnGlobalLayoutListener) {
+internal fun View.removeOnGlobalLayoutListener(listener: ViewTreeObserver.OnGlobalLayoutListener) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
         @Suppress("DEPRECATION")
         this.viewTreeObserver.removeGlobalOnLayoutListener(listener)

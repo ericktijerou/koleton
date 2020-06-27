@@ -1,7 +1,6 @@
 package koleton.util
 
 import android.view.View
-import koleton.annotation.ExperimentalKoletonApi
 
 object KoletonUtils {
 

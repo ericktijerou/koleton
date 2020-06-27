@@ -5,13 +5,13 @@ import android.os.Looper
 
 internal fun isMainThread() = Looper.myLooper() == Looper.getMainLooper()
 
-fun Any?.isNull() = this == null
+internal fun Any?.isNull() = this == null
 
-fun Any?.isNotNull() = this != null
+internal fun Any?.isNotNull() = this != null
 
-fun Int.isZero() = this == 0
+internal fun Int.isZero() = this == 0
 
-fun <T : Any> T?.notNull(f: (it: T) -> Unit) {
+internal fun <T : Any> T?.notNull(f: (it: T) -> Unit) {
     if (this != null) f(this)
 }
 
@@ -22,8 +22,8 @@ internal inline fun <T> Any.self(block: T.() -> Unit): T {
     return this
 }
 
-val Int.dp: Int
-    get() = (this / Resources.getSystem().displayMetrics.density).toInt()
+internal val Int.dp: Float
+    get() = (this / Resources.getSystem().displayMetrics.density)
 
-val Int.px: Int
-    get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+internal val Int.px: Float
+    get() = (this * Resources.getSystem().displayMetrics.density)

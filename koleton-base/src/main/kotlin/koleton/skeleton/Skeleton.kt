@@ -1,14 +1,19 @@
-@file:Suppress("FunctionName", "NOTHING_TO_INLINE", "unused")
+@file:Suppress("unused")
 
 package koleton.skeleton
 
 import android.content.Context
+import android.view.View
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
 import androidx.annotation.Px
 import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.Shimmer
+import koleton.custom.KoletonView
+import koleton.target.RecyclerViewTarget
+import koleton.target.SimpleViewTarget
 import koleton.target.Target
 
 /**
@@ -21,10 +26,11 @@ sealed class Skeleton {
     abstract val context: Context
     abstract val target: Target?
     abstract val colorResId: Int?
-    abstract val cornerRadius: Int?
+    abstract val cornerRadius: Float?
     abstract val isShimmerEnabled: Boolean?
     abstract val lifecycle: Lifecycle?
     abstract val shimmer: Shimmer?
+    abstract val lineSpacing: Float?
 
     /**
      * A set of callbacks for a [Skeleton].
@@ -35,25 +41,29 @@ sealed class Skeleton {
          * Called immediately after [Target.onStart].
          */
         @MainThread
-        fun onStart(skeleton: Skeleton) {}
+        fun onStart(skeleton: Skeleton) {
+        }
 
         /**
          * Called if the skeleton completes successfully.
          */
         @MainThread
-        fun onSuccess(skeleton: Skeleton) {}
+        fun onSuccess(skeleton: Skeleton) {
+        }
 
         /**
          * Called if the skeleton is cancelled.
          */
         @MainThread
-        fun onCancel(skeleton: Skeleton) {}
+        fun onCancel(skeleton: Skeleton) {
+        }
 
         /**
          * Called if an error occurs while executing the skeleton.
          */
         @MainThread
-        fun onError(skeleton: Skeleton, throwable: Throwable) {}
+        fun onError(skeleton: Skeleton, throwable: Throwable) {
+        }
     }
 }
 
@@ -62,30 +72,79 @@ class ViewSkeleton internal constructor(
     override val target: Target?,
     override val lifecycle: Lifecycle?,
     @ColorRes override val colorResId: Int?,
-    @Px override val cornerRadius: Int?,
+    @Px override val cornerRadius: Float?,
     override val isShimmerEnabled: Boolean?,
-    override val shimmer: Shimmer?
+    override val shimmer: Shimmer?,
+    override val lineSpacing: Float?
 ) : Skeleton() {
 
-    companion object {
-        /** Alias for [ViewSkeletonBuilder]. */
-        @JvmStatic
-        @JvmName("builder")
-        inline fun Builder(context: Context) = ViewSkeletonBuilder(context)
+    /** Create a new [Builder] instance using this as a base. */
+    @JvmOverloads
+    fun newBuilder(context: Context = this.context) = Builder(this, context)
 
-        /** Alias for [ViewSkeletonBuilder]. */
-        @JvmStatic
+    class Builder : SkeletonBuilder<Builder> {
+
+        private var target: Target?
+        private var lifecycle: Lifecycle?
+
+        constructor(context: Context) : super(context) {
+            target = null
+            lifecycle = null
+        }
+
         @JvmOverloads
-        @JvmName("builder")
-        inline fun Builder(
+        constructor(
             skeleton: ViewSkeleton,
             context: Context = skeleton.context
-        ) = ViewSkeletonBuilder(skeleton, context)
-    }
+        ) : super(skeleton, context) {
+            target = skeleton.target
+            lifecycle = skeleton.lifecycle
+        }
 
-    /** Create a new [ViewSkeletonBuilder] instance using this as a base. */
-    @JvmOverloads
-    fun newBuilder(context: Context = this.context) = ViewSkeletonBuilder(this, context)
+        /**
+         * Convenience function to set [view] as the [Target].
+         */
+        fun target(view: View) = apply {
+            target(SimpleViewTarget(view))
+        }
+
+        /**
+         * Convenience function to create and set the [Target].
+         */
+        inline fun target(
+            crossinline onStart: () -> Unit = {},
+            crossinline onError: () -> Unit = {},
+            crossinline onSuccess: (skeleton: KoletonView) -> Unit = {}
+        ) = target(object : Target {
+            override fun onStart() = onStart()
+            override fun onError() = onError()
+            override fun onSuccess(skeleton: KoletonView) = onSuccess(skeleton)
+        })
+
+        fun target(target: Target?) = apply {
+            this.target = target
+        }
+
+        fun lifecycle(lifecycle: Lifecycle?) = apply {
+            this.lifecycle = lifecycle
+        }
+
+        /**
+         * Create a new [ViewSkeleton] instance.
+         */
+        fun build(): ViewSkeleton {
+            return ViewSkeleton(
+                context,
+                target,
+                lifecycle,
+                colorResId,
+                cornerRadius,
+                isShimmerEnabled,
+                shimmer,
+                lineSpacing
+            )
+        }
+    }
 }
 
 class RecyclerViewSkeleton internal constructor(
@@ -93,30 +152,95 @@ class RecyclerViewSkeleton internal constructor(
     override val target: Target?,
     override val lifecycle: Lifecycle?,
     @ColorRes override val colorResId: Int?,
-    @Px override val cornerRadius: Int?,
+    @Px override val cornerRadius: Float?,
     override val isShimmerEnabled: Boolean?,
     @LayoutRes internal val itemLayoutResId: Int,
     internal val itemCount: Int?,
-    override val shimmer: Shimmer?
+    override val shimmer: Shimmer?,
+    override val lineSpacing: Float?
 ) : Skeleton() {
 
-    companion object {
-        /** Alias for [RecyclerViewSkeletonBuilder]. */
-        @JvmStatic
-        @JvmName("builder")
-        inline fun Builder(context: Context, @LayoutRes itemLayout: Int) = RecyclerViewSkeletonBuilder(context, itemLayout)
+    /** Create a new [Builder] instance using this as a base. */
+    @JvmOverloads
+    fun newBuilder(context: Context = this.context) = Builder(this, context)
 
-        /** Alias for [RecyclerViewSkeletonBuilder]. */
-        @JvmStatic
+    class Builder : SkeletonBuilder<Builder> {
+
+        private var target: Target?
+        private var lifecycle: Lifecycle?
+        @LayoutRes
+        private var itemLayoutResId: Int
+        private var itemCount: Int?
+
+        constructor(context: Context, @LayoutRes itemLayout: Int) : super(context) {
+            target = null
+            lifecycle = null
+            itemLayoutResId = itemLayout
+            itemCount = null
+        }
+
         @JvmOverloads
-        @JvmName("builder")
-        inline fun Builder(
+        constructor(
             skeleton: RecyclerViewSkeleton,
             context: Context = skeleton.context
-        ) = RecyclerViewSkeletonBuilder(skeleton, context)
-    }
+        ) : super(skeleton, context) {
+            target = skeleton.target
+            lifecycle = skeleton.lifecycle
+            itemLayoutResId = skeleton.itemLayoutResId
+            itemCount = skeleton.itemCount
+        }
 
-    /** Create a new [RecyclerViewSkeletonBuilder] instance using this as a base. */
-    @JvmOverloads
-    fun newBuilder(context: Context = this.context) = RecyclerViewSkeletonBuilder(this, context)
+        /**
+         * Convenience function to set [recyclerView] as the [Target].
+         */
+        fun target(recyclerView: RecyclerView) = apply {
+            target(RecyclerViewTarget(recyclerView))
+        }
+
+        /**
+         * Convenience function to create and set the [Target].
+         */
+        inline fun target(
+            crossinline onStart: () -> Unit = {},
+            crossinline onError: () -> Unit = {},
+            crossinline onSuccess: (skeleton: KoletonView) -> Unit = {}
+        ) = target(object : Target {
+            override fun onStart() = onStart()
+            override fun onError() = onError()
+            override fun onSuccess(skeleton: KoletonView) = onSuccess(skeleton)
+        })
+
+        fun target(target: Target?) = apply {
+            this.target = target
+        }
+
+        /**
+         * The total number of items in the skeleton adapter.
+         */
+        fun itemCount(itemCount: Int) = apply {
+            this.itemCount = itemCount
+        }
+
+        fun lifecycle(lifecycle: Lifecycle?) = apply {
+            this.lifecycle = lifecycle
+        }
+
+        /**
+         * Create a new [ViewSkeleton] instance.
+         */
+        fun build(): RecyclerViewSkeleton {
+            return RecyclerViewSkeleton(
+                context,
+                target,
+                lifecycle,
+                colorResId,
+                cornerRadius,
+                isShimmerEnabled,
+                itemLayoutResId,
+                itemCount,
+                shimmer,
+                lineSpacing
+            )
+        }
+    }
 }

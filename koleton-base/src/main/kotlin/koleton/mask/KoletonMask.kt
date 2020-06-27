@@ -17,12 +17,13 @@ internal class KoletonMask(
     val view: View,
     @ColorInt private val color: Int,
     private val cornerRadius: Float,
-    private val lineSpacing: Int
+    lineSpacing: Float
 ) {
 
     private val paint: Paint by lazy { Paint().apply { color = this@KoletonMask.color } }
     private val bitmap: Bitmap by lazy { Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ALPHA_8) }
     private val canvas: Canvas by lazy { Canvas(bitmap) }
+    private val lineSpacingPerLine: Float by lazy { lineSpacing / 2 }
 
     init {
         val paint = Paint().apply {
@@ -74,7 +75,7 @@ internal class KoletonMask(
         rect: Rect,
         textPaint: TextPaint
     ) {
-        val spannable = spannable { background(color, cornerRadius, lineSpacing, view.text) }
+        val spannable = spannable { background(color, cornerRadius, lineSpacingPerLine, view.text) }
         val staticLayout = StaticLayout.Builder
             .obtain(spannable, 0, spannable.length, textPaint.apply { color = Color.TRANSPARENT }, view.width)
             .setBreakStrategy(Layout.BREAK_STRATEGY_SIMPLE)
@@ -109,13 +110,13 @@ internal class KoletonMask(
             val topOffset = view.height * lineIndex / view.lineCount
             val bottomOffset =
                 view.height * (lineIndex - (view.lineCount - NUMBER_ONE)).absoluteValue / view.lineCount
-            val top = rect.top.toFloat() + (topOffset + lineSpacing)
-            val bottom = rect.bottom.toFloat() - (bottomOffset + lineSpacing)
+            val top = rect.top.toFloat() + (topOffset + lineSpacingPerLine)
+            val bottom = rect.bottom.toFloat() - (bottomOffset + lineSpacingPerLine)
             val right = rect.left.toFloat() + measuredWidth[0]
             val rectF = RectF(
                 rect.left.toFloat(),
                 top,
-                if (right > rect.right * 0.8) rect.right.toFloat() else right,
+                if (right > rect.right * WRAPPING_LIMIT) rect.right.toFloat() else right,
                 bottom
             )
             canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, textPaint)

@@ -96,10 +96,10 @@ internal class MainSkeletonLoader(
             val attributes = RecyclerViewAttributes(
                 view = target.view,
                 color = context.getColorCompat(colorResId ?: defaults.colorResId),
-                cornerRadius = cornerRadius ?: defaults.cornerRadius.px,
+                cornerRadius = cornerRadius ?: defaults.cornerRadius,
                 isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled,
                 shimmer = shimmer ?: defaults.shimmer,
-                lineSpacing = defaults.lineSpacing,
+                lineSpacing = lineSpacing ?: defaults.lineSpacing,
                 itemLayout = itemLayoutResId,
                 itemCount = itemCount ?: defaults.itemCount
             )
@@ -113,10 +113,10 @@ internal class MainSkeletonLoader(
         return@with if (target is SimpleViewTarget) {
             val attributes = SimpleViewAttributes(
                 color = context.getColorCompat(colorResId ?: defaults.colorResId),
-                cornerRadius = cornerRadius ?: defaults.cornerRadius.px,
+                cornerRadius = cornerRadius ?: defaults.cornerRadius,
                 isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled,
                 shimmer = shimmer ?: defaults.shimmer,
-                lineSpacing = defaults.lineSpacing
+                lineSpacing = lineSpacing ?: defaults.lineSpacing
             )
             target.view.generateSimpleKoletonView(attributes)
         } else {

@@ -6,7 +6,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import koleton.mask.KoletonMask
-import koleton.util.*
+import koleton.util.children
+import koleton.util.invisible
+import koleton.util.isVisible
+import koleton.util.visible
 
 internal class SimpleKoletonView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -75,7 +78,7 @@ internal class SimpleKoletonView @JvmOverloads constructor(
                 } else {
                     setShimmer(attrs.shimmer)
                 }
-                koletonMask = KoletonMask(this, attrs.color, attrs.cornerRadius.toFloat(), attrs.lineSpacing)
+                koletonMask = KoletonMask(this, attrs.color, attrs.cornerRadius, attrs.lineSpacing)
             }
         }
     }
