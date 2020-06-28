@@ -54,7 +54,7 @@ internal class MainSkeletonLoader(
                 if (target is ViewTarget<*> && target is LifecycleObserver) {
                     lifecycle.addObserver(target)
                     with(target.view) {
-                        if (measuredWidth > 0 && measuredHeight > 0) {
+                        if (parent !is KoletonView && measuredWidth > NUMBER_ZERO && measuredHeight > NUMBER_ZERO) {
                             val koletonView = generateKoletonView(skeleton)
                             koletonManager.setCurrentKoletonView(koletonView)
                             targetDelegate.success(koletonView)

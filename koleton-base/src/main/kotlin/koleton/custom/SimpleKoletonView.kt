@@ -6,10 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import koleton.mask.KoletonMask
-import koleton.util.children
-import koleton.util.invisible
-import koleton.util.isVisible
-import koleton.util.visible
+import koleton.util.*
 
 internal class SimpleKoletonView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -59,7 +56,7 @@ internal class SimpleKoletonView @JvmOverloads constructor(
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-        isMeasured = true
+        isMeasured = width > NUMBER_ZERO && height > NUMBER_ZERO
         if (isSkeletonShown) {
             showSkeleton()
         }
