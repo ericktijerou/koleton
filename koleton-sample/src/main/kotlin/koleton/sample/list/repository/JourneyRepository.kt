@@ -6,7 +6,6 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import koleton.sample.model.Journey
 import koleton.sample.utils.DEFAULT_PAGE_SIZE
-import koleton.sample.utils.Helper
 import koleton.sample.utils.Listing
 import java.util.concurrent.Executor
 
