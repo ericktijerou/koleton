@@ -78,10 +78,11 @@ internal class MainSkeletonLoader(
     override fun hide(view: View, koletonView: KoletonView) {
         koletonView.hideSkeleton()
         val skeletonView = koletonView as ShimmerFrameLayout
+        val originalParams = skeletonView.layoutParams
         val originalParent = skeletonView.getParentViewGroup()
         skeletonView.removeView(view)
         originalParent.removeView(skeletonView)
-        originalParent.addView(view)
+        originalParent.addView(view, originalParams)
     }
 
     private fun generateKoletonView(skeleton: Skeleton): KoletonView {
