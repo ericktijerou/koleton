@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.view.ViewParent
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import koleton.base.R
 import koleton.custom.Attributes
@@ -48,6 +49,7 @@ internal fun View.generateSimpleKoletonView(attributes: Attributes): SimpleKolet
         it.id = id
         it.layoutParams = layoutParams
         parent?.removeView(this)
+        ViewCompat.setLayoutDirection(it, ViewCompat.getLayoutDirection(this))
         it.addView(this.lparams(layoutParams))
         parent?.addView(it)
         it.attributes = attributes
@@ -60,6 +62,7 @@ internal fun RecyclerView.generateRecyclerKoletonView(attributes: RecyclerViewAt
         it.id = id
         it.layoutParams = layoutParams
         parent?.removeView(this)
+        ViewCompat.setLayoutDirection(it, ViewCompat.getLayoutDirection(this))
         it.addView(this.lparams(layoutParams))
         parent?.addView(it)
         it.attributes = attributes
