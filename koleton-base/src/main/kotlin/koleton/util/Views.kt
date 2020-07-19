@@ -68,10 +68,8 @@ internal fun RecyclerView.generateRecyclerKoletonView(attributes: RecyclerViewAt
 
 internal fun <T: View> T.lparams(source: ViewGroup.LayoutParams): T {
     val layoutParams = FrameLayout.LayoutParams(source).apply {
-        if (width.isZero() || height.isZero()) {
-            width = this@lparams.width
-            height = this@lparams.height
-        }
+        if (width.isZero()) width = this@lparams.width
+        if (height.isZero()) height = this@lparams.height
     }
     this@lparams.layoutParams = layoutParams
     return this
