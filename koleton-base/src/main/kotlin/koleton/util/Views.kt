@@ -3,6 +3,7 @@ package koleton.util
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewParent
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
@@ -86,6 +87,8 @@ internal fun View.removeOnGlobalLayoutListener(listener: ViewTreeObserver.OnGlob
         this.viewTreeObserver.removeOnGlobalLayoutListener(listener)
     }
 }
+
+internal fun View.isMeasured() = layoutParams.width == WRAP_CONTENT || layoutParams.height == WRAP_CONTENT || (measuredWidth > 0 && measuredHeight > 0)
 
 internal val View.koletonManager: ViewTargetSkeletonManager
     get() {
