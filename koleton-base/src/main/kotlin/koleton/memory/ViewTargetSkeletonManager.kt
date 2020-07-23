@@ -69,6 +69,7 @@ internal class ViewTargetSkeletonManager : ViewTreeObserver.OnGlobalLayoutListen
             setCurrentKoletonView(null)
         }
         pendingBlock()
+        pendingBlock = {}
     }
 
     /** Returns the visibility of the skeleton. */
