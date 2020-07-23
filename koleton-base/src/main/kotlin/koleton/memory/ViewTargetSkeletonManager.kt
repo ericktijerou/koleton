@@ -21,6 +21,8 @@ internal class ViewTargetSkeletonManager : ViewTreeObserver.OnGlobalLayoutListen
 
     private var currentKoletonView: KoletonView? = null
 
+    private var pendingBlock: () -> Unit = {}
+
     @Volatile
     private var pendingClear: Job? = null
 
@@ -66,6 +68,7 @@ internal class ViewTargetSkeletonManager : ViewTreeObserver.OnGlobalLayoutListen
             setCurrentSkeleton(null)
             setCurrentKoletonView(null)
         }
+        pendingBlock()
     }
 
     /** Returns the visibility of the skeleton. */
@@ -103,5 +106,11 @@ internal class ViewTargetSkeletonManager : ViewTreeObserver.OnGlobalLayoutListen
                 }
             }
         }
+    }
+
+    /** Calls the specified function [block] after the skeleton is hidden. */
+    fun afterHide(block: () -> Unit) {
+        if (isSkeletonShown()) pendingBlock = block
+        else block()
     }
 }
