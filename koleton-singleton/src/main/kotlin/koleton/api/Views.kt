@@ -104,6 +104,13 @@ fun View.isSkeletonShown(): Boolean {
 }
 
 /**
+ * Calls the specified function [block] after the skeleton is hidden.
+ */
+fun View.afterHideSkeleton(block: () -> Unit) {
+    KoletonUtils.afterHide(this, block)
+}
+
+/**
  * Hide all skeletons associated with this [View].
  */
 fun View.hideSkeleton() {

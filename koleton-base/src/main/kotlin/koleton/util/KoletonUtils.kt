@@ -13,6 +13,14 @@ object KoletonUtils {
     }
 
     /**
+     * Calls the specified function [block] after the skeleton attached to [view] is hidden.
+     */
+    @JvmStatic
+    fun afterHide(view: View, block: () -> Unit) {
+        view.koletonManager.afterHide(block)
+    }
+
+    /**
      * @return True if the [view] is hidden by the skeleton.
      */
     @JvmStatic
