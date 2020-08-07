@@ -5,6 +5,7 @@
 package koleton.api
 
 import android.view.View
+import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import koleton.Koleton
@@ -12,6 +13,7 @@ import koleton.SkeletonLoader
 import koleton.annotation.ExperimentalKoletonApi
 import koleton.custom.KoletonView
 import koleton.skeleton.RecyclerViewSkeleton
+import koleton.skeleton.TextViewSkeleton
 import koleton.skeleton.ViewSkeleton
 import koleton.util.KoletonUtils
 
@@ -22,6 +24,7 @@ import koleton.util.KoletonUtils
  * ```
  * view.loadSkeleton {
  *      color(R.color.colorExample)
+ *      ...
  * }
  * ```
  *
@@ -40,6 +43,32 @@ inline fun View.loadSkeleton(
     skeletonLoader.load(skeleton)
 }
 
+/**
+ * This is the type-unsafe version of [TextView.loadSkeleton].
+ *
+ * Example:
+ * ```
+ * textView?.loadSkeleton(length = 10) {
+ *      color(R.color.colorExample)
+ *      ...
+ * }
+ * ```
+ *
+ * @param skeletonLoader The [SkeletonLoader] that will be used to create the [TextViewSkeleton].
+ * @param builder An optional lambda to configure the skeleton before it is loaded.
+ */
+@JvmSynthetic
+inline fun TextView.loadSkeleton(
+    length: Int,
+    skeletonLoader: SkeletonLoader = Koleton.skeletonLoader(context),
+    builder: TextViewSkeleton.Builder.() -> Unit = {}
+) {
+    val skeleton = TextViewSkeleton.Builder(context, length)
+        .target(this)
+        .apply(builder)
+        .build()
+    skeletonLoader.load(skeleton)
+}
 
 /**
  * This is the type-unsafe version of [View.generateSkeleton].
@@ -48,6 +77,7 @@ inline fun View.loadSkeleton(
  * ```
  * val koletonView = view.generateSkeleton {
  *      color(R.color.colorSkeleton)
+ *      ...
  * }
  * koletonView.showSkeleton()
  * ```
@@ -77,6 +107,7 @@ inline fun View.generateSkeleton(
  * ```
  * recyclerView.loadSkeleton(R.layout.item_example) {
  *      color(R.color.colorExample)
+ *      ...
  * }
  * ```
  * @param itemLayout Layout resource of the itemView that will be used to create the skeleton view.
