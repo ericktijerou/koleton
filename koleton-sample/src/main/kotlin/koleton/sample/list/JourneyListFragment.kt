@@ -75,12 +75,14 @@ class JourneyListFragment : Fragment() {
 
     private fun onLoadInitial() {
         ivRefresh?.gone()
-        rvUsers?.loadSkeleton(R.layout.item_journey)
+        rvUsers?.loadSkeleton(itemLayout = R.layout.item_journey)
+        tvTitle?.loadSkeleton(length = 10)
     }
 
     private fun onLoaded() {
         ivRefresh?.visible()
         rvUsers?.hideSkeleton()
+        tvTitle?.hideSkeleton()
     }
 
     private fun onRefreshClickListener() {
