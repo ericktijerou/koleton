@@ -25,6 +25,15 @@ data class RecyclerViewAttributes(
     val itemCount: Int
 ): Attributes()
 
+data class TextViewAttributes(
+    @ColorInt override val color: Int,
+    @Px override val cornerRadius: Float,
+    override val isShimmerEnabled: Boolean,
+    override val shimmer: Shimmer,
+    override val lineSpacing: Float,
+    val length: Int
+): Attributes()
+
 data class SimpleViewAttributes(
     @ColorInt override val color: Int,
     @Px override val cornerRadius: Float,
@@ -32,3 +41,4 @@ data class SimpleViewAttributes(
     override val shimmer: Shimmer,
     override val lineSpacing: Float
 ): Attributes()
+

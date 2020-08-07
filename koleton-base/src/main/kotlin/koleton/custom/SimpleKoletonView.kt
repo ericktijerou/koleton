@@ -70,14 +70,17 @@ internal class SimpleKoletonView @JvmOverloads constructor(
     override fun applyAttributes() {
         if (isMeasured) {
             attributes?.let { attrs ->
-                if (attrs !is SimpleViewAttributes || !attrs.isShimmerEnabled) {
-                    hideShimmer()
-                } else {
-                    setShimmer(attrs.shimmer)
-                }
-                koletonMask = KoletonMask(this, attrs.color, attrs.cornerRadius, attrs.lineSpacing)
+                validateShimmer(attrs)
+                koletonMask = KoletonMask(this, attrs)
             }
         }
     }
 
+    private fun validateShimmer(attrs: Attributes) {
+        if (attrs is RecyclerViewAttributes || !attrs.isShimmerEnabled) {
+            hideShimmer()
+        } else {
+            setShimmer(attrs.shimmer)
+        }
+    }
 }

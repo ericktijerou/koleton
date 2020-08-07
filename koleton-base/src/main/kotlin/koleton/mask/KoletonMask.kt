@@ -8,27 +8,25 @@ import android.text.TextPaint
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
+import koleton.custom.Attributes
 import koleton.util.*
 import kotlin.math.absoluteValue
 
 internal class KoletonMask(
-    val view: View,
-    @ColorInt private val color: Int,
-    private val cornerRadius: Float,
-    lineSpacing: Float
+    private val view: View,
+    private val attrs: Attributes
 ) {
 
-    private val paint: Paint by lazy { Paint().apply { color = this@KoletonMask.color } }
+    private val paint: Paint by lazy { Paint().apply { color = attrs.color } }
     private val bitmap: Bitmap by lazy { Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ALPHA_8) }
     private val canvas: Canvas by lazy { Canvas(bitmap) }
-    private val lineSpacingPerLine: Float by lazy { lineSpacing / 2 }
+    private val lineSpacingPerLine: Float by lazy { attrs.lineSpacing / 2 }
 
     init {
         val paint = Paint().apply {
             xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC)
-            isAntiAlias = cornerRadius > NUMBER_ZERO
+            isAntiAlias = attrs.cornerRadius > NUMBER_ZERO
         }
         mask(view, view as ViewGroup, paint)
     }
@@ -50,7 +48,7 @@ internal class KoletonMask(
             view.getDrawingRect(it)
             root.offsetDescendantRectToMyCoords(view, it)
         }
-        canvas.drawRoundRect(RectF(rect), cornerRadius, cornerRadius, paint)
+        canvas.drawRoundRect(RectF(rect), attrs.cornerRadius, attrs.cornerRadius, paint)
     }
 
     private fun maskTextView(
@@ -61,7 +59,7 @@ internal class KoletonMask(
             view.getDrawingRect(it)
             root.offsetDescendantRectToMyCoords(view, it)
         }
-        val textPaint = view.paint.apply { isAntiAlias = cornerRadius > NUMBER_ZERO }
+        val textPaint = view.paint.apply { isAntiAlias = attrs.cornerRadius > NUMBER_ZERO }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             maskStaticLayout(view, rect, textPaint)
         } else {
@@ -75,7 +73,7 @@ internal class KoletonMask(
         rect: Rect,
         textPaint: TextPaint
     ) {
-        val spannable = spannable { background(color, cornerRadius, lineSpacingPerLine, view.text) }
+        val spannable = spannable { background(attrs.color, attrs.cornerRadius, lineSpacingPerLine, view.validatedText(attrs)) }
         val staticLayout = StaticLayout.Builder
             .obtain(spannable, 0, spannable.length, textPaint.apply { color = Color.TRANSPARENT }, view.width)
             .setBreakStrategy(Layout.BREAK_STRATEGY_SIMPLE)
@@ -98,11 +96,12 @@ internal class KoletonMask(
         var startIndex = 0
         var count: Int
         var lineIndex = 0
-        while (startIndex < view.text.length) {
+        val validatedText = view.validatedText(attrs)
+        while (startIndex < validatedText.length) {
             count = textPaint.breakText(
-                view.text,
+                validatedText,
                 startIndex,
-                view.text.length,
+                validatedText.length,
                 true,
                 view.width.toFloat(),
                 measuredWidth
@@ -119,7 +118,7 @@ internal class KoletonMask(
                 if (right > rect.right * WRAPPING_LIMIT) rect.right.toFloat() else right,
                 bottom
             )
-            canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, textPaint)
+            canvas.drawRoundRect(rectF, attrs.cornerRadius, attrs.cornerRadius, textPaint)
             startIndex += count
             lineIndex++
         }

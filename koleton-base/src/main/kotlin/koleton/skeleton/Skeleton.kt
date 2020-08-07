@@ -147,6 +147,96 @@ class ViewSkeleton internal constructor(
     }
 }
 
+class TextViewSkeleton internal constructor(
+    override val context: Context,
+    override val target: Target?,
+    override val lifecycle: Lifecycle?,
+    @ColorRes override val colorResId: Int?,
+    @Px override val cornerRadius: Float?,
+    override val isShimmerEnabled: Boolean?,
+    override val shimmer: Shimmer?,
+    override val lineSpacing: Float?,
+    internal val length: Int
+) : Skeleton() {
+
+    /** Create a new [Builder] instance using this as a base. */
+    @JvmOverloads
+    fun newBuilder(context: Context = this.context) = Builder(this, context)
+
+    class Builder : SkeletonBuilder<Builder> {
+
+        private var target: Target?
+        private var lifecycle: Lifecycle?
+
+        private var length: Int
+
+        constructor(context: Context, length: Int) : super(context) {
+            target = null
+            lifecycle = null
+            this.length = length
+        }
+
+        @JvmOverloads
+        constructor(
+            skeleton: TextViewSkeleton,
+            context: Context = skeleton.context
+        ) : super(skeleton, context) {
+            target = skeleton.target
+            lifecycle = skeleton.lifecycle
+            length = skeleton.length
+        }
+
+        /**
+         * Convenience function to set [view] as the [Target].
+         */
+        fun target(view: View) = apply {
+            target(SimpleViewTarget(view))
+        }
+
+        /**
+         * Convenience function to create and set the [Target].
+         */
+        inline fun target(
+            crossinline onStart: () -> Unit = {},
+            crossinline onError: () -> Unit = {},
+            crossinline onSuccess: (skeleton: KoletonView) -> Unit = {}
+        ) = target(object : Target {
+            override fun onStart() = onStart()
+            override fun onError() = onError()
+            override fun onSuccess(skeleton: KoletonView) = onSuccess(skeleton)
+        })
+
+        fun target(target: Target?) = apply {
+            this.target = target
+        }
+
+        fun length(length: Int) = apply {
+            this.length = length
+        }
+
+        fun lifecycle(lifecycle: Lifecycle?) = apply {
+            this.lifecycle = lifecycle
+        }
+
+        /**
+         * Create a new [ViewSkeleton] instance.
+         */
+        fun build(): TextViewSkeleton {
+            return TextViewSkeleton(
+                context,
+                target,
+                lifecycle,
+                colorResId,
+                cornerRadius,
+                isShimmerEnabled,
+                shimmer,
+                lineSpacing,
+                length
+            )
+        }
+    }
+}
+
 class RecyclerViewSkeleton internal constructor(
     override val context: Context,
     override val target: Target?,
@@ -168,6 +258,7 @@ class RecyclerViewSkeleton internal constructor(
 
         private var target: Target?
         private var lifecycle: Lifecycle?
+
         @LayoutRes
         private var itemLayoutResId: Int
         private var itemCount: Int?

@@ -7,14 +7,15 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewParent
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import koleton.base.R
-import koleton.custom.Attributes
+import koleton.custom.*
 import koleton.custom.RecyclerKoletonView
-import koleton.custom.RecyclerViewAttributes
 import koleton.custom.SimpleKoletonView
 import koleton.memory.ViewTargetSkeletonManager
+import kotlin.random.Random
 
 internal fun View.visible() {
     visibility = View.VISIBLE
@@ -101,3 +102,11 @@ internal val View.koletonManager: ViewTargetSkeletonManager
         }
         return manager
     }
+
+internal fun TextView.validatedText(attrs: Attributes): String {
+    return if (attrs is TextViewAttributes) {
+        randomString(attrs.length)
+    } else {
+        text.toString()
+    }
+}
