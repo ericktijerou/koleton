@@ -10,10 +10,7 @@ import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import koleton.base.R
-import koleton.custom.Attributes
-import koleton.custom.RecyclerKoletonView
-import koleton.custom.RecyclerViewAttributes
-import koleton.custom.SimpleKoletonView
+import koleton.custom.*
 import koleton.memory.ViewTargetSkeletonManager
 
 internal fun View.visible() {
@@ -49,6 +46,7 @@ internal fun View.generateSimpleKoletonView(attributes: Attributes): SimpleKolet
     return SimpleKoletonView(context).also {
         it.id = id
         it.layoutParams = layoutParams
+        it.cloneTranslations(this)
         parent?.removeView(this)
         ViewCompat.setLayoutDirection(it, ViewCompat.getLayoutDirection(this))
         it.addView(this.lparams(layoutParams))
@@ -62,6 +60,7 @@ internal fun RecyclerView.generateRecyclerKoletonView(attributes: RecyclerViewAt
     return RecyclerKoletonView(context).also {
         it.id = id
         it.layoutParams = layoutParams
+        it.cloneTranslations(this)
         parent?.removeView(this)
         ViewCompat.setLayoutDirection(it, ViewCompat.getLayoutDirection(this))
         it.addView(this.lparams(layoutParams))
@@ -101,3 +100,8 @@ internal val View.koletonManager: ViewTargetSkeletonManager
         }
         return manager
     }
+
+internal fun KoletonView.cloneTranslations(view: View) = run {
+    translationX = view.translationX
+    translationY = view.translationY
+}
