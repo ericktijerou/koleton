@@ -10,7 +10,10 @@ import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import koleton.base.R
-import koleton.custom.*
+import koleton.custom.Attributes
+import koleton.custom.RecyclerKoletonView
+import koleton.custom.RecyclerViewAttributes
+import koleton.custom.SimpleKoletonView
 import koleton.memory.ViewTargetSkeletonManager
 
 internal fun View.visible() {
@@ -101,7 +104,13 @@ internal val View.koletonManager: ViewTargetSkeletonManager
         return manager
     }
 
-internal fun KoletonView.cloneTranslations(view: View) = run {
+internal fun View.cloneTranslations(view: View) {
     translationX = view.translationX
     translationY = view.translationY
+    view.clearTranslations()
+}
+
+internal fun View.clearTranslations() {
+    translationX = 0f
+    translationY = 0f
 }
