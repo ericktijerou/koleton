@@ -83,6 +83,7 @@ internal class MainSkeletonLoader(
         val originalParent = skeletonView.getParentViewGroup()
         skeletonView.removeView(view)
         originalParent.removeView(skeletonView)
+        view.cloneTranslations(skeletonView)
         originalParent.addView(view, originalParams)
     }
 

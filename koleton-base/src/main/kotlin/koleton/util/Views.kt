@@ -12,10 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import koleton.base.R
 import koleton.custom.*
-import koleton.custom.RecyclerKoletonView
-import koleton.custom.SimpleKoletonView
 import koleton.memory.ViewTargetSkeletonManager
-import kotlin.random.Random
 
 internal fun View.visible() {
     visibility = View.VISIBLE
@@ -50,6 +47,7 @@ internal fun View.generateSimpleKoletonView(attributes: Attributes): SimpleKolet
     return SimpleKoletonView(context).also {
         it.id = id
         it.layoutParams = layoutParams
+        it.cloneTranslations(this)
         parent?.removeView(this)
         ViewCompat.setLayoutDirection(it, ViewCompat.getLayoutDirection(this))
         it.addView(this.lparams(layoutParams))
@@ -63,6 +61,7 @@ internal fun RecyclerView.generateRecyclerKoletonView(attributes: RecyclerViewAt
     return RecyclerKoletonView(context).also {
         it.id = id
         it.layoutParams = layoutParams
+        it.cloneTranslations(this)
         parent?.removeView(this)
         ViewCompat.setLayoutDirection(it, ViewCompat.getLayoutDirection(this))
         it.addView(this.lparams(layoutParams))
@@ -102,6 +101,17 @@ internal val View.koletonManager: ViewTargetSkeletonManager
         }
         return manager
     }
+
+internal fun View.cloneTranslations(view: View) {
+    translationX = view.translationX
+    translationY = view.translationY
+    view.clearTranslations()
+}
+
+internal fun View.clearTranslations() {
+    translationX = 0f
+    translationY = 0f
+}
 
 internal fun TextView.validatedText(attrs: Attributes): String {
     return if (attrs is TextViewAttributes) {
