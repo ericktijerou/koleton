@@ -23,7 +23,7 @@ You can [download](https://bintray.com/ericktijerou/maven/koleton/_latestVersion
 ```gradle
 // In your module's `build.gradle.kts`
 dependencies {
-    implementation("com.ericktijerou.koleton:koleton:0.8.1")
+    implementation("com.ericktijerou.koleton:koleton:0.8.2")
 }
 ```
 
