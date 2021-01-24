@@ -1,5 +1,6 @@
 package koleton.util
 
+import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,7 @@ internal fun ViewGroup.children(): List<View> {
 internal fun View.generateSimpleKoletonView(attributes: Attributes): SimpleKoletonView {
     val parent = parent as? ViewGroup
     return SimpleKoletonView(context).also {
+        validateBackground()
         it.id = id
         it.layoutParams = layoutParams
         it.cloneTranslations(this)
@@ -56,6 +58,10 @@ internal fun View.generateSimpleKoletonView(attributes: Attributes): SimpleKolet
         parent?.addView(it)
         it.attributes = attributes
     }
+}
+
+internal fun View.validateBackground() {
+    if (this is FrameLayout) setBackgroundColor(Color.TRANSPARENT)
 }
 
 internal fun RecyclerView.generateRecyclerKoletonView(attributes: RecyclerViewAttributes): RecyclerKoletonView {
