@@ -11,9 +11,11 @@ import koleton.memory.DelegateService
 import koleton.memory.SkeletonService
 import koleton.skeleton.RecyclerViewSkeleton
 import koleton.skeleton.Skeleton
+import koleton.skeleton.TextViewSkeleton
 import koleton.skeleton.ViewSkeleton
 import koleton.target.RecyclerViewTarget
 import koleton.target.SimpleViewTarget
+import koleton.target.TextViewTarget
 import koleton.target.ViewTarget
 import koleton.util.*
 import kotlinx.coroutines.*
@@ -90,6 +92,23 @@ internal class MainSkeletonLoader(
         return when (skeleton) {
             is RecyclerViewSkeleton -> generateRecyclerView(skeleton)
             is ViewSkeleton -> generateSimpleView(skeleton)
+            is TextViewSkeleton -> generateTextView(skeleton)
+        }
+    }
+
+    private fun generateTextView(skeleton: TextViewSkeleton) = with(skeleton) {
+        return@with if (target is TextViewTarget) {
+            val attributes = TextViewAttributes(
+                    color = context.getColorCompat(colorResId ?: defaults.colorResId),
+                    cornerRadius = cornerRadius ?: defaults.cornerRadius,
+                    isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled,
+                    shimmer = shimmer ?: defaults.shimmer,
+                    lineSpacing = lineSpacing ?: defaults.lineSpacing,
+                    length = length
+            )
+            target.view.generateTextKoletonView(attributes)
+        } else {
+            TextKoletonView(context)
         }
     }
 

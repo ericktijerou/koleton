@@ -8,13 +8,14 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewParent
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import koleton.base.R
-import koleton.custom.Attributes
+import koleton.custom.*
 import koleton.custom.RecyclerKoletonView
-import koleton.custom.RecyclerViewAttributes
 import koleton.custom.SimpleKoletonView
+import koleton.custom.TextKoletonView
 import koleton.memory.ViewTargetSkeletonManager
 
 internal fun View.visible() {
@@ -67,6 +68,20 @@ internal fun View.validateBackground() {
 internal fun RecyclerView.generateRecyclerKoletonView(attributes: RecyclerViewAttributes): RecyclerKoletonView {
     val parent = parent as? ViewGroup
     return RecyclerKoletonView(context).also {
+        it.id = id
+        it.layoutParams = layoutParams
+        it.cloneTranslations(this)
+        parent?.removeView(this)
+        ViewCompat.setLayoutDirection(it, ViewCompat.getLayoutDirection(this))
+        it.addView(this.lparams(layoutParams))
+        parent?.addView(it)
+        it.attributes = attributes
+    }
+}
+
+internal fun TextView.generateTextKoletonView(attributes: TextViewAttributes): TextKoletonView {
+    val parent = parent as? ViewGroup
+    return TextKoletonView(context).also {
         it.id = id
         it.layoutParams = layoutParams
         it.cloneTranslations(this)

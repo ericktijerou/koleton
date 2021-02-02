@@ -6,6 +6,7 @@ import koleton.lifecycle.GlobalLifecycle
 import koleton.lifecycle.LifecycleCoroutineDispatcher
 import koleton.skeleton.RecyclerViewSkeleton
 import koleton.skeleton.Skeleton
+import koleton.skeleton.TextViewSkeleton
 import koleton.skeleton.ViewSkeleton
 import koleton.target.Target
 import koleton.target.ViewTarget
@@ -19,7 +20,7 @@ internal class SkeletonService {
     @MainThread
     fun lifecycleInfo(skeleton: Skeleton): LifecycleInfo {
         when (skeleton) {
-            is ViewSkeleton, is RecyclerViewSkeleton -> {
+            is ViewSkeleton, is RecyclerViewSkeleton, is TextViewSkeleton -> {
                 val lifecycle = skeleton.getLifecycle()
                 return if (lifecycle != null) {
                     val mainDispatcher = LifecycleCoroutineDispatcher
