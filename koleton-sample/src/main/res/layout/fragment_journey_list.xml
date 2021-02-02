@@ -52,12 +52,14 @@
 
     <TextView
         android:id="@+id/tvSubtitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="4dp"
-        android:text="@string/label_see_your_journey"
         android:textAppearance="?attr/textAppearanceBody2"
+        android:gravity="start"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 

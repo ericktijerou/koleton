@@ -1,8 +1,8 @@
 package koleton.mask
 
 import android.graphics.*
+import android.graphics.text.LineBreaker
 import android.os.Build
-import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
 import android.view.View
@@ -78,7 +78,7 @@ internal class KoletonMask(
         val spannable = spannable { background(color, cornerRadius, lineSpacingPerLine, view.text) }
         val staticLayout = StaticLayout.Builder
             .obtain(spannable, 0, spannable.length, textPaint.apply { color = Color.TRANSPARENT }, view.width)
-            .setBreakStrategy(Layout.BREAK_STRATEGY_SIMPLE)
+            .setBreakStrategy(LineBreaker.BREAK_STRATEGY_SIMPLE)
             .setIncludePad(view.includeFontPadding)
             .setMaxLines(view.lineCount)
             .build()

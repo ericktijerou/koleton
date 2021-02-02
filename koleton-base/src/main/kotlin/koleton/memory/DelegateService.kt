@@ -6,6 +6,7 @@ import koleton.SkeletonLoader
 import koleton.annotation.ExperimentalKoletonApi
 import koleton.skeleton.RecyclerViewSkeleton
 import koleton.skeleton.Skeleton
+import koleton.skeleton.TextViewSkeleton
 import koleton.skeleton.ViewSkeleton
 import koleton.target.ViewTarget
 import koleton.util.koletonManager
@@ -33,7 +34,7 @@ internal class DelegateService(
     ): SkeletonDelegate? {
         val skeletonDelegate: SkeletonDelegate
         when (skeleton) {
-            is ViewSkeleton, is RecyclerViewSkeleton -> when (val target = skeleton.target) {
+            is ViewSkeleton, is RecyclerViewSkeleton, is TextViewSkeleton -> when (val target = skeleton.target) {
                 is ViewTarget<*> -> {
                     skeletonDelegate = ViewTargetSkeletonDelegate(
                         imageLoader = imageLoader,

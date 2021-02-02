@@ -4,17 +4,20 @@ import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewParent
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import koleton.base.R
-import koleton.custom.Attributes
+import koleton.custom.*
 import koleton.custom.RecyclerKoletonView
-import koleton.custom.RecyclerViewAttributes
 import koleton.custom.SimpleKoletonView
+import koleton.custom.TextKoletonView
 import koleton.memory.ViewTargetSkeletonManager
 
 internal fun View.visible() {
@@ -78,10 +81,30 @@ internal fun RecyclerView.generateRecyclerKoletonView(attributes: RecyclerViewAt
     }
 }
 
+internal fun TextView.generateTextKoletonView(attributes: TextViewAttributes): TextKoletonView {
+    val parent = parent as? ViewGroup
+    return TextKoletonView(context).also {
+        it.id = id
+        it.layoutParams = layoutParams
+        it.cloneTranslations(this)
+        parent?.removeView(this)
+        ViewCompat.setLayoutDirection(it, ViewCompat.getLayoutDirection(this))
+        it.addView(this.lparams(layoutParams))
+        parent?.addView(it)
+        it.attributes = attributes
+    }
+}
+
 internal fun <T: View> T.lparams(source: ViewGroup.LayoutParams): T {
     val layoutParams = FrameLayout.LayoutParams(source).apply {
-        if (width.isZero()) width = this@lparams.width
-        if (height.isZero()) height = this@lparams.height
+        if (width.isZero()) {
+            width = if (this@lparams.width.isZero() && source is ConstraintLayout.LayoutParams) MATCH_PARENT
+            else this@lparams.width
+        }
+        if (height.isZero()) {
+            height = if (this@lparams.height.isZero() && source is ConstraintLayout.LayoutParams) MATCH_PARENT
+            else this@lparams.height
+        }
     }
     this@lparams.layoutParams = layoutParams
     return this

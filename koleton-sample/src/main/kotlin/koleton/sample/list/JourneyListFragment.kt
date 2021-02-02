@@ -76,11 +76,14 @@ class JourneyListFragment : Fragment() {
     private fun onLoadInitial() {
         ivRefresh?.gone()
         rvUsers?.loadSkeleton(R.layout.item_journey)
+        tvSubtitle?.loadSkeleton(length = 20)
     }
 
     private fun onLoaded() {
         ivRefresh?.visible()
         rvUsers?.hideSkeleton()
+        tvSubtitle?.hideSkeleton()
+        tvSubtitle?.text = requireContext().getString(R.string.label_see_your_journey)
     }
 
     private fun onRefreshClickListener() {

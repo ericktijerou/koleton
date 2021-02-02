@@ -5,6 +5,7 @@
 package koleton.api
 
 import android.view.View
+import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import koleton.Koleton
@@ -12,6 +13,7 @@ import koleton.SkeletonLoader
 import koleton.annotation.ExperimentalKoletonApi
 import koleton.custom.KoletonView
 import koleton.skeleton.RecyclerViewSkeleton
+import koleton.skeleton.TextViewSkeleton
 import koleton.skeleton.ViewSkeleton
 import koleton.util.KoletonUtils
 
@@ -95,6 +97,35 @@ inline fun RecyclerView.loadSkeleton(
         .build()
     skeletonLoader.load(skeleton)
 }
+
+/**
+ * Set [length] of the [TextView].
+ *
+ * This is the type-unsafe version of [TextView.loadSkeleton].
+ *
+ * Example:
+ * ```
+ * textView.loadSkeleton(10) {
+ *      color(R.color.colorExample)
+ * }
+ * ```
+ * @param length Length of the [TextView].
+ * @param skeletonLoader The [SkeletonLoader] that will be used to create the [TextViewSkeleton].
+ * @param builder An optional lambda to configure the skeleton before it is loaded.
+ */
+@JvmSynthetic
+inline fun TextView.loadSkeleton(
+        length: Int,
+        skeletonLoader: SkeletonLoader = Koleton.skeletonLoader(context),
+        builder: TextViewSkeleton.Builder.() -> Unit = {}
+) {
+    val skeleton = TextViewSkeleton.Builder(context, length)
+            .target(this)
+            .apply(builder)
+            .build()
+    skeletonLoader.load(skeleton)
+}
+
 
 /**
  * @return True if the skeleton associated with this [View] is shown.

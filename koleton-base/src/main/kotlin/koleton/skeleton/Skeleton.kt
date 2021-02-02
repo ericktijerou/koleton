@@ -4,6 +4,7 @@ package koleton.skeleton
 
 import android.content.Context
 import android.view.View
+import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
@@ -15,6 +16,7 @@ import koleton.custom.KoletonView
 import koleton.target.RecyclerViewTarget
 import koleton.target.SimpleViewTarget
 import koleton.target.Target
+import koleton.target.TextViewTarget
 
 /**
  * The base class for a skeleton view.
@@ -240,6 +242,91 @@ class RecyclerViewSkeleton internal constructor(
                 itemCount,
                 shimmer,
                 lineSpacing
+            )
+        }
+    }
+}
+
+class TextViewSkeleton internal constructor(
+        override val context: Context,
+        override val target: Target?,
+        override val lifecycle: Lifecycle?,
+        @ColorRes override val colorResId: Int?,
+        @Px override val cornerRadius: Float?,
+        override val isShimmerEnabled: Boolean?,
+        override val shimmer: Shimmer?,
+        override val lineSpacing: Float?,
+        internal val length: Int
+) : Skeleton() {
+
+    /** Create a new [Builder] instance using this as a base. */
+    @JvmOverloads
+    fun newBuilder(context: Context = this.context) = Builder(this, context)
+
+    class Builder : SkeletonBuilder<Builder> {
+
+        private var target: Target?
+        private var lifecycle: Lifecycle?
+        private var length: Int
+
+        constructor(context: Context, length: Int) : super(context) {
+            target = null
+            lifecycle = null
+            this.length = length
+        }
+
+        @JvmOverloads
+        constructor(
+                skeleton: TextViewSkeleton,
+                context: Context = skeleton.context
+        ) : super(skeleton, context) {
+            target = skeleton.target
+            lifecycle = skeleton.lifecycle
+            length = skeleton.length
+        }
+
+        /**
+         * Convenience function to set [view] as the [Target].
+         */
+        fun target(view: TextView) = apply {
+            target(TextViewTarget(view))
+        }
+
+        /**
+         * Convenience function to create and set the [Target].
+         */
+        inline fun target(
+                crossinline onStart: () -> Unit = {},
+                crossinline onError: () -> Unit = {},
+                crossinline onSuccess: (skeleton: KoletonView) -> Unit = {}
+        ) = target(object : Target {
+            override fun onStart() = onStart()
+            override fun onError() = onError()
+            override fun onSuccess(skeleton: KoletonView) = onSuccess(skeleton)
+        })
+
+        fun target(target: Target?) = apply {
+            this.target = target
+        }
+
+        fun lifecycle(lifecycle: Lifecycle?) = apply {
+            this.lifecycle = lifecycle
+        }
+
+        /**
+         * Create a new [ViewSkeleton] instance.
+         */
+        fun build(): TextViewSkeleton {
+            return TextViewSkeleton(
+                    context,
+                    target,
+                    lifecycle,
+                    colorResId,
+                    cornerRadius,
+                    isShimmerEnabled,
+                    shimmer,
+                    lineSpacing,
+                    length
             )
         }
     }
