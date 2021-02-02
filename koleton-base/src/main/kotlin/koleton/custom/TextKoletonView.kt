@@ -42,8 +42,8 @@ internal class TextKoletonView @JvmOverloads constructor(
 
     override fun showSkeleton() {
         isSkeletonShown = true
+        setFakeText()
         if (isMeasured && childCount > 0) {
-            setFakeText()
             hideVisibleChildren(this)
             applyAttributes()
         }
@@ -51,8 +51,8 @@ internal class TextKoletonView @JvmOverloads constructor(
 
     override fun hideSkeleton() {
         isSkeletonShown = false
+        restoreOriginalText()
         if (childCount > 0) {
-            restoreOriginalText()
             viewList.forEach { it.visible() }
             hideShimmer()
             koletonMask = null

@@ -4,11 +4,13 @@ import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewParent
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import koleton.base.R
@@ -95,8 +97,14 @@ internal fun TextView.generateTextKoletonView(attributes: TextViewAttributes): T
 
 internal fun <T: View> T.lparams(source: ViewGroup.LayoutParams): T {
     val layoutParams = FrameLayout.LayoutParams(source).apply {
-        if (width.isZero()) width = this@lparams.width
-        if (height.isZero()) height = this@lparams.height
+        if (width.isZero()) {
+            width = if (this@lparams.width.isZero() && source is ConstraintLayout.LayoutParams) MATCH_PARENT
+            else this@lparams.width
+        }
+        if (height.isZero()) {
+            height = if (this@lparams.height.isZero() && source is ConstraintLayout.LayoutParams) MATCH_PARENT
+            else this@lparams.height
+        }
     }
     this@lparams.layoutParams = layoutParams
     return this
