@@ -1,5 +1,6 @@
 package koleton.custom
 
+import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.LayoutRes
 import androidx.annotation.Px
@@ -34,6 +35,7 @@ data class SimpleViewAttributes(
 ): Attributes()
 
 data class TextViewAttributes(
+        val view: TextView,
         @ColorInt override val color: Int,
         @Px override val cornerRadius: Float,
         override val isShimmerEnabled: Boolean,

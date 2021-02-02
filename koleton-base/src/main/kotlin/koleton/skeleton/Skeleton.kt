@@ -4,6 +4,7 @@ package koleton.skeleton
 
 import android.content.Context
 import android.view.View
+import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
@@ -15,6 +16,7 @@ import koleton.custom.KoletonView
 import koleton.target.RecyclerViewTarget
 import koleton.target.SimpleViewTarget
 import koleton.target.Target
+import koleton.target.TextViewTarget
 
 /**
  * The base class for a skeleton view.
@@ -286,8 +288,8 @@ class TextViewSkeleton internal constructor(
         /**
          * Convenience function to set [view] as the [Target].
          */
-        fun target(view: View) = apply {
-            target(SimpleViewTarget(view))
+        fun target(view: TextView) = apply {
+            target(TextViewTarget(view))
         }
 
         /**

@@ -7,11 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import koleton.mask.KoletonMask
 import koleton.util.*
-import koleton.util.NUMBER_ZERO
-import koleton.util.children
-import koleton.util.invisible
-import koleton.util.isVisible
-import koleton.util.visible
 
 internal class TextKoletonView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -22,11 +17,14 @@ internal class TextKoletonView @JvmOverloads constructor(
     private var isMeasured: Boolean = false
     private val viewList = arrayListOf<View>()
 
-    var attributes: Attributes? = null
+    var attributes: TextViewAttributes? = null
         set(value) {
             field = value
+            originalText = value?.view?.text.toString()
             value?.let { applyAttributes() }
         }
+
+    private var originalText: String = EMPTY_STRING
 
     private fun hideVisibleChildren(view: View) {
         when (view) {
@@ -45,6 +43,7 @@ internal class TextKoletonView @JvmOverloads constructor(
     override fun showSkeleton() {
         isSkeletonShown = true
         if (isMeasured && childCount > 0) {
+            setFakeText()
             hideVisibleChildren(this)
             applyAttributes()
         }
@@ -53,9 +52,22 @@ internal class TextKoletonView @JvmOverloads constructor(
     override fun hideSkeleton() {
         isSkeletonShown = false
         if (childCount > 0) {
+            restoreOriginalText()
             viewList.forEach { it.visible() }
             hideShimmer()
             koletonMask = null
+        }
+    }
+
+    private fun setFakeText() {
+        attributes?.apply {
+            view.text = getRandomAlphaNumericString(length)
+        }
+    }
+
+    private fun restoreOriginalText() {
+        attributes?.apply {
+            view.text = originalText
         }
     }
 
@@ -75,7 +87,7 @@ internal class TextKoletonView @JvmOverloads constructor(
     override fun applyAttributes() {
         if (isMeasured) {
             attributes?.let { attrs ->
-                if (attrs !is SimpleViewAttributes || !attrs.isShimmerEnabled) {
+                if (!attrs.isShimmerEnabled) {
                     hideShimmer()
                 } else {
                     setShimmer(attrs.shimmer)

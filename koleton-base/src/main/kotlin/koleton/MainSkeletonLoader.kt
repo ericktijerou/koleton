@@ -99,6 +99,7 @@ internal class MainSkeletonLoader(
     private fun generateTextView(skeleton: TextViewSkeleton) = with(skeleton) {
         return@with if (target is TextViewTarget) {
             val attributes = TextViewAttributes(
+                    view = target.view,
                     color = context.getColorCompat(colorResId ?: defaults.colorResId),
                     cornerRadius = cornerRadius ?: defaults.cornerRadius,
                     isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled,
