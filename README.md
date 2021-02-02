@@ -23,7 +23,7 @@ You can [download](https://bintray.com/ericktijerou/maven/koleton/_latestVersion
 ```gradle
 // In your module's `build.gradle.kts`
 dependencies {
-    implementation("com.ericktijerou.koleton:koleton:0.8.2")
+    implementation("com.ericktijerou.koleton:koleton:0.8.5")
 }
 ```
 
@@ -38,8 +38,11 @@ repositories {
 To load the skeleton of a `View`, use the `loadSkeleton` extension function:
 
 ```kotlin
-// Any View
+// ConstraintLayout
 constraintLayout.loadSkeleton()
+
+// TextView
+textView?.loadSkeleton(length = 20)
 
 // RecyclerView
 recyclerView.loadSkeleton(R.layout.item_example)
@@ -48,12 +51,18 @@ recyclerView.loadSkeleton(R.layout.item_example)
 Skeletons can be configured with an optional trailing lambda:
 
 ```kotlin
-// Any View
+// ConstraintLayout
 constraintLayout.loadSkeleton {
     color(R.color.colorSkeleton)
     cornerRadius(radiusInPixel)
     shimmer(false)
     lineSpacing(spacingInPixel)
+}
+
+// TextView
+textView?.loadSkeleton(length = 20) {
+    color(R.color.colorSkeleton)
+    ...
 }
 
 // RecyclerView
