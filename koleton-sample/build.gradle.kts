@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id(Android.appPlugin)
     id(Kotlin.androidPlugin)
-    id(Kotlin.androidExtensionsPlugin)
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -37,12 +36,12 @@ dependencies {
 }
 
 configure<BaseExtension> {
-    compileSdkVersion(29)
+    compileSdkVersion(30)
 
     defaultConfig {
         applicationId = "koleton.sample"
         minSdkVersion(21)
-        targetSdkVersion(29)
+        targetSdkVersion(30)
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -80,4 +79,6 @@ configure<BaseExtension> {
         exclude("META-INF/LICENSE.txt")
         exclude("META-INF/NOTICE.txt")
     }
+
+    android.buildFeatures.viewBinding = true
 }

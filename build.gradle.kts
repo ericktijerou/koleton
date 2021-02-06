@@ -4,12 +4,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    kotlin("jvm") version Kotlin.version apply false
+    kotlin("jvm")
     `maven-publish`
     id(Release.Bintray.plugin) version Release.Bintray.version
 }
 
 buildscript {
+    apply(from = "buildSrc/extra.gradle.kts")
     repositories {
         google()
         mavenCentral()
@@ -17,6 +18,8 @@ buildscript {
         jcenter()
     }
     dependencies {
+        classpath(rootProject.extra["androidPlugin"].toString())
+        classpath(rootProject.extra["kotlinPlugin"].toString())
         classpath(Dependencies.safeArgsPlugin)
     }
 }
@@ -69,7 +72,6 @@ subprojects {
         apply {
             plugin(Android.libPlugin)
             plugin(Kotlin.androidPlugin)
-            plugin(Kotlin.androidExtensionsPlugin)
         }
 
         configure<BaseExtension> {
@@ -115,7 +117,7 @@ subprojects {
 
             val doc by tasks.creating(Javadoc::class) {
                 isFailOnError = false
-                source = sourceSets["main"].java.sourceFiles
+                source = sourceSets["main"].java.getSourceFiles()
                 classpath += files(bootClasspath.joinToString(File.pathSeparator))
                 classpath.plus(configurations["compile"])
             }

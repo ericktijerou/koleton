@@ -48,11 +48,13 @@
             android:layout_marginEnd="16dp">
 
             <include
+                android:id="@+id/clHeader"
                 layout="@layout/include_journey_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <include
+                android:id="@+id/clBody"
                 layout="@layout/include_journey_body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

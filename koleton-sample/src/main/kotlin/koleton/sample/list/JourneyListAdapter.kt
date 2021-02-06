@@ -1,18 +1,16 @@
 package koleton.sample.list
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import koleton.api.generateSkeleton
 import koleton.custom.KoletonView
-import koleton.sample.R
+import koleton.sample.databinding.ItemJourneyBinding
 import koleton.sample.model.Journey
 import koleton.sample.utils.State
 import koleton.sample.utils.visible
-import kotlinx.android.synthetic.main.item_journey.view.*
 
 class JourneyListAdapter(private val clickListener: (Journey) -> Unit) :
     PagedListAdapter<Journey, RecyclerView.ViewHolder>(POST_COMPARATOR) {
@@ -30,10 +28,12 @@ class JourneyListAdapter(private val clickListener: (Journey) -> Unit) :
         parent: ViewGroup,
         viewType: Int
     ): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_journey, parent, false)
+
+        val itemBinding =
+            ItemJourneyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return when (viewType) {
-            TYPE_VIEW -> JourneyViewHolder(view)
-            TYPE_SKELETON -> SkeletonViewHolder(view.generateSkeleton())
+            TYPE_VIEW -> JourneyViewHolder(itemBinding)
+            TYPE_SKELETON -> SkeletonViewHolder(itemBinding.root.generateSkeleton())
             else -> throw IllegalArgumentException("unknown view type $viewType")
         }
     }
@@ -69,16 +69,19 @@ class JourneyListAdapter(private val clickListener: (Journey) -> Unit) :
         }
     }
 
-    class JourneyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class JourneyViewHolder(private val itemBinding: ItemJourneyBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(journey: Journey?, clickListener: (Journey) -> Unit) = with(itemView) {
             journey?.run {
-                val dateTime = "$date, $pickUpTime"
-                tvDate?.text = dateTime
-                tvAddress?.text = dropOffPoint
-                tvPrice?.text = total
-                ivCarType?.setImageResource(carIcon)
-                tvDetails?.visible()
-                itemView.setOnClickListener { clickListener(journey) }
+                itemBinding.apply {
+                    val dateTime = "$date, $pickUpTime"
+                    tvDate.text = dateTime
+                    tvAddress.text = dropOffPoint
+                    tvPrice.text = total
+                    ivCarType.setImageResource(carIcon)
+                    tvDetails.visible()
+                    itemView.setOnClickListener { clickListener(journey) }
+                }
             }
         }
     }

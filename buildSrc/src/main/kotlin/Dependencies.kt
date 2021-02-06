@@ -14,6 +14,7 @@ object Dependencies {
     const val safeArgsPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigationVersion}"
     const val paging = "androidx.paging:paging-runtime:${Versions.pagingVersion}"
     const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycleVersion}"
+    const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
 }
 
 object Versions {
@@ -29,14 +30,14 @@ object Versions {
     internal const val recyclerViewVersion = "1.1.0"
     internal const val navigationVersion = "2.3.0-beta01"
     internal const val pagingVersion = "2.1.2"
+    internal const val gradle = "4.1.1"
 }
 
 object Kotlin {
-    const val version = "1.3.72"
+    const val version = "1.4.30"
     const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
     const val plugin = "kotlin"
     const val androidPlugin = "kotlin-android"
-    const val androidExtensionsPlugin = "kotlin-android-extensions"
 }
 
 object Android {
