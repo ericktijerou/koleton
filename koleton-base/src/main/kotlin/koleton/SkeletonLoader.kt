@@ -5,6 +5,7 @@ package koleton
 
 import android.content.Context
 import android.view.View
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.Px
 import com.facebook.shimmer.Shimmer
@@ -12,6 +13,7 @@ import koleton.annotation.ExperimentalKoletonApi
 import koleton.custom.KoletonView
 import koleton.skeleton.Skeleton
 import koleton.target.Target
+import koleton.util.getColorCompat
 
 interface SkeletonLoader {
 
@@ -58,8 +60,15 @@ interface SkeletonLoader {
         /**
          * Set the skeleton color.
          */
-        fun color(@ColorRes color: Int) = apply {
-            this.defaults = this.defaults.copy(colorResId = color)
+        fun colorInt(@ColorInt color: Int) = apply {
+            this.defaults = this.defaults.copy(color = color)
+        }
+
+        /**
+         * Set the skeleton color.
+         */
+        fun color(@ColorRes colorRes: Int) = apply {
+            colorInt(applicationContext.getColorCompat(colorRes))
         }
 
         /**

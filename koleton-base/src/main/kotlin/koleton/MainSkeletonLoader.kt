@@ -100,7 +100,7 @@ internal class MainSkeletonLoader(
         return@with if (target is TextViewTarget) {
             val attributes = TextViewAttributes(
                     view = target.view,
-                    color = context.getColorCompat(colorResId ?: defaults.colorResId),
+                    color = color ?: defaults.color,
                     cornerRadius = cornerRadius ?: defaults.cornerRadius,
                     isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled,
                     shimmer = shimmer ?: defaults.shimmer,
@@ -117,7 +117,7 @@ internal class MainSkeletonLoader(
         return@with if (target is RecyclerViewTarget) {
             val attributes = RecyclerViewAttributes(
                 view = target.view,
-                color = context.getColorCompat(colorResId ?: defaults.colorResId),
+                color = color ?: defaults.color,
                 cornerRadius = cornerRadius ?: defaults.cornerRadius,
                 isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled,
                 shimmer = shimmer ?: defaults.shimmer,
@@ -134,7 +134,7 @@ internal class MainSkeletonLoader(
     private fun generateSimpleView(skeleton: ViewSkeleton) = with(skeleton) {
         return@with if (target is SimpleViewTarget) {
             val attributes = SimpleViewAttributes(
-                color = context.getColorCompat(colorResId ?: defaults.colorResId),
+                color = color ?: defaults.color,
                 cornerRadius = cornerRadius ?: defaults.cornerRadius,
                 isShimmerEnabled = isShimmerEnabled ?: defaults.isShimmerEnabled,
                 shimmer = shimmer ?: defaults.shimmer,
