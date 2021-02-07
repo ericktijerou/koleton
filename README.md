@@ -4,7 +4,7 @@
 
 [![bintray](https://api.bintray.com/packages/ericktijerou/maven/koleton/images/download.svg)](https://bintray.com/ericktijerou/maven/koleton/_latestVersion)
 [![Build Status](https://travis-ci.com/ericktijerou/koleton.svg?branch=master)](https://travis-ci.com/ericktijerou/koleton)
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.72-blueviolet.svg)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.4.30-blueviolet.svg)](https://kotlinlang.org)
 ![Minimum SDK Version](https://img.shields.io/badge/minSdkVersion-14-brightgreen.svg)
 
 An Android library that provides an easy way to show skeleton of any view.
@@ -23,7 +23,7 @@ You can [download](https://bintray.com/ericktijerou/maven/koleton/_latestVersion
 ```gradle
 // In your module's `build.gradle.kts`
 dependencies {
-    implementation("com.ericktijerou.koleton:koleton:0.8.5")
+    implementation("com.ericktijerou.koleton:koleton:0.8.8")
 }
 ```
 

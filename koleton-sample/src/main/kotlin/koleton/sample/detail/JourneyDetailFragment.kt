@@ -12,17 +12,19 @@ import com.facebook.shimmer.Shimmer
 import koleton.api.hideSkeleton
 import koleton.api.loadSkeleton
 import koleton.sample.R
+import koleton.sample.databinding.FragmentJourneyDetailBinding
 import koleton.sample.model.Journey
 import koleton.sample.utils.DEFAULT_DELAY
 import koleton.sample.utils.visible
-import kotlinx.android.synthetic.main.fragment_journey_detail.*
-import kotlinx.android.synthetic.main.include_journey_body.*
-import kotlinx.android.synthetic.main.include_journey_header.*
 
 class JourneyDetailFragment : AppCompatDialogFragment() {
 
     private val args: JourneyDetailFragmentArgs by navArgs()
     private val handler by lazy { Handler() }
+
+    lateinit var binding: FragmentJourneyDetailBinding
+    private val headerBinding get() = binding.clHeader
+    private val bodyBinding get() = binding.clBody
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,15 +36,18 @@ class JourneyDetailFragment : AppCompatDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_journey_detail, container, false)
+        binding = FragmentJourneyDetailBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ivBack?.setOnClickListener { dismiss() }
-        tvToolbar?.text = args.journey.date
-        clHeader?.loadSkeleton {
-            shimmer(getCustomShimmer())
+        binding.apply {
+            ivBack.setOnClickListener { dismiss() }
+            tvToolbar.text = args.journey.date
+            headerBinding.clHeader.loadSkeleton {
+                shimmer(getCustomShimmer())
+            }
         }
         getJourneyDetail()
     }
@@ -52,8 +57,8 @@ class JourneyDetailFragment : AppCompatDialogFragment() {
     }
 
     private fun onSuccess() {
-        clBody?.visible()
-        clHeader?.hideSkeleton()
+        bodyBinding.clBody.visible()
+        headerBinding.clHeader.hideSkeleton()
         showInformation(args.journey)
     }
 
@@ -72,19 +77,23 @@ class JourneyDetailFragment : AppCompatDialogFragment() {
     }
 
     private fun showInformation(journey: Journey) = with(journey) {
-        ivMap?.setImageResource(mapImage)
-        tvPickUpValue?.text = pickUpPoint
-        tvPickUpTime?.text = pickUpTime
-        tvDropOffValue?.text = dropOffPoint
-        tvDropOffTime?.text = dropOffTime
-        tvDriverName?.text = driverName
-        ivPicture?.setImageResource(driverImage)
-        tvCarName?.text = carName
-        ivCarType?.setImageResource(carIcon)
-        tvBasePriceValue?.text = basePrice
-        tvServicePriceValue?.text = servicePrice
-        tvTotalValue?.text = total
-        tvPaymentValue?.text = paymentMethod
+        headerBinding.apply {
+            ivMap.setImageResource(mapImage)
+            tvPickUpValue.text = pickUpPoint
+            tvPickUpTime.text = pickUpTime
+            tvDropOffValue.text = dropOffPoint
+            tvDropOffTime.text = dropOffTime
+        }
+        bodyBinding.apply {
+            tvDriverName.text = driverName
+            ivPicture.setImageResource(driverImage)
+            tvCarName.text = carName
+            ivCarType.setImageResource(carIcon)
+            tvBasePriceValue.text = basePrice
+            tvServicePriceValue.text = servicePrice
+            tvTotalValue.text = total
+            tvPaymentValue.text = paymentMethod
+        }
     }
 
     override fun onDestroyView() {

@@ -5,10 +5,7 @@ package koleton.skeleton
 import android.content.Context
 import android.view.View
 import android.widget.TextView
-import androidx.annotation.ColorRes
-import androidx.annotation.LayoutRes
-import androidx.annotation.MainThread
-import androidx.annotation.Px
+import androidx.annotation.*
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.Shimmer
@@ -27,7 +24,7 @@ sealed class Skeleton {
 
     abstract val context: Context
     abstract val target: Target?
-    abstract val colorResId: Int?
+    abstract val color: Int?
     abstract val cornerRadius: Float?
     abstract val isShimmerEnabled: Boolean?
     abstract val lifecycle: Lifecycle?
@@ -73,7 +70,7 @@ class ViewSkeleton internal constructor(
     override val context: Context,
     override val target: Target?,
     override val lifecycle: Lifecycle?,
-    @ColorRes override val colorResId: Int?,
+    @ColorInt override val color: Int?,
     @Px override val cornerRadius: Float?,
     override val isShimmerEnabled: Boolean?,
     override val shimmer: Shimmer?,
@@ -139,7 +136,7 @@ class ViewSkeleton internal constructor(
                 context,
                 target,
                 lifecycle,
-                colorResId,
+                color,
                 cornerRadius,
                 isShimmerEnabled,
                 shimmer,
@@ -153,7 +150,7 @@ class RecyclerViewSkeleton internal constructor(
     override val context: Context,
     override val target: Target?,
     override val lifecycle: Lifecycle?,
-    @ColorRes override val colorResId: Int?,
+    @ColorInt override val color: Int?,
     @Px override val cornerRadius: Float?,
     override val isShimmerEnabled: Boolean?,
     @LayoutRes internal val itemLayoutResId: Int,
@@ -235,7 +232,7 @@ class RecyclerViewSkeleton internal constructor(
                 context,
                 target,
                 lifecycle,
-                colorResId,
+                color,
                 cornerRadius,
                 isShimmerEnabled,
                 itemLayoutResId,
@@ -248,15 +245,15 @@ class RecyclerViewSkeleton internal constructor(
 }
 
 class TextViewSkeleton internal constructor(
-        override val context: Context,
-        override val target: Target?,
-        override val lifecycle: Lifecycle?,
-        @ColorRes override val colorResId: Int?,
-        @Px override val cornerRadius: Float?,
-        override val isShimmerEnabled: Boolean?,
-        override val shimmer: Shimmer?,
-        override val lineSpacing: Float?,
-        internal val length: Int
+    override val context: Context,
+    override val target: Target?,
+    override val lifecycle: Lifecycle?,
+    @ColorInt override val color: Int?,
+    @Px override val cornerRadius: Float?,
+    override val isShimmerEnabled: Boolean?,
+    override val shimmer: Shimmer?,
+    override val lineSpacing: Float?,
+    internal val length: Int
 ) : Skeleton() {
 
     /** Create a new [Builder] instance using this as a base. */
@@ -321,7 +318,7 @@ class TextViewSkeleton internal constructor(
                     context,
                     target,
                     lifecycle,
-                    colorResId,
+                    color,
                     cornerRadius,
                     isShimmerEnabled,
                     shimmer,

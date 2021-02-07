@@ -1,5 +1,7 @@
 package koleton
 
+import android.graphics.Color
+import androidx.annotation.ColorInt
 import com.facebook.shimmer.Shimmer
 import koleton.base.R
 import koleton.util.px
@@ -10,7 +12,7 @@ import koleton.util.px
  * @see SkeletonLoader.defaults
  */
 data class DefaultSkeletonOptions(
-    val colorResId: Int = R.color.colorDefault,
+    @ColorInt val color: Int = Color.LTGRAY,
     val cornerRadius: Float = CORNER_RADIUS.px,
     val isShimmerEnabled: Boolean = true,
     val itemCount: Int = ITEM_COUNT,
