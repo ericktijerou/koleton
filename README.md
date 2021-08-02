@@ -2,9 +2,11 @@
 
 > The easiest library to show skeleton screens in an Android app.
 
-[![bintray](https://api.bintray.com/packages/ericktijerou/maven/koleton/images/download.svg)](https://bintray.com/ericktijerou/maven/koleton/_latestVersion)
-[![Build Status](https://travis-ci.com/ericktijerou/koleton.svg?branch=master)](https://travis-ci.com/ericktijerou/koleton)
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.4.30-blueviolet.svg)](https://kotlinlang.org)
+<a href="https://github.com/ericktijerou/koleton/actions"><img src="https://github.com/ericktijerou/koleton/workflows/Build%20and%20test/badge.svg" /></a>
+<a href="https://github.com/ericktijerou/koleton/releases"><img src="https://img.shields.io/github/v/release/ericktijerou/koleton" /></a>
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.5.10-blueviolet.svg)](https://kotlinlang.org)
+<a href="https://github.com/GetStream/stream-chat-android/actions"><img src="https://github.com/GetStream/stream-chat-android/workflows/Build%20and%20test/badge.svg" /></a>
+<a href="https://github.com/GetStream/stream-chat-android/releases"><img src="https://img.shields.io/github/v/release/GetStream/stream-chat-android" /></a>
 ![Minimum SDK Version](https://img.shields.io/badge/minSdkVersion-14-brightgreen.svg)
 
 An Android library that provides an easy way to show skeleton of any view.
@@ -18,19 +20,19 @@ Made with ❤ by [ericktijerou](https://ericktijerou.com).
 ![img](image/journey_detail.gif)
 
 ## Installation
-You can [download](https://bintray.com/ericktijerou/maven/koleton/_latestVersion) and install `Koleton` with `Maven` and `Gradle`:
+You can [download](https://bintray.com/ericktijerou/maven/koleton/_latestVersion) and install `Koleton` with `Maven Central` and `Gradle`:
 
 ```gradle
 // In your module's `build.gradle.kts`
 dependencies {
-    implementation("com.ericktijerou.koleton:koleton:0.8.8")
+    implementation("com.ericktijerou.koleton:koleton:1.0.0-beta01")
 }
 ```
 
-Make sure to include `jcenter()` in your repositories
+Make sure to include `mavenCentral()` in your repositories
 ```gradle
 repositories {
-  jcenter()
+  mavenCentral()
 }
 ```
 

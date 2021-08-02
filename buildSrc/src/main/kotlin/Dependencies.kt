@@ -34,7 +34,7 @@ object Versions {
 }
 
 object Kotlin {
-    const val version = "1.4.30"
+    const val version = "1.5.10"
     const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
     const val plugin = "kotlin"
     const val androidPlugin = "kotlin-android"
@@ -50,15 +50,15 @@ object Release {
         const val plugin = "maven-publish"
     }
 
-    object Bintray {
-        const val version = "1.8.5"
-        const val plugin = "com.jfrog.bintray"
+    object Nexus {
+        const val version = "1.1.0"
+        const val plugin = "io.github.gradle-nexus.publish-plugin"
     }
 }
 
 object Developer {
     const val id = "ericktijerou"
-    const val name = "Erick Tijero"
+    const val fullName = "Erick Tijero"
 }
 
 object Koleton {
