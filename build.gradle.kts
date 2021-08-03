@@ -6,8 +6,10 @@ plugins {
     java
     kotlin("jvm")
     `maven-publish`
-    id(Release.Bintray.plugin) version Release.Bintray.version
+    id(Release.Nexus.plugin) version Release.Nexus.version
+    id("org.jetbrains.dokka") version "1.5.0" apply false
 }
+
 
 buildscript {
     apply(from = "buildSrc/extra.gradle.kts")
@@ -15,7 +17,6 @@ buildscript {
         google()
         mavenCentral()
         gradlePluginPortal()
-        jcenter()
     }
     dependencies {
         classpath(rootProject.extra["androidPlugin"].toString())
@@ -28,9 +29,10 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter()
     }
 }
+
+apply(from ="${rootDir}/scripts/publish-root.gradle")
 
 val androidModules = listOf("koleton-singleton", "koleton-base")
 val androidSampleModules = listOf("koleton-sample")
@@ -109,18 +111,6 @@ subprojects {
             testOptions {
                 unitTests.isReturnDefaultValues = true
             }
-
-            val sourcesJar by tasks.registering(Jar::class) {
-                from(sourceSets["main"].java.srcDirs)
-                archiveClassifier.set("sources")
-            }
-
-            val doc by tasks.creating(Javadoc::class) {
-                isFailOnError = false
-                source = sourceSets["main"].java.getSourceFiles()
-                classpath += files(bootClasspath.joinToString(File.pathSeparator))
-                classpath.plus(configurations["compile"])
-            }
         }
 
         if (!isSample) {
@@ -130,7 +120,7 @@ subprojects {
 
             apply {
                 plugin(Release.MavenPublish.plugin)
-                plugin(Release.Bintray.plugin)
+                plugin("org.jetbrains.dokka")
             }
 
             tasks.withType<KotlinCompile> {
@@ -144,89 +134,14 @@ subprojects {
                 implementation(Kotlin.stdlib)
             }
 
-            bintray {
-                user = findProperty("bintrayUser") as? String
-                key = findProperty("bintrayKey") as? String
-                publish = !project.publishVersion.endsWith("SNAPSHOT")
-                setPublications(artifactName)
-                with(pkg) {
-                    repo = Koleton.repository
-                    name = artifactName
-                    desc = Koleton.description
-                    githubRepo = project.vcsUrl
-                    userOrg = Developer.id
-                    websiteUrl = project.vcsUrl
-                    vcsUrl = project.vcsUrl
-                    issueTrackerUrl = project.issueTrackerUrl
-                    setLicenses(Koleton.licenseName)
-                    with(version) {
-                        name = project.publishVersion
-                        vcsTag = "v${project.publishVersion}"
-                    }
-                }
+            ext {
+                set("PUBLISH_GROUP_ID", project.groupId)
+                set("PUBLISH_VERSION", project.publishVersion)
+                set("PUBLISH_ARTIFACT_ID", artifactName)
             }
 
-            fun org.gradle.api.publish.maven.MavenPom.addDependencies() = withXml {
-                asNode().appendNode("dependencies").let { depNode ->
-                    configurations.implementation.get().allDependencies.forEach {
-                        depNode.appendNode("dependency").apply {
-                            appendNode("groupId", it.group)
-                            appendNode("artifactId", it.name)
-                            appendNode("version", it.version)
-                        }
-                    }
-                }
-            }
+            apply(from = "${rootProject.projectDir}/scripts/publish-module.gradle")
 
-            val javadocJar by tasks.creating(Jar::class) {
-                val doc by tasks
-                dependsOn(doc)
-                from(doc)
-                archiveClassifier.set("javadoc")
-            }
-
-            val sourcesJar by tasks
-            publishing {
-                publications {
-                    register(artifactName, MavenPublication::class) {
-                        if (project.hasProperty("android")) {
-                            artifact("$buildDir/outputs/aar/${project.name}-release.aar") {
-                                builtBy(tasks.getByPath("assemble"))
-                            }
-                        } else {
-                            from(components["java"])
-                        }
-                        groupId = project.groupId
-                        artifactId = artifactName
-                        version = project.publishVersion
-                        artifact(sourcesJar)
-                        artifact(javadocJar)
-                        pom {
-                            name.set(artifactName)
-                            description.set(Koleton.description)
-                            url.set(project.vcsUrl)
-                            scm { url.set(project.vcsUrl) }
-                            issueManagement { url.set(project.issueTrackerUrl) }
-                            licenses {
-                                license {
-                                    name.set(Koleton.licenseName)
-                                    url.set(Koleton.licenseUrl)
-                                }
-                            }
-                            developers {
-                                developer {
-                                    id.set(Developer.id)
-                                    name.set(Developer.name)
-                                }
-                            }
-                        }
-                        if (project.hasProperty("android")) {
-                            pom.addDependencies()
-                        }
-                    }
-                }
-            }
         }
     }
 }
-

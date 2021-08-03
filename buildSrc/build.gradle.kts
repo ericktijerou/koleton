@@ -5,7 +5,6 @@ plugins {
 repositories {
     google()
     mavenCentral()
-    jcenter()
 }
 
 apply(from = "extra.gradle.kts")
