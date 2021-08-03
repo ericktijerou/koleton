@@ -5,8 +5,6 @@
 <a href="https://github.com/ericktijerou/koleton/actions"><img src="https://github.com/ericktijerou/koleton/workflows/Build%20and%20test/badge.svg" /></a>
 <a href="https://github.com/ericktijerou/koleton/releases"><img src="https://img.shields.io/github/v/release/ericktijerou/koleton" /></a>
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.5.10-blueviolet.svg)](https://kotlinlang.org)
-<a href="https://github.com/GetStream/stream-chat-android/actions"><img src="https://github.com/GetStream/stream-chat-android/workflows/Build%20and%20test/badge.svg" /></a>
-<a href="https://github.com/GetStream/stream-chat-android/releases"><img src="https://img.shields.io/github/v/release/GetStream/stream-chat-android" /></a>
 ![Minimum SDK Version](https://img.shields.io/badge/minSdkVersion-14-brightgreen.svg)
 
 An Android library that provides an easy way to show skeleton of any view.
