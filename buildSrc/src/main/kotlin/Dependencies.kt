@@ -30,7 +30,7 @@ object Versions {
     internal const val recyclerViewVersion = "1.1.0"
     internal const val navigationVersion = "2.3.0-beta01"
     internal const val pagingVersion = "2.1.2"
-    internal const val gradle = "4.1.1"
+    internal const val gradle = "7.0.0-rc01"
 }
 
 object Kotlin {
