@@ -40,6 +40,12 @@ object Kotlin {
     const val androidPlugin = "kotlin-android"
 }
 
+object Compose {
+    const val version = "1.0.0"
+    const val foundation = "androidx.compose.foundation:foundation:$version"
+
+}
+
 object Android {
     const val appPlugin = "com.android.application"
     const val libPlugin = "com.android.library"
