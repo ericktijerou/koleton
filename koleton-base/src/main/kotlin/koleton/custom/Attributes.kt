@@ -23,7 +23,8 @@ data class RecyclerViewAttributes(
     override val shimmer: Shimmer,
     override val lineSpacing: Float,
     @LayoutRes val itemLayout: Int,
-    val itemCount: Int
+    val itemCount: Int,
+    val layoutManager: RecyclerView.LayoutManager?
 ) : Attributes()
 
 data class SimpleViewAttributes(

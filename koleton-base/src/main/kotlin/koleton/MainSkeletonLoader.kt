@@ -123,7 +123,8 @@ internal class MainSkeletonLoader(
                 shimmer = shimmer ?: defaults.shimmer,
                 lineSpacing = lineSpacing ?: defaults.lineSpacing,
                 itemLayout = itemLayoutResId,
-                itemCount = itemCount ?: defaults.itemCount
+                itemCount = itemCount ?: defaults.itemCount,
+                layoutManager = layoutManager
             )
             target.view.generateRecyclerKoletonView(attributes)
         } else {
