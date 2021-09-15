@@ -26,7 +26,7 @@ internal class RecyclerKoletonView @JvmOverloads constructor(
         hideShimmer()
         attributes?.run {
             view.adapter = adapter
-            view.layoutManager = originalLayoutManager
+            originalLayoutManager?.let { view.layoutManager = it }
         }
     }
 
@@ -34,7 +34,7 @@ internal class RecyclerKoletonView @JvmOverloads constructor(
         isSkeletonShown = true
         attributes?.run {
             view.adapter = skeletonAdapter
-            view.layoutManager = layoutManager
+            layoutManager?.let { view.layoutManager = it }
         }
     }
 
@@ -42,7 +42,7 @@ internal class RecyclerKoletonView @JvmOverloads constructor(
         attributes?.run {
             adapter = view.adapter
             skeletonAdapter = KoletonAdapter(itemLayout, itemCount, this)
-            originalLayoutManager = view.layoutManager
+            layoutManager?.let { originalLayoutManager = view.layoutManager }
 
             if (!isShimmerEnabled) hideShimmer() else setShimmer(shimmer)
             if (isSkeletonShown) {
